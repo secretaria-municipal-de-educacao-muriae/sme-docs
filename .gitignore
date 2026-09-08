@@ -1,0 +1,19 @@
+# Documentos de origem e o template. Ficam de fora porque o repositorio e publico e o
+# banco de questoes contem itens de Enem, Saresp, Prova Brasil, PROEB e SPAECE.
+# Coloque os arquivos nesta pasta antes de rodar. Ver README.
+reference/
+
+# Tudo aqui e gerado: PDF, HTML, assets convertidos e o cache de formulas do Word.
+out/
+
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
+~$*

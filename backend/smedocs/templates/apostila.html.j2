@@ -1,0 +1,104 @@
+{% macro regua() %}
+<div class="regua">
+  <i class="barra" style="background:var(--azul)"></i>
+  <i style="background:var(--amarelo)"></i>
+  <i class="circulo" style="background:var(--vermelho)"></i>
+  <i class="barra" style="background:var(--verde)"></i>
+  <i style="background:var(--amarelo)"></i>
+  <i class="circulo" style="background:var(--azul)"></i>
+</div>
+{% endmacro %}
+
+{#- Um fragmento vira texto ou imagem. A formula inline recebe a altura declarada
+    no docx; a figura da questao ocupa a largura e vira bloco. -#}
+{% macro frag(f) -%}
+{%- if f.kind == "break" -%}
+{%- elif f.kind == "text" -%}{{ f.text }}
+{%- elif f.inline -%}<img class="math" src="assets/{{ f.asset }}" style="height:{{ f.height_pt }}pt" alt="">
+{%- else -%}<figure><img src="assets/{{ f.asset }}" style="width:{{ f.width_pt }}pt" alt=""></figure>
+{%- endif -%}
+{%- endmacro %}
+
+{% macro corpo(fragments) %}<p>{% for f in fragments %}{{ frag(f) }}{% endfor %}</p>{% endmacro %}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>{{ titulo }}</title>
+<link rel="stylesheet" href="styles.css">
+{% if fontes_online %}<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">{% endif %}
+</head>
+<body class="{{ 'gabarito' if mostrar_gabarito else '' }}">
+
+<section class="capa">
+  {{ regua() }}
+  <div class="sobretitulo">{{ sobretitulo }}</div>
+  <h1>{{ titulo }}</h1>
+  <div class="subtitulo">{{ subtitulo }}</div>
+  <div class="legenda-capa">{{ legenda }}</div>
+  {{ regua() }}
+</section>
+
+{% for d in descritores %}
+<section class="descritor">
+  <div class="chip">Descritor {{ d.number }}</div>
+  <h2>{{ d.title }}</h2>
+  {{ regua() }}
+
+  {% if d.intro %}
+  <div class="intro">
+    {% for paragrafo in d.intro_paragrafos %}<p>{% for f in paragrafo %}{{ frag(f) }}{% endfor %}</p>{% endfor %}
+  </div>
+  {% endif %}
+
+  <div class="titulo-secao">Atividades do descritor {{ d.number }}</div>
+  <hr class="divisor">
+
+  {% for q in d.questions %}
+  <article class="questao">
+    <div class="numero">{{ loop.index }}</div>
+    {% if q.source %}<div class="origem">{{ q.source }}</div>{% endif %}
+    <div class="enunciado">
+      {#- Paragrafo alinhado a direita no Word e a linha de credito da fonte
+          ("Disponivel em: ... Acesso em: ..."), que vai em corpo menor. -#}
+      {% for paragrafo in q.stem_paragraphs %}
+      <p{% if paragrafo[0].align == "right" %} class="credito"{% endif %}>{% for f in paragrafo %}{{ frag(f) }}{% endfor %}</p>
+      {% endfor %}
+    </div>
+    <div class="alternativas">
+      {% for a in q.alternatives %}
+      <div class="alternativa {{ 'correta' if a.correct else '' }}">
+        <span class="letra">{{ a.letter }})</span>
+        <span>{% for f in a.fragments %}{{ frag(f) }}{% endfor %}</span>
+      </div>
+      {% endfor %}
+    </div>
+    {% if mostrar_gabarito and q.needs_review %}
+    <div class="sem-gabarito">revisar: {{ q.needs_review | join("; ") }}</div>
+    {% endif %}
+  </article>
+  {% endfor %}
+</section>
+{% endfor %}
+
+{% if mostrar_gabarito %}
+<section class="respostas">
+  <div class="chip">Gabarito</div>
+  <h2>Folha de respostas</h2>
+  {{ regua() }}
+  {% for d in descritores %}
+  <div class="titulo-secao">Descritor {{ d.number }}</div>
+  <div class="grade-respostas">
+    {% for q in d.questions %}
+    <div class="{{ 'vazio' if not q.answer else '' }}">
+      <span class="chave">{{ loop.index }}.</span> <b>{{ q.answer or "?" }}</b>
+    </div>
+    {% endfor %}
+  </div>
+  {% endfor %}
+</section>
+{% endif %}
+
+</body>
+</html>

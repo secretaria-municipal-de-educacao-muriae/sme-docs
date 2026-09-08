@@ -1,0 +1,312 @@
+/* Tokens extraidos de "Apostila Recomposicao.dc.html" (Claude Design).
+   O fonte original tem todo o estilo inline, sem classes. Aqui ele vira folha
+   reutilizavel. Ver CLAUDE.md para a tabela de tokens. */
+
+:root {
+  --azul: #1b56c4;
+  --azul-escuro: #123e8f;
+  --vermelho: #e63946;
+  --amarelo: #f4c430;
+  --verde: #3fa34d;
+  --texto: #232323;
+  --texto-suave: #5b5b5b;
+  --caixa-azul: #eaf1fd;
+  --caixa-neutra: #f5f5f3;
+  --borda: #dadada;
+
+  --fonte-titulo: "Baloo 2", "Trebuchet MS", sans-serif;
+  --fonte-corpo: "Nunito", "Segoe UI", sans-serif;
+}
+
+@page {
+  size: A4;
+  margin: 0.55in;
+}
+
+body {
+  margin: 0;
+  font-family: var(--fonte-corpo);
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--texto);
+}
+
+/* ---------- capa ---------- */
+
+.capa {
+  min-height: 9in;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  break-after: page;
+}
+
+.capa h1 {
+  font-family: var(--fonte-titulo);
+  font-weight: 800;
+  font-size: 52px;
+  color: var(--azul-escuro);
+  margin: 0 0 14px;
+  max-width: 640px;
+  line-height: 1.1;
+}
+
+.sobretitulo {
+  font-family: var(--fonte-titulo);
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.08em;
+  color: var(--vermelho);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.subtitulo {
+  font-family: var(--fonte-titulo);
+  font-weight: 700;
+  font-size: 22px;
+  margin-bottom: 6px;
+}
+
+.legenda-capa {
+  font-size: 16px;
+  color: var(--texto-suave);
+}
+
+/* Regua de quatro cores, assinatura visual do template. */
+.regua {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin: 0 0 18px;
+}
+.regua i {
+  display: block;
+  width: 16px;
+  height: 16px;
+}
+.regua .barra {
+  width: 46px;
+  border-radius: 999px;
+}
+.regua .circulo {
+  border-radius: 50%;
+}
+.capa .regua {
+  margin: 36px 0;
+}
+
+/* ---------- descritor ---------- */
+
+.descritor {
+  break-before: page;
+}
+
+.chip {
+  display: inline-block;
+  background: var(--azul);
+  color: #fff;
+  font-family: var(--fonte-titulo);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 999px;
+  margin-bottom: 12px;
+}
+
+.descritor h2 {
+  font-family: var(--fonte-titulo);
+  font-weight: 800;
+  font-size: 26px;
+  color: var(--azul-escuro);
+  margin: 0 0 12px;
+  line-height: 1.2;
+}
+
+.intro {
+  background: var(--caixa-neutra);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin: 0 0 22px;
+  font-size: 14px;
+}
+.intro p {
+  margin: 0 0 8px;
+}
+.intro p:last-child {
+  margin-bottom: 0;
+}
+
+.titulo-secao {
+  font-family: var(--fonte-titulo);
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--azul-escuro);
+  margin: 26px 0 4px;
+}
+
+.divisor {
+  border: 0;
+  border-top: 2px solid var(--borda);
+  margin: 8px 0 20px;
+}
+
+/* ---------- questao ---------- */
+
+/* A questao pode atravessar a virada de pagina. Prendê-la inteira deixava ate 55% da
+   folha em branco, porque uma questao com figura grande nao cabia no resto da pagina e
+   pulava inteira. O que nao pode quebrar e a lista de alternativas e a figura. */
+.questao {
+  margin: 0 0 22px;
+  padding-left: 34px;
+  position: relative;
+  orphans: 2;
+  widows: 2;
+}
+
+.questao .numero {
+  position: absolute;
+  left: 0;
+  top: 1px;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: var(--azul);
+  color: #fff;
+  font-family: var(--fonte-titulo);
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 25px;
+  text-align: center;
+}
+
+.origem {
+  display: inline-block;
+  background: var(--caixa-neutra);
+  border: 1px solid var(--borda);
+  color: var(--texto-suave);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 1px 8px;
+  border-radius: 999px;
+  margin-bottom: 6px;
+}
+
+.enunciado p {
+  margin: 0 0 8px;
+  text-align: justify;
+}
+
+.alternativas {
+  margin: 10px 0 0;
+  padding-left: 6px;
+  break-inside: avoid;
+}
+
+.alternativa {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  margin-bottom: 3px;
+}
+
+/* Quando a opcao e uma fracao, a linha de base cai no pe da imagem e a letra fica
+   afundada. Nesse caso a letra acompanha o centro da formula. */
+.alternativa:has(.math) {
+  align-items: center;
+}
+
+.alternativa .letra {
+  font-weight: 700;
+  color: var(--azul-escuro);
+  flex: none;
+}
+
+/* O gabarito so aparece na versao do professor. */
+.gabarito .alternativa.correta {
+  background: #eaf7ec;
+  border-radius: 6px;
+  padding: 1px 6px;
+  margin-left: -6px;
+}
+.gabarito .alternativa.correta .letra {
+  color: var(--verde);
+}
+.gabarito .alternativa.correta::after {
+  content: "✓";
+  color: var(--verde);
+  font-weight: 700;
+}
+
+.sem-gabarito {
+  display: inline-block;
+  background: #fdeaea;
+  color: var(--vermelho);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 1px 8px;
+  border-radius: 999px;
+  margin-top: 4px;
+}
+
+/* ---------- imagens ---------- */
+
+/* A formula de matematica no meio da frase. Veio de um OLE Equation 3.0
+   rasterizado. A altura sai do proprio docx; o alinhamento e ajustado para a
+   formula sentar na linha de base do texto em vez de flutuar. */
+.math {
+  display: inline;
+  vertical-align: -0.3em;
+  margin: 0 2px;
+}
+
+figure {
+  margin: 10px 0;
+  text-align: center;
+  break-inside: avoid;
+}
+figure img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Precisa da mesma especificidade de ".enunciado p", senao o justificado vence. */
+.credito,
+.enunciado p.credito {
+  font-size: 11px;
+  color: var(--texto-suave);
+  text-align: right;
+  margin: 2px 0 8px;
+}
+
+/* ---------- folha de respostas ---------- */
+
+.respostas {
+  break-before: page;
+}
+.grade-respostas {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 6px;
+  font-size: 13px;
+}
+.grade-respostas div {
+  border: 1px solid var(--borda);
+  border-radius: 8px;
+  padding: 5px 8px;
+}
+.grade-respostas .chave {
+  color: var(--texto-suave);
+}
+.grade-respostas b {
+  color: var(--azul-escuro);
+}
+.grade-respostas .vazio b {
+  color: var(--vermelho);
+}
