@@ -23,6 +23,9 @@ didático reaproveitam o mesmo pipeline depois — só muda o template de saída
 | Leitura de `.docx` | Walker OOXML próprio | Docling descarta as 539 fórmulas WMF |
 | Leitura de PDF/PPTX/HTML | Docling | Rápido e bom nesses formatos |
 | Renderização de PDF | `webContents.printToPDF()` do Electron | O template de referência já foi feito assim. Zero dependência nova |
+| Saída em DOCX | `python-docx` com estilos nomeados | Versão de trabalho, para ajuste manual. Estilo nomeado permite reformatar tudo de uma vez |
+| Fontes | Embutidas no DOCX e servidas localmente no HTML | Baloo 2 e Nunito não estão instaladas nas máquinas; sem isso o Word substitui e o arquivo não lembra o template |
+| CLI | `typer` + `rich` | Já instalados. Interativo sem argumento, direto com argumento — o padrão do opencode |
 | Template | Jinja2 sobre CSS extraído do `.dc.html` | O fonte tem estilo inline, precisa ser componentizado |
 | Empacotamento | PyInstaller onedir + electron-builder NSIS | Instalador único, máquina sem Python |
 
@@ -141,7 +144,7 @@ existe. As 539 fórmulas agora saem fiéis.
 
 ### Estado atual
 
-`python f0.py <n>` gera a apostila de um descritor. Sobre o documento inteiro:
+`python smedocs.py gerar <n>` gera a apostila de um descritor. Sobre o documento inteiro:
 
 ```
 31 descritores · 868 questões · 647 com gabarito (74%) · 619 sem nenhuma pendência
@@ -159,6 +162,19 @@ Correções de segmentação aplicadas nesta rodada, com o efeito medido no tota
 
 Restam 62 questões (7%) com defeito estrutural e 219 sem gabarito. Amostradas, são em
 boa parte defeitos do próprio original — destino da tela de revisão, não de mais regra.
+
+### F0.5 — saída em DOCX e linha de comando · CONCLUÍDA
+
+Duas adições fora do plano original, pedidas em uso:
+
+- **Saída em `.docx`** com estilos nomeados do Word, para o material que ainda precisa
+  de ajuste manual. Baloo 2 e Nunito vão embutidas dentro do arquivo, então ele abre
+  igual em qualquer máquina sem instalar fonte nenhuma.
+- **CLI** (`smedocs.py`) com `listar`, `gerar` e `conferir`, mais modo interativo quando
+  chamado sem argumento. O `f0.py` foi substituído por ela.
+
+O PDF também deixou de depender da rede: as fontes agora são servidas do próprio
+projeto em vez do Google Fonts.
 
 ### F1 — Extrator
 

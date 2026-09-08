@@ -240,6 +240,26 @@ Componentes presentes no template que o banco de questões vai consumir: chip de
 régua de quatro cores, caixa dupla SAEB/BNCC, callout de leitura, bloco de questão
 numerada com alternativas A–D, grade de imagens numeradas.
 
+## Fontes
+
+Baloo 2 e Nunito não estão instaladas nas máquinas do setor. Sem tratar isso, o Word
+substitui por conta própria e o `.docx` não tem nada a ver com o PDF — foi a primeira
+reclamação sobre a saída em Word.
+
+Instâncias estáticas geradas com `fontTools.varLib.instancer` a partir das variáveis do
+Google Fonts vivem em `backend/smedocs/fonts/` (licença OFL, incluída). Elas são:
+
+- **embutidas no `.docx`** por `docx_fonts.py`. O formato exige ofuscar cada arquivo —
+  os 32 primeiros bytes em XOR com uma chave derivada de um GUID, ECMA-376 §15.2.13.
+  A chave vem do GUID sem chaves nem hífens, lido como 16 bytes **em ordem inversa**.
+  Também é preciso `<w:embedTrueTypeFonts/>` em `settings.xml`, entre `w:zoom` e
+  `w:proofState` para respeitar a ordem do esquema.
+- **servidas localmente no HTML** via `@font-face`, em vez do CDN do Google. O PDF
+  precisa sair igual mesmo sem internet.
+
+Baloo 2 tem entrelinha nativa muito alta. Nos títulos do `.docx`, `line_spacing` como
+múltiplo não resolve — use valor exato em `Pt`.
+
 ## Convenções
 
 - Cada estágio do pipeline grava seu artefato em disco antes de passar adiante. Depurar

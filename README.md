@@ -26,8 +26,11 @@ fases seguintes — ver [PLANO.md](PLANO.md).
 - Google Chrome ou Microsoft Edge — imprime o PDF
 
 ```bash
-pip install pydantic jinja2 pillow pywin32 pymupdf
+pip install pydantic jinja2 pillow pywin32 pymupdf typer rich python-docx
 ```
+
+As fontes do template (Baloo 2 e Nunito, licença OFL) ficam em
+`backend/smedocs/fonts/`. Nada é baixado em tempo de execução — o programa roda offline.
 
 ## Uso
 
@@ -41,12 +44,31 @@ reference/
 Depois:
 
 ```bash
-python f0.py            # descritor 1
-python f0.py 10         # descritor 10
-python f0.py 1 2 10     # os três no mesmo PDF
+python smedocs.py                       # modo interativo, pergunta o que gerar
+python smedocs.py listar                # tabela de todos os descritores
+python smedocs.py gerar 10              # descritor 10 em PDF
+python smedocs.py gerar 10 -f docx      # em DOCX
+python smedocs.py gerar 10 -f pdf -f docx
+python smedocs.py gerar --tudo
+python smedocs.py gerar 10 --sem-gabarito   # versão do aluno
+python smedocs.py conferir 10           # só o relatório, sem gerar arquivo
 ```
 
-A saída vai para `out/descritor-<n>.pdf`.
+Sem argumento, entra no modo interativo. Com argumento, roda e sai — o que serve para
+script. `-q` suprime a barra de progresso e imprime só os caminhos gerados;
+`listar -f json` devolve JSON.
+
+A saída vai para `out/descritor-<n>.pdf` e `out/descritor-<n>.docx`.
+
+### Os dois formatos
+
+O **PDF** é o entregável: reproduz o template, impresso pelo mesmo motor que o gerou.
+
+O **DOCX** é a versão de trabalho, para quando o material ainda precisa de ajuste
+manual. Sai com **estilos nomeados do Word** — para mudar o corpo do texto da apostila
+inteira basta editar o estilo `SME Enunciado` uma vez, em vez de selecionar 800
+parágrafos. As fontes do template vão embutidas dentro do arquivo, então ele abre igual
+em qualquer máquina, sem instalar nada.
 
 Na primeira execução o Word é chamado uma vez para renderizar as 547 fórmulas; leva
 cerca de 12 segundos e fica em cache. As execuções seguintes levam menos de 1 segundo.
@@ -54,9 +76,9 @@ cerca de 12 segundos e fica em cache. As execuções seguintes levam menos de 1 
 ## Como funciona
 
 ```
-.docx ──> extract ──> media ──> segment ──> validate ──> render ──> .pdf
-          │           │         │           │            │
-          │           │         │           │            └ Jinja2 + Chromium
+                                                        ┌─> .pdf   Jinja2 + Chromium
+.docx ──> extract ──> media ──> segment ──> validate ───┤
+          │           │         │           │           └─> .docx  python-docx
           │           │         │           └ Pydantic
           │           │         └ descritores, questões, alternativas, gabarito
           │           └ WMF/OLE via Word, PNG e JPG direto
@@ -71,6 +93,10 @@ cerca de 12 segundos e fica em cache. As execuções seguintes levam menos de 1 
 | `backend/smedocs/segment.py` | Recupera a estrutura que o Word não tem |
 | `backend/smedocs/models.py` | Contratos e validação em Pydantic |
 | `backend/smedocs/render.py` | Monta o HTML e imprime o PDF |
+| `backend/smedocs/docx_render.py` | Monta o DOCX com estilos nomeados |
+| `backend/smedocs/docx_fonts.py` | Embute Baloo 2 e Nunito dentro do DOCX |
+| `backend/smedocs/pipeline.py` | Orquestra do .docx aos arquivos de saída |
+| `backend/smedocs/cli.py` | Interface de linha de comando |
 
 ## Duas decisões que não são óbvias
 

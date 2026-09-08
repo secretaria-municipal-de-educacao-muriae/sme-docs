@@ -56,7 +56,7 @@ def render_html(
     subtitulo: str = "Matemática — 6º ao 9º Ano",
     legenda: str = "",
     mostrar_gabarito: bool = True,
-    fontes_online: bool = True,
+    fontes_online: bool = False,
     filename: str = "apostila.html",
 ) -> Path:
     env = Environment(
@@ -86,6 +86,11 @@ def render_html(
 
     out_dir.mkdir(parents=True, exist_ok=True)
     shutil.copy(HERE / "static" / "styles.css", out_dir / "styles.css")
+    # As fontes viajam com o projeto: o PDF nao pode depender da rede para ficar igual
+    # ao template, e as maquinas do setor nem sempre tem saida para a internet.
+    fonts_source = HERE / "fonts"
+    if fonts_source.is_dir():
+        shutil.copytree(fonts_source, out_dir / "fonts", dirs_exist_ok=True)
     path = out_dir / filename
     path.write_text(html, encoding="utf-8")
     return path

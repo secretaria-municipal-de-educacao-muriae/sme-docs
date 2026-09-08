@@ -1,3 +1,30 @@
+/* Fontes do template, servidas do proprio projeto. Ver docx_fonts.py para o
+   equivalente no .docx, que as embute dentro do arquivo. */
+@font-face {
+  font-family: "Nunito";
+  src: url("fonts/Nunito-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Nunito";
+  src: url("fonts/Nunito-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Nunito";
+  src: url("fonts/Nunito-Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Baloo 2";
+  src: url("fonts/Baloo2-Bold.ttf") format("truetype");
+  font-weight: 700 800;
+  font-style: normal;
+}
+
 /* Tokens extraidos de "Apostila Recomposicao.dc.html" (Claude Design).
    O fonte original tem todo o estilo inline, sem classes. Aqui ele vira folha
    reutilizavel. Ver CLAUDE.md para a tabela de tokens. */
