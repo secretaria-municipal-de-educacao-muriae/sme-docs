@@ -194,6 +194,31 @@ projeto em vez do Google Fonts.
 Isso antecipa parte da F5: a tela de revisão do Electron vai consumir exatamente o mesmo
 `answers.AnswerSheet`, então o trabalho feito agora pela linha de comando não se perde.
 
+### F0.7 — perfil de ingestão, Electron instalado, otimização · CONCLUÍDA
+
+- **Perfil de ingestão.** As regras de parsing saíram do código para um
+  `IngestionProfile` (Pydantic) em `backend/smedocs/profile.py`, com o preset
+  `profiles/banco-muriae.json` versionado. `extract`/`segment`/`pipeline` recebem
+  `profile`; a CLI aceita `--perfil`. Sem a flag, a saída é idêntica
+  (31 descritores · 868 questões · 647 gabaritos do Word + 8 à mão).
+- **Diagnóstico.** `analisar` mostra contagens por regra (834 separadores,
+  31 descritores, 30 marcadores de seção, A–E, blocos vermelhos) e a validação
+  cruzada 866 blocos-A == 866 questões-com-A (2 questões degeneradas sem A).
+- **Regressão.** `tests/check_regression.py`: 23 verificações sobre o banco real,
+  incluindo paridade de imagens modelo-vs-HTML por descritor (1160 imagens) e
+  equivalência preset-código vs JSON. Fixtures mínimas em `tests/fixtures/`.
+- **Electron instalado.** `electron/package.json` com versões pinadas
+  (electron 33.4.11, electron-builder 25.1.8); `npm start` abre a janela 1200×800
+  sem erro e sem travar sem o sidecar; `printToPDF()` A4 0.55in com fundo validado
+  (PDF gerado, página A4, producer Skia/PDF). Nota: nesta máquina o `extract-zip` do
+  instalador do Electron trava em silêncio — o binário foi extraído do cache com
+  `Expand-Archive` e `path.txt` escrito à mão; se `npx electron --version` falhar,
+  repetir esse passo.
+- **Cache + higiene.** Manifesto do Word por nome|tamanho|mtime, mídias por digest,
+  flag `--sem-cache` (0.00s com cache vs ~18s forçado nas 539 fórmulas).
+  `requirements.txt` pinado, `.gitignore` cobre `electron/node_modules`, `out/`,
+  `reference/`, `.venv/` e mantém `profiles/*.json` versionado.
+
 ### F1 — Extrator
 
 Walker OOXML completo mais pipeline de mídia. Roda sobre o documento inteiro.

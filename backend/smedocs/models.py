@@ -35,7 +35,8 @@ class Alternative(BaseModel):
     @classmethod
     def upper_single(cls, v: str) -> str:
         v = v.strip().upper()
-        if len(v) != 1 or v not in "ABCDE":
+        # A–E no banco Muriaé; perfis alternativos podem usar dígitos ("1)").
+        if len(v) != 1 or (v not in "ABCDE" and v not in "123456789"):
             raise ValueError(f"letra de alternativa invalida: {v!r}")
         return v
 
@@ -79,8 +80,12 @@ class Question(BaseModel):
             1 for a in self.alternatives for f in a.fragments if f.kind == "image"
         )
 
-    def validate_shape(self) -> list[str]:
-        """Regras duras. O que falhar vai para revisao humana, nunca para o chute."""
+    def validate_shape(self, alphabet: str = "ABCDE") -> list[str]:
+        """Regras duras. O que falhar vai para revisao humana, nunca para o chute.
+
+        `alphabet` é a sequência esperada de alternativas do perfil de ingestão
+        (ABCDE no preset Muriaé, outro alfabeto em perfis alternativos).
+        """
         problems = []
         if not "".join(f.text for f in self.stem).strip() and not any(
             f.kind == "image" for f in self.stem
@@ -91,7 +96,7 @@ class Question(BaseModel):
             problems.append(f"apenas {len(letters)} alternativas")
         if len(set(letters)) != len(letters):
             problems.append("letras repetidas")
-        expected = [chr(ord("A") + i) for i in range(len(letters))]
+        expected = list(alphabet[: len(letters)])
         if letters != expected:
             problems.append(f"letras fora de sequencia: {''.join(letters)}")
         marked = sum(1 for a in self.alternatives if a.correct)

@@ -2,6 +2,9 @@
 
 O documento de origem tem 9.654 paragrafos e nenhum heading: tudo esta marcado como
 estilo Normal. A estrutura existe so no padrao do texto. Ver CLAUDE.md.
+
+Todas as regras de parsing vêm do `IngestionProfile` recebido por parâmetro; sem
+ele vale o preset Muriaé (`PRESET_MURIAE`), idêntico aos valores fixos antigos.
 """
 
 from __future__ import annotations
@@ -11,9 +14,10 @@ import zipfile
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from .extract import GABARITO_COLORS, Block, ImageRun, TextRun
+from .extract import Block, ImageRun, TextRun
 from .media import convert
 from .models import Alternative, Descriptor, Fragment, Question
+from .profile import PRESET_MURIAE, IngestionProfile
 
 
 @dataclass
@@ -24,42 +28,69 @@ class Media:
     eq_dir: Path | None = None
     equations: dict = field(default_factory=dict)
 
-# Quatro formatos convivem no mesmo arquivo: "Descritor 1:", "D2:", "D3 -", "D8 –".
-RE_DESCRIPTOR = re.compile(r"^\s*(?:DESCRITOR\s*|D\s*)(\d{1,2})\s*[:\-–—.]\s*(.*)", re.I)
-# Fileira de asteriscos entre questoes. Comprimento varia de 18 a 50 caracteres.
-RE_SEPARATOR = re.compile(r"^\*{3,}$")
-# Duas formas de alternativa convivem: "A)" e "(A)".
-RE_ALTERNATIVE = re.compile(r"^\s*\(?([A-Ea-e])[\)\.]\s*(.*)", re.S)
-# Origem da questao, prefixo do enunciado: "(PROEB).", "(Saresp 2007)."
-RE_SOURCE = re.compile(r"^\s*\(([^)]{2,40})\)\s*\.\s*(.*)", re.S)
-RE_ACTIVITIES = re.compile(r"^\s*ATIVIDADES?\s+DOS?\s+DESCRITOR", re.I)
-# Aberturas fixas do texto pedagogico que antecede as questoes de cada descritor.
-RE_PEDAGOGICAL = re.compile(
-    r"(Com este descritor|"
-    r"Que (?:atividades|sugest[oõ]es) podem ser dadas|"
-    r"A habilidade de o aluno|"
-    r"Detalhamento\s*:|"
-    r"Orienta[cç][oõ]es\s*:)",
-    re.I,
-)
+
+@dataclass
+class _Rx:
+    """Padrões do perfil já compilados com as flags históricas."""
+
+    separator: "re.Pattern[str]"
+    descriptor: "re.Pattern[str]"
+    section: "re.Pattern[str]"
+    pedagogical: "re.Pattern[str]"
+    alternative: "re.Pattern[str]"
+    inline: "re.Pattern[str]"
+    source: "re.Pattern[str]"
+    empty_parens: "re.Pattern[str]"
+    extra_space: "re.Pattern[str]"
+    colors: set[str]
+    letters: str
+    min_text_len: int
+
+    @property
+    def first_letter(self) -> str:
+        return self.letters[0]
+
+    def next_letter(self, letter: str) -> str | None:
+        """Letra seguinte dentro do alfabeto do perfil (para o descolamento)."""
+        try:
+            pos = self.letters.index(letter.upper())
+        except ValueError:
+            return None
+        return self.letters[pos + 1] if pos + 1 < len(self.letters) else None
 
 
-def _is_separator(block: Block) -> bool:
+def _compile(profile: IngestionProfile | None) -> _Rx:
+    p = profile or PRESET_MURIAE
+    return _Rx(
+        separator=p.compiled("separator_regex"),
+        descriptor=p.compiled("descriptor_regex"),
+        section=p.compiled("section_regex"),
+        pedagogical=p.compiled("pedagogical_regex"),
+        alternative=p.compiled("alternative_regex"),
+        inline=p.compiled("alternative_inline_regex"),
+        source=p.compiled("source_regex"),
+        empty_parens=p.compiled("empty_parens_regex"),
+        extra_space=p.compiled("extra_space_regex"),
+        colors=p.color_set,
+        letters=p.alternative_letters,
+        min_text_len=p.descriptor_min_text_len,
+    )
+
+
+def _is_separator(block: Block, rx: _Rx) -> bool:
     t = block.text.strip()
-    return bool(t) and bool(RE_SEPARATOR.match(t))
+    return bool(t) and bool(rx.separator.match(t))
 
 
-# Sobras de tipografia do original: parenteses que ficaram vazios depois que o glifo
-# decorativo saiu, e espacos duplicados por quebras de run.
-RE_EMPTY_PARENS = re.compile(r"\(\s*\)")
-RE_EXTRA_SPACE = re.compile(r"[ \t]{2,}")
+def _clean(text: str, rx: _Rx) -> str:
+    # Sobras de tipografia do original: parenteses que ficaram vazios depois que o
+    # glifo decorativo saiu, e espacos duplicados por quebras de run.
+    return rx.extra_space.sub(" ", rx.empty_parens.sub("", text))
 
 
-def _clean(text: str) -> str:
-    return RE_EXTRA_SPACE.sub(" ", RE_EMPTY_PARENS.sub("", text))
-
-
-def _fragments(block: Block, z: zipfile.ZipFile, ctx: "Media") -> list[Fragment]:
+def _fragments(
+    block: Block, z: zipfile.ZipFile, ctx: "Media", rx: _Rx, use_cache: bool = True
+) -> list[Fragment]:
     # Uma formula que divide o paragrafo com texto e inline; sozinha no paragrafo, e
     # formula de bloco. Esse e o sinal do proprio documento, e vale mais que qualquer
     # limite de altura: "sen(60°) = √3/2" no meio de uma frase e alto por causa da
@@ -68,7 +99,7 @@ def _fragments(block: Block, z: zipfile.ZipFile, ctx: "Media") -> list[Fragment]
     out: list[Fragment] = []
     for run in block.runs:
         if isinstance(run, TextRun):
-            red = (run.color or "").upper() in GABARITO_COLORS
+            red = (run.color or "").upper() in rx.colors
             # So funde runs de mesma cor: a fronteira do vermelho e o que identifica
             # a alternativa correta quando varias dividem o mesmo paragrafo.
             if out and out[-1].kind == "text" and out[-1].red == red:
@@ -85,6 +116,7 @@ def _fragments(block: Block, z: zipfile.ZipFile, ctx: "Media") -> list[Fragment]
                 ctx.assets_dir,
                 equations=ctx.equations,
                 eq_dir=ctx.eq_dir,
+                use_cache=use_cache,
             )
             out.append(
                 Fragment(
@@ -98,20 +130,16 @@ def _fragments(block: Block, z: zipfile.ZipFile, ctx: "Media") -> list[Fragment]
     for f in out:
         f.align = block.align
         if f.kind == "text":
-            f.text = _clean(f.text)
+            f.text = _clean(f.text, rx)
     return out
 
 
-# Alternativa comecando em qualquer ponto do texto, nao so no inicio do paragrafo.
-RE_INLINE_ALTERNATIVE = re.compile(r"(?<![\w,])\(?([A-Ea-e])\)\s")
-
-
-def _packed_letters(text: str) -> list[str]:
+def _packed_letters(text: str, rx: _Rx) -> list[str]:
     """Letras de alternativa encontradas dentro de um mesmo paragrafo."""
-    return [m.group(1).upper() for m in RE_INLINE_ALTERNATIVE.finditer(text)]
+    return [m.group(1).upper() for m in rx.inline.finditer(text)]
 
 
-def _is_packed(text: str) -> bool:
+def _is_packed(text: str, rx: _Rx) -> bool:
     """Varias alternativas alinhadas por tabulacao num paragrafo so.
 
     Acontece quando as opcoes sao curtas ou sao imagens de formula. Sem tratar, a linha
@@ -120,14 +148,16 @@ def _is_packed(text: str) -> bool:
     Bastam duas letras, desde que consecutivas: metade dos casos e um par "(A) (B)"
     seguido de outro paragrafo "(C) (D)".
     """
-    letters = _packed_letters(text)
+    letters = _packed_letters(text, rx)
     if len(letters) < 2:
         return False
     first = ord(letters[0])
     return letters == [chr(first + i) for i in range(len(letters))]
 
 
-def _split_packed(fragments: list[Fragment]) -> list[tuple[str, list[Fragment], bool]]:
+def _split_packed(
+    fragments: list[Fragment], rx: _Rx
+) -> list[tuple[str, list[Fragment], bool]]:
     """Reparte os fragmentos de um paragrafo empacotado, um item por alternativa.
 
     O corte e no nivel do fragmento para nao perder as imagens: numa alternativa como
@@ -146,7 +176,7 @@ def _split_packed(fragments: list[Fragment]) -> list[tuple[str, list[Fragment], 
             continue
 
         cursor = 0
-        for match in RE_INLINE_ALTERNATIVE.finditer(fragment.text):
+        for match in rx.inline.finditer(fragment.text):
             before = fragment.text[cursor : match.start()]
             if before.strip() and groups:
                 groups[-1][1].append(fragment.model_copy(update={"text": before}))
@@ -160,7 +190,7 @@ def _split_packed(fragments: list[Fragment]) -> list[tuple[str, list[Fragment], 
     return groups
 
 
-def _strip_alternative_label(fragments: list[Fragment]) -> list[Fragment]:
+def _strip_alternative_label(fragments: list[Fragment], rx: _Rx) -> list[Fragment]:
     """Remove o rotulo "A)" do inicio da alternativa.
 
     Nao da para olhar so o primeiro fragmento: o Word quebra o rotulo em runs — " (" e
@@ -168,7 +198,7 @@ def _strip_alternative_label(fragments: list[Fragment]) -> list[Fragment]:
     forca a quebra. O rotulo e removido percorrendo o fluxo de texto inteiro.
     """
     joined = "".join(f.text for f in fragments if f.kind == "text")
-    m = RE_ALTERNATIVE.match(joined)
+    m = rx.alternative.match(joined)
     if not m:
         return fragments
 
@@ -185,10 +215,12 @@ def _strip_alternative_label(fragments: list[Fragment]) -> list[Fragment]:
     return out
 
 
-def _strip_source(fragments: list[Fragment]) -> tuple[str | None, list[Fragment]]:
+def _strip_source(
+    fragments: list[Fragment], rx: _Rx
+) -> tuple[str | None, list[Fragment]]:
     if not fragments or fragments[0].kind != "text":
         return None, fragments
-    m = RE_SOURCE.match(fragments[0].text)
+    m = rx.source.match(fragments[0].text)
     if not m:
         return None, fragments
     rest = fragments[0].model_copy(update={"text": m.group(2)})
@@ -196,7 +228,13 @@ def _strip_source(fragments: list[Fragment]) -> tuple[str | None, list[Fragment]
 
 
 def _build_question(
-    blocks: list[Block], descriptor: int, seq: int, z, ctx: "Media"
+    blocks: list[Block],
+    descriptor: int,
+    seq: int,
+    z,
+    ctx: "Media",
+    rx: _Rx,
+    use_cache: bool = True,
 ) -> Question | None:
     """Monta uma questao a partir dos blocos entre dois cortes."""
     stem: list[Fragment] = []
@@ -207,13 +245,13 @@ def _build_question(
         text = block.text.strip()
         if not text and not block.images:
             continue
-        if _is_separator(block) or RE_ACTIVITIES.match(text):
+        if _is_separator(block, rx) or rx.section.match(text):
             continue
 
-        m = RE_ALTERNATIVE.match(block.text) if text else None
-        if m and _is_packed(text):
+        m = rx.alternative.match(block.text) if text else None
+        if m and _is_packed(text, rx):
             # Quatro alternativas num paragrafo so, alinhadas por tabulacao.
-            for letter, frags, label_red in _split_packed(_fragments(block, z, ctx)):
+            for letter, frags, label_red in _split_packed(_fragments(block, z, ctx, rx, use_cache), rx):
                 current = Alternative(
                     letter=letter,
                     fragments=frags,
@@ -222,23 +260,25 @@ def _build_question(
                 alternatives.append(current)
         elif m:
             letter = m.group(1)
-            frags = _strip_alternative_label(_fragments(block, z, ctx))
+            frags = _strip_alternative_label(_fragments(block, z, ctx, rx, use_cache), rx)
             current = Alternative(
-                letter=letter, fragments=frags, correct=block.has_gabarito_color
+                letter=letter,
+                fragments=frags,
+                correct=block.has_gabarito_color_in(rx.colors),
             )
             alternatives.append(current)
         elif current is not None:
             # Continuacao da ultima alternativa (quebra de linha no meio dela).
-            current.fragments.extend(_fragments(block, z, ctx))
+            current.fragments.extend(_fragments(block, z, ctx, rx, use_cache))
         else:
             if stem:
                 stem.append(Fragment(kind="break"))
-            stem.extend(_fragments(block, z, ctx))
+            stem.extend(_fragments(block, z, ctx, rx, use_cache))
 
     if not alternatives:
         return None
 
-    source, stem = _strip_source(stem)
+    source, stem = _strip_source(stem, rx)
     q = Question(
         id=f"D{descriptor:02d}-Q{seq:03d}",
         descriptor=descriptor,
@@ -246,7 +286,7 @@ def _build_question(
         stem=stem,
         alternatives=alternatives,
     )
-    q.needs_review = q.validate_shape()
+    q.needs_review = q.validate_shape(rx.letters)
     return q
 
 
@@ -273,7 +313,7 @@ def _split_block_at(block: Block, offset: int) -> tuple[Block, Block]:
     return head, tail
 
 
-def _detach_glued_alternatives(blocks: list[Block]) -> list[Block]:
+def _detach_glued_alternatives(blocks: list[Block], rx: _Rx) -> list[Block]:
     """Solta a alternativa que ficou colada no fim do enunciado.
 
     O acervo tem casos como:
@@ -291,18 +331,18 @@ def _detach_glued_alternatives(blocks: list[Block]) -> list[Block]:
     out: list[Block] = []
     for i, block in enumerate(blocks):
         text = block.text
-        if text.strip() and not RE_ALTERNATIVE.match(text):
+        if text.strip() and not rx.alternative.match(text):
             following = next(
                 (b.text.strip() for b in blocks[i + 1 :] if b.text.strip() or b.images),
                 "",
             )
-            for match in RE_INLINE_ALTERNATIVE.finditer(text):
+            for match in rx.inline.finditer(text):
                 letter = match.group(1).upper()
-                nxt = RE_ALTERNATIVE.match(following)
+                nxt = rx.alternative.match(following)
                 if (
                     match.start() > 0
                     and nxt
-                    and nxt.group(1).upper() == chr(ord(letter) + 1)
+                    and nxt.group(1).upper() == rx.next_letter(letter)
                 ):
                     head, tail = _split_block_at(block, match.start())
                     out.extend([head, tail])
@@ -314,7 +354,7 @@ def _detach_glued_alternatives(blocks: list[Block]) -> list[Block]:
     return out
 
 
-def _split_questions(blocks: list[Block]) -> list[list[Block]]:
+def _split_questions(blocks: list[Block], rx: _Rx) -> list[list[Block]]:
     """Corta em questoes usando as duas regras juntas.
 
     Nenhuma funciona sozinha. So o separador produz 765 questoes, e alguns blocos
@@ -327,16 +367,16 @@ def _split_questions(blocks: list[Block]) -> list[list[Block]]:
     last_letter: str | None = None
 
     for block in blocks:
-        if _is_separator(block):
+        if _is_separator(block, rx):
             if current:
                 groups.append(current)
             current, last_letter = [], None
             continue
 
-        m = RE_ALTERNATIVE.match(block.text) if block.text.strip() else None
+        m = rx.alternative.match(block.text) if block.text.strip() else None
         if m:
             letter = m.group(1).upper()
-            if letter == "A" and last_letter is not None:
+            if letter == rx.first_letter and last_letter is not None:
                 # Os blocos depois da ultima alternativa da questao anterior sao o
                 # enunciado desta, nao rodape daquela. Sem isso o enunciado cola na
                 # questao errada e a nova nasce vazia.
@@ -344,7 +384,7 @@ def _split_questions(blocks: list[Block]) -> list[list[Block]]:
                     (
                         i
                         for i, b in enumerate(current)
-                        if b.text.strip() and RE_ALTERNATIVE.match(b.text)
+                        if b.text.strip() and rx.alternative.match(b.text)
                     ),
                     default=len(current) - 1,
                 )
@@ -358,18 +398,32 @@ def _split_questions(blocks: list[Block]) -> list[list[Block]]:
     return [g for g in groups if g]
 
 
+def detach_glued(
+    blocks: list[Block], profile: IngestionProfile | None = None
+) -> list[Block]:
+    """Expõe o descolamento de alternativas para o diagnóstico (ver `diagnose`)."""
+    return _detach_glued_alternatives(blocks, _compile(profile))
+
+
 def segment(
     blocks: list[Block],
     z: zipfile.ZipFile,
     ctx: Media,
     only: set[int] | None = None,
+    profile: IngestionProfile | None = None,
+    use_cache: bool = True,
 ) -> list[Descriptor]:
-    """Devolve os descritores com suas questoes. `only` limita a numeros especificos."""
+    """Devolve os descritores com suas questoes. `only` limita a numeros especificos.
+
+    `profile` parametriza todas as regras; sem ele vale o preset Muriaé.
+    `use_cache=False` (flag `--sem-cache`) reconverte as mídias.
+    """
+    rx = _compile(profile)
     # Corta o documento nos cabecalhos de descritor.
     starts: list[tuple[int, int, str]] = []
     for i, block in enumerate(blocks):
-        m = RE_DESCRIPTOR.match(block.text.strip())
-        if m and len(block.text.strip()) > 12:
+        m = rx.descriptor.match(block.text.strip())
+        if m and len(block.text.strip()) > rx.min_text_len:
             starts.append((i, int(m.group(1)), m.group(2).strip()))
 
     descriptors: list[Descriptor] = []
@@ -389,11 +443,11 @@ def segment(
             return next((i for i, b in enumerate(body) if pred(b)), len(body))
 
         by_marker = min(
-            _first(lambda b: RE_ACTIVITIES.match(b.text.strip())),
-            _first(_is_separator),
+            _first(lambda b: rx.section.match(b.text.strip())),
+            _first(lambda b: _is_separator(b, rx)),
         )
         by_alternative = _first(
-            lambda b: b.text.strip() and RE_ALTERNATIVE.match(b.text)
+            lambda b: b.text.strip() and rx.alternative.match(b.text)
         )
         split_at = min(by_marker, by_alternative)
 
@@ -405,7 +459,7 @@ def segment(
                 (
                     i
                     for i, b in enumerate(body[:split_at])
-                    if RE_PEDAGOGICAL.search(b.text)
+                    if rx.pedagogical.search(b.text)
                 ),
                 default=None,
             )
@@ -416,12 +470,12 @@ def segment(
         intro: list[Fragment] = []
         for b in intro_blocks:
             if b.text.strip() or b.images:
-                intro.extend(_fragments(b, z, ctx))
+                intro.extend(_fragments(b, z, ctx, rx, use_cache))
                 intro.append(Fragment(kind="text", text="\n"))
 
         questions = []
-        for seq, group in enumerate(_split_questions(_detach_glued_alternatives(question_blocks)), start=1):
-            q = _build_question(group, number, seq, z, ctx)
+        for seq, group in enumerate(_split_questions(_detach_glued_alternatives(question_blocks, rx), rx), start=1):
+            q = _build_question(group, number, seq, z, ctx, rx, use_cache)
             if q:
                 questions.append(q)
 

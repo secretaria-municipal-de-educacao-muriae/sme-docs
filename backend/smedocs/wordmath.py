@@ -246,13 +246,19 @@ def slice_pdf(pdf_path: Path, order: list[str], out_dir: Path, dpi: int = 600) -
     return produced
 
 
-def render_equations(src_docx: Path, cache_dir: Path, dpi: int = 600) -> dict:
-    """Ponto de entrada. Devolve {nome_wmf: {png, width_pt, height_pt}}, com cache."""
+def render_equations(
+    src_docx: Path, cache_dir: Path, dpi: int = 600, force: bool = False
+) -> dict:
+    """Ponto de entrada. Devolve {nome_wmf: {png, width_pt, height_pt}}, com cache.
+
+    O cache é invalidado por nome|tamanho|mtime do docx de origem; `force=True`
+    (flag `--sem-cache`) ignora o manifesto e renderiza de novo.
+    """
     cache_dir = Path(cache_dir)
     manifest_path = cache_dir / "manifest.json"
     key = _source_key(Path(src_docx))
 
-    if manifest_path.exists():
+    if not force and manifest_path.exists():
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
         if manifest.get("key") == key:
             return manifest["items"]

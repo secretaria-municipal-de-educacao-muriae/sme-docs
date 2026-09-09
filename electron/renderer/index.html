@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SMEDocs</title>
+  <style>
+    :root { --azul: #1B56C4; --azul-escuro: #123E8F; --fundo: #EAF1FD; --texto: #232323; }
+    body { font-family: "Nunito", system-ui, sans-serif; background: var(--fundo); color: var(--texto); margin: 0; }
+    header { background: var(--azul); color: #fff; padding: 16px 24px; }
+    header h1 { margin: 0; font-size: 20px; }
+    main { padding: 24px; max-width: 860px; }
+    .card { background: #fff; border: 1px solid #DADADA; border-radius: 8px; padding: 16px; margin-bottom: 16px; }
+    button { background: var(--azul); color: #fff; border: 0; border-radius: 6px; padding: 10px 16px; cursor: pointer; margin-right: 8px; margin-top: 8px; }
+    button:disabled { opacity: .5; cursor: default; }
+    button.link { background: none; color: var(--azul); padding: 4px 0; text-decoration: underline; }
+    code { background: #F5F5F3; padding: 2px 6px; border-radius: 4px; }
+    table { border-collapse: collapse; width: 100%; margin-top: 12px; font-size: 14px; }
+    th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid #DADADA; }
+    th { color: var(--azul-escuro); }
+    #docx-path { word-break: break-all; }
+    .erro { color: #E63946; }
+    .ok { color: #3FA34D; }
+    select, input { padding: 8px; border: 1px solid #DADADA; border-radius: 6px; margin-top: 8px; }
+  </style>
+</head>
+<body>
+  <header><h1>SMEDocs — casca Electron (F5)</h1></header>
+  <main>
+    <div class="card">
+      <p>Estado: <strong id="api-status">API ainda não disponível (F4 pendente)</strong></p>
+      <p>O backend atual é CLI (<code>python smedocs.py</code>). Quando a F4 entregar o FastAPI, esta janela fala com ele via <code id="api-url">—</code>.</p>
+    </div>
+    <div class="card">
+      <h2>Testar com um .docx</h2>
+      <p>Escolha um Word do setor pedagógico. A janela chama o CLI Python por baixo (<code>listar</code>/<code>gerar</code>) e mostra o resultado aqui.</p>
+      <button id="btn-docx">Escolher .docx…</button>
+      <span id="docx-path"></span>
+      <p id="analise-status"></p>
+      <table id="tabela" hidden>
+        <thead><tr><th>#</th><th>Descritor</th><th>Questões</th><th>Gabarito</th><th>Pendências</th></tr></thead>
+        <tbody id="tabela-corpo"></tbody>
+      </table>
+      <div id="gerar-box" hidden>
+        <label>Descritor: <input id="inp-desc" type="number" min="1" value="10" style="width:70px" /></label>
+        <label>Formato:
+          <select id="sel-formato"><option value="pdf">PDF</option><option value="docx">DOCX</option></select>
+        </label>
+        <button id="btn-gerar">Gerar</button>
+        <p id="gerar-status"></p>
+        <div id="gerar-links"></div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Exportar PDF</h2>
+      <p>O PDF sai pelo próprio Chromium via <code>webContents.printToPDF()</code> — o mesmo motor do template de referência (Skia/PDF m152).</p>
+      <button id="btn-pdf">Imprimir PDF de teste</button>
+    </div>
+  </main>
+  <script src="./renderer.js"></script>
+</body>
+</html>

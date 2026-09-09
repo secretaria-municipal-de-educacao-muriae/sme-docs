@@ -14,6 +14,7 @@ from . import answers, wordmath
 from .docx_render import render_docx
 from .extract import extract
 from .models import Descriptor
+from .profile import IngestionProfile, PRESET_MURIAE
 from .render import print_pdf, render_html
 from .segment import Media, segment
 
@@ -78,8 +79,15 @@ def load(
     only: set[int] | None = None,
     use_word: bool = True,
     on_step=None,
+    profile: IngestionProfile | None = None,
+    use_cache: bool = True,
 ) -> tuple[list[Descriptor], Media, bool]:
-    """Le o documento e devolve os descritores pedidos."""
+    """Le o documento e devolve os descritores pedidos.
+
+    Sem `profile` vale o preset Muriaé (`PRESET_MURIAE`). `use_cache=False`
+    (flag `--sem-cache`) força re-render das fórmulas e das mídias.
+    """
+    profile = profile or PRESET_MURIAE
 
     def step(message: str) -> None:
         if on_step:
@@ -90,15 +98,16 @@ def load(
     word_used = False
     if use_word and wordmath.is_available():
         step("renderizando fórmulas pelo Word")
-        equations = wordmath.render_equations(docx, eq_dir)
+        equations = wordmath.render_equations(docx, eq_dir, force=not use_cache)
         word_used = True
 
     step("lendo o documento")
-    blocks, archive = extract(docx)
+    blocks, archive = extract(docx, profile)
 
     step("recuperando a estrutura")
     ctx = Media(assets_dir=out_dir / "assets", eq_dir=eq_dir, equations=equations)
-    descriptors = segment(blocks, archive, ctx, only=only)
+    descriptors = segment(blocks, archive, ctx, only=only, profile=profile,
+                          use_cache=use_cache)
 
     # O gabarito preenchido a mao entra por cima, so onde o documento nao marcou nada.
     answers.apply(descriptors, answers.AnswerSheet.load())
@@ -114,9 +123,12 @@ def build(
     show_key: bool = True,
     subtitulo: str = "Matemática — 6º ao 9º Ano",
     on_step=None,
+    profile: IngestionProfile | None = None,
+    use_cache: bool = True,
 ) -> Result:
     started = time.time()
-    descriptors, ctx, word_used = load(docx, out_dir, only, use_word, on_step)
+    descriptors, ctx, word_used = load(docx, out_dir, only, use_word, on_step,
+                                       profile, use_cache)
 
     numbers = sorted(d.number for d in descriptors)
     slug = "-".join(str(n) for n in numbers) or "vazio"

@@ -21,12 +21,16 @@ fases seguintes — ver [PLANO.md](PLANO.md).
 ## Requisitos
 
 - Windows (o pipeline usa GDI e automação COM do Word)
-- Python 3.13
+- Python 3.13 ou 3.14
 - Microsoft Word — renderiza as fórmulas de matemática com fidelidade
 - Google Chrome ou Microsoft Edge — imprime o PDF
+- Node 24 — casca Electron (`electron/`)
 
 ```bash
-pip install pydantic jinja2 pillow pywin32 pymupdf typer rich python-docx
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
+cd electron && npm install
 ```
 
 As fontes do template (Baloo 2 e Nunito, licença OFL) ficam em
@@ -56,6 +60,36 @@ python smedocs.py conferir 10           # só o relatório, sem gerar arquivo
 python smedocs.py analisar outro.docx   # inspeciona um .docx qualquer
 python smedocs.py pendencias -n 20      # exporta questões sem gabarito
 python smedocs.py gabarito respostas.json   # importa as respostas
+```
+
+### Perfil de ingestão (`--perfil`)
+
+As regras de parsing (separador, cabeçalho de descritor, alternativas, cor de
+gabarito) vivem num `IngestionProfile` (`backend/smedocs/profile.py`), não mais
+fixas no código. Sem `--perfil`, vale o preset `profiles/banco-muriae.json`,
+com saída idêntica à de antes:
+
+```bash
+python smedocs.py listar --perfil profiles/banco-muriae.json
+python smedocs.py gerar 10 --perfil profiles/banco-muriae.json
+python smedocs.py analisar outro.docx --perfil meu-perfil.json
+```
+
+O `analisar` mostra o diagnóstico por regra — quantos blocos casaram cada padrão
+e a validação cruzada (nº de `A` vs nº de questões). Um perfil com regex inválido
+é rejeitado com o nome do campo. Fixtures mínimas em `tests/fixtures/` +
+`tests/check_regression.py` (23 verificações sobre o banco real) mostram como
+criar um perfil novo.
+
+### Cache (`--sem-cache`)
+
+Na primeira execução o Word é chamado uma vez para renderizar as 547 fórmulas; leva
+cerca de 12 segundos e fica em cache em `out/eqcache` (chave nome|tamanho|mtime do
+`.docx`). As mídias ficam em `out/assets` por digest do conteúdo. Execuções seguintes
+pulam a renderização (~12s → <1s no passo do Word). Com `--sem-cache`, tudo é refeito:
+
+```bash
+python smedocs.py gerar 10 --sem-cache
 ```
 
 ### O painel `dev`
@@ -106,7 +140,18 @@ parágrafos. As fontes do template vão embutidas dentro do arquivo, então ele 
 em qualquer máquina, sem instalar nada.
 
 Na primeira execução o Word é chamado uma vez para renderizar as 547 fórmulas; leva
-cerca de 12 segundos e fica em cache. As execuções seguintes levam menos de 1 segundo.
+cerca de 12 segundos e fica em cache. As execuções seguintes levam menos de 1 segundo
+no passo do Word. Ver "Cache (`--sem-cache`)" acima.
+
+### A casca Electron
+
+```bash
+cd electron && npm install && npm start
+```
+
+Abre a janela SMEDocs (1200×800). Sem o sidecar FastAPI (fase F4), ela indica API
+indisponível em vez de travar. O botão de exportar usa `webContents.printToPDF()`
+A4 com margens de 0.55in — o mesmo motor Chromium do template de referência.
 
 ## Como funciona
 
@@ -123,6 +168,8 @@ cerca de 12 segundos e fica em cache. As execuções seguintes levam menos de 1 
 | Módulo                            | Papel                                                  |
 | ---------------------------------- | ------------------------------------------------------ |
 | `backend/smedocs/extract.py`     | Lê o`.docx` para uma representação intermediária |
+| `backend/smedocs/profile.py`     | Perfil de ingestão (Pydantic) + preset `banco-muriae` |
+| `backend/smedocs/diagnose.py`    | Diagnóstico por regra (`analisar`) e validação cruzada |
 | `backend/smedocs/wordmath.py`    | Renderiza as fórmulas OLE usando o Word               |
 | `backend/smedocs/media.py`       | Normaliza imagens para PNG                             |
 | `backend/smedocs/segment.py`     | Recupera a estrutura que o Word não tem               |

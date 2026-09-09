@@ -1,0 +1,20 @@
+{
+  "name": "mini-alt",
+  "separator_regex": "^---$",
+  "descriptor_regex": "^\\s*(?:DESCRITOR\\s*|D\\s*)(\\d{1,2})\\s*[:\\-–—.]\\s*(.*)",
+  "section_regex": "^\\s*ATIVIDADES?\\s+DOS?\\s+DESCRITOR",
+  "pedagogical_regex": "(Com este descritor|Que (?:atividades|sugest[oõ]es) podem ser dadas|A habilidade de o aluno|Detalhamento\\s*:|Orienta[cç][oõ]es\\s*:)",
+  "alternative_regex": "^\\s*\\(?([1-4])[\\)\\.]\\s*(.*)",
+  "alternative_inline_regex": "(?<![\\w,])\\(?([1-4])\\)\\s",
+  "source_regex": "^\\s*\\(([^)]{2,40})\\)\\s*\\.\\s*(.*)",
+  "dingbat_regex": "[☺☻]+",
+  "empty_parens_regex": "\\(\\s*\\)",
+  "extra_space_regex": "[ \\t]{2,}",
+  "gabarito_colors": [
+    "FF0000",
+    "EE0000"
+  ],
+  "alternative_letters": "1234",
+  "descriptor_min_text_len": 12,
+  "description": "Fixture de teste: separador --- e alternativas 1). O preset nao segmenta este formato."
+}

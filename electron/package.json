@@ -1,0 +1,29 @@
+{
+  "name": "smedocs",
+  "version": "0.1.0",
+  "description": "SMEDocs — converte .docx desorganizados em material diagramado (Secretaria Municipal de Educacao de Muriae)",
+  "main": "main.js",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder"
+  },
+  "devDependencies": {
+    "electron": "33.4.11",
+    "electron-builder": "25.1.8"
+  },
+  "build": {
+    "appId": "br.gov.muriae.smedocs",
+    "productName": "SMEDocs",
+    "files": [
+      "main.js",
+      "preload.js",
+      "renderer/**/*"
+    ],
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    }
+  }
+}

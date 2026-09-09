@@ -14,6 +14,8 @@ import xml.etree.ElementTree as ET
 from dataclasses import dataclass, field, asdict
 from pathlib import Path
 
+from .profile import PRESET_MURIAE, IngestionProfile
+
 NS = {
     "w": "http://schemas.openxmlformats.org/wordprocessingml/2006/main",
     "a": "http://schemas.openxmlformats.org/drawingml/2006/main",
@@ -32,9 +34,10 @@ R = "{%s}" % NS["r"]
 EMU_PER_PT = 12700
 # Glifo Wingdings usado como marca decorativa no original, 162 ocorrencias. Sai como
 # "(☻☻)" no meio das frases. Nao confundir com −, √, ×, ≥, ≤ e •, que sao conteudo.
-RE_DINGBAT = re.compile(r"[☺☻]+")
+# Valores do preset Muriaé; o parsing usa o `profile` recebido por parâmetro.
+RE_DINGBAT = re.compile(PRESET_MURIAE.dingbat_regex)
 # Cor de fonte que marca a alternativa correta no acervo. Duas tonalidades em uso.
-GABARITO_COLORS = {"FF0000", "EE0000"}
+GABARITO_COLORS = set(PRESET_MURIAE.gabarito_colors)
 
 
 @dataclass
@@ -72,11 +75,15 @@ class Block:
 
     @property
     def has_gabarito_color(self) -> bool:
-        """Algum run com texto real esta na cor de gabarito."""
+        """Algum run com texto real esta na cor de gabarito (preset Muriaé)."""
+        return self.has_gabarito_color_in(GABARITO_COLORS)
+
+    def has_gabarito_color_in(self, colors: set[str]) -> bool:
+        """Variante parametrizada pelo perfil de ingestão."""
         return any(
             isinstance(r, TextRun)
             and r.text.strip()
-            and (r.color or "").upper() in GABARITO_COLORS
+            and (r.color or "").upper() in colors
             for r in self.runs
         )
 
@@ -157,15 +164,18 @@ def _ole_image(node: ET.Element, rels: dict) -> ImageRun | None:
     )
 
 
-def _walk_run(run: ET.Element, rels: dict) -> list:
+def _walk_run(
+    run: ET.Element, rels: dict, dingbat: re.Pattern | None = None
+) -> list:
     """Percorre um w:r emitindo texto e imagens na ordem em que aparecem."""
     bold, italic, color = _run_props(run)
+    clean_dingbat = dingbat or RE_DINGBAT
     out = []
     buffer = []
 
     def flush():
         if buffer:
-            text = RE_DINGBAT.sub("", "".join(buffer))
+            text = clean_dingbat.sub("", "".join(buffer))
             if text:
                 out.append(TextRun(text, bold, italic, color))
             buffer.clear()
@@ -197,8 +207,15 @@ def _walk_run(run: ET.Element, rels: dict) -> list:
     return out
 
 
-def extract(docx_path: str | Path) -> tuple[list[Block], zipfile.ZipFile]:
-    """Devolve os blocos na ordem do documento e o zip aberto, para ler as midias."""
+def extract(
+    docx_path: str | Path, profile: IngestionProfile | None = None
+) -> tuple[list[Block], zipfile.ZipFile]:
+    """Devolve os blocos na ordem do documento e o zip aberto, para ler as midias.
+
+    `profile` parametriza a limpeza de dingbats; sem ele vale o preset Muriaé.
+    """
+    profile = profile or PRESET_MURIAE
+    dingbat = re.compile(profile.dingbat_regex)
     z = zipfile.ZipFile(docx_path)
     rels = _relationships(z)
     root = ET.fromstring(z.read("word/document.xml"))
@@ -217,14 +234,14 @@ def extract(docx_path: str | Path) -> tuple[list[Block], zipfile.ZipFile]:
         # w:object pode estar solto no paragrafo, fora de um w:r
         for child in p:
             if child.tag == W + "r":
-                block.runs.extend(_walk_run(child, rels))
+                block.runs.extend(_walk_run(child, rels, dingbat))
             elif child.tag in (W + "object", W + "pict"):
                 img = _ole_image(child, rels)
                 if img:
                     block.runs.append(img)
             elif child.tag == W + "hyperlink":
                 for sub in child.findall(W + "r"):
-                    block.runs.extend(_walk_run(sub, rels))
+                    block.runs.extend(_walk_run(sub, rels, dingbat))
         blocks.append(block)
 
     return blocks, z

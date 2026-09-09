@@ -6,6 +6,11 @@ reference/
 # Tudo aqui e gerado: PDF, HTML, assets convertidos e o cache de formulas do Word.
 out/
 
+# Dependencias do Electron e saida do electron-builder. Instaladas com
+# `npm install` dentro de electron/; nunca versionadas.
+electron/node_modules/
+electron/dist/
+
 __pycache__/
 *.py[cod]
 .venv/

@@ -110,8 +110,13 @@ def convert(
     out_dir: Path,
     equations: dict | None = None,
     eq_dir: Path | None = None,
+    use_cache: bool = True,
 ) -> Asset:
-    """Converte uma parte de midia do docx para PNG em out_dir."""
+    """Converte uma parte de midia do docx para PNG em out_dir.
+
+    O cache é por digest do conteúdo (`<sha>.png` + `<sha>.dim`); `use_cache=False`
+    (flag `--sem-cache`) reconverte mesmo com o PNG já em disco.
+    """
     out_dir.mkdir(parents=True, exist_ok=True)
 
     if is_ole and equations and eq_dir:
@@ -125,7 +130,7 @@ def convert(
     dest = out_dir / filename
     dims = out_dir / f"{digest}.dim"
 
-    if dest.exists() and dims.exists():
+    if use_cache and dest.exists() and dims.exists():
         w_pt, h_pt = (float(x) for x in dims.read_text().split())
     else:
         img = Image.open(io.BytesIO(data))

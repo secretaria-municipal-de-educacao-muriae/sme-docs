@@ -29,11 +29,15 @@ from rich.table import Table
 from rich.text import Text
 
 from . import answers, pipeline, review
+from .diagnose import diagnose_blocks, diagnose_questions
+from .extract import extract
 from .models import Descriptor
+from .profile import PRESET_MURIAE, IngestionProfile
 
 ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_DOCX = ROOT / "reference" / "APOSTILA BANCO DE QUESTÕES POR DESCRITOR ATE 31.docx"
 DEFAULT_OUT = ROOT / "out"
+DEFAULT_PROFILE = ROOT / "profiles" / "banco-muriae.json"
 
 console = Console()
 app = typer.Typer(
@@ -57,6 +61,25 @@ def _resolve(docx: Path | None) -> Path:
         )
         raise typer.Exit(1)
     return path
+
+
+def _load_profile(perfil: Path | None) -> IngestionProfile | None:
+    """Carrega um `profiles/*.json`. Sem `--perfil`, vale o preset Muriaé (None)."""
+    if perfil is None:
+        return None
+    if not perfil.exists():
+        console.print(f"[{VERMELHO}]Perfil não encontrado:[/] {perfil}")
+        raise typer.Exit(1)
+    try:
+        return IngestionProfile.from_json(perfil)
+    except Exception as e:
+        console.print(f"[{VERMELHO}]Perfil inválido ({perfil}):[/] {e}")
+        raise typer.Exit(1)
+
+
+def _profile_label(profile: IngestionProfile | None) -> str:
+    name = (profile or PRESET_MURIAE).name
+    return f"  [dim]perfil: {name}[/]\n"
 
 
 def _banner() -> None:
@@ -115,10 +138,13 @@ def _run(
     out: Path,
     quiet: bool,
     use_word: bool,
+    profile: IngestionProfile | None = None,
+    use_cache: bool = True,
 ) -> pipeline.Result:
     if quiet:
         return pipeline.build(
-            docx, out, numbers, formats, use_word=use_word, show_key=show_key
+            docx, out, numbers, formats, use_word=use_word, show_key=show_key,
+            profile=profile, use_cache=use_cache,
         )
     with Progress(
         SpinnerColumn(style=AZUL),
@@ -135,10 +161,25 @@ def _run(
             use_word=use_word,
             show_key=show_key,
             on_step=lambda message: progress.update(task, description=message),
+            profile=profile,
+            use_cache=use_cache,
         )
 
 
-def _catalog(docx: Path, out: Path) -> list[Descriptor]:
+def _catalog(
+    docx: Path,
+    out: Path,
+    profile: IngestionProfile | None = None,
+    use_cache: bool = True,
+    quiet: bool = False,
+) -> list[Descriptor]:
+    # quiet=True: sem barra de progresso, para saída JSON limpa no stdout
+    # (a UI do Electron consome `listar -f json` chamando o CLI como subprocesso).
+    if quiet:
+        descriptors, _, _ = pipeline.load(
+            docx, out, None, True, None, profile=profile, use_cache=use_cache
+        )
+        return descriptors
     with Progress(
         SpinnerColumn(style=AZUL),
         TextColumn("[progress.description]{task.description}"),
@@ -147,7 +188,8 @@ def _catalog(docx: Path, out: Path) -> list[Descriptor]:
     ) as progress:
         task = progress.add_task("lendo o documento", total=None)
         descriptors, _, _ = pipeline.load(
-            docx, out, None, True, lambda m: progress.update(task, description=m)
+            docx, out, None, True, lambda m: progress.update(task, description=m),
+            profile=profile, use_cache=use_cache,
         )
     return descriptors
 
@@ -183,10 +225,19 @@ def listar(
     docx: Path = typer.Option(None, "--docx", help="Arquivo .docx de origem."),
     out: Path = typer.Option(DEFAULT_OUT, "--out", help="Pasta de trabalho."),
     formato: str = typer.Option("tabela", "-f", "--formato", help="tabela | json"),
+    perfil: Path = typer.Option(
+        None, "--perfil", help="Perfil de ingestão (JSON). Padrão: banco-muriae."
+    ),
+    sem_cache: bool = typer.Option(
+        False, "--sem-cache", help="Ignora o cache e re-renderiza fórmulas e mídias."
+    ),
 ) -> None:
     """Mostra todos os descritores do documento com sua situação."""
     source = _resolve(docx)
-    descriptors = _catalog(source, out)
+    profile = _load_profile(perfil)
+    as_json = formato == "json"
+    descriptors = _catalog(source, out, profile, use_cache=not sem_cache,
+                           quiet=as_json)
 
     if formato == "json":
         payload = [
@@ -224,9 +275,16 @@ def gerar(
         False, "--sem-word", help="Não usar o Word para as fórmulas."
     ),
     quiet: bool = typer.Option(False, "-q", "--quiet", help="Sem barra de progresso."),
+    perfil: Path = typer.Option(
+        None, "--perfil", help="Perfil de ingestão (JSON). Padrão: banco-muriae."
+    ),
+    sem_cache: bool = typer.Option(
+        False, "--sem-cache", help="Ignora o cache e re-renderiza fórmulas e mídias."
+    ),
 ) -> None:
     """Gera a apostila de um ou mais descritores."""
     source = _resolve(docx)
+    profile = _load_profile(perfil)
     if not descritores and not tudo:
         console.print(
             f"[{VERMELHO}]Diga quais descritores.[/] "
@@ -250,6 +308,8 @@ def gerar(
         out,
         quiet,
         not sem_word,
+        profile,
+        use_cache=not sem_cache,
     )
 
     if quiet:
@@ -264,12 +324,20 @@ def conferir(
     descritores: list[int] = typer.Argument(None, help="Números dos descritores."),
     docx: Path = typer.Option(None, "--docx", help="Arquivo .docx de origem."),
     out: Path = typer.Option(DEFAULT_OUT, "--out", help="Pasta de trabalho."),
+    perfil: Path = typer.Option(
+        None, "--perfil", help="Perfil de ingestão (JSON). Padrão: banco-muriae."
+    ),
+    sem_cache: bool = typer.Option(
+        False, "--sem-cache", help="Ignora o cache e re-renderiza fórmulas e mídias."
+    ),
 ) -> None:
     """Relatório das pendências, sem gerar arquivo nenhum."""
     source = _resolve(docx)
+    profile = _load_profile(perfil)
     _banner()
     result = _run(
-        source, set(descritores) if descritores else None, (), True, out, False, True
+        source, set(descritores) if descritores else None, (), True, out, False, True,
+        profile, use_cache=not sem_cache,
     )
     console.print(_stats_panel(result))
 
@@ -349,22 +417,30 @@ def analisar(
     copiar: bool = typer.Option(
         False, "--copiar", help="Copia o arquivo para reference/ ao terminar."
     ),
+    perfil: Path = typer.Option(
+        None, "--perfil", help="Perfil de ingestão (JSON). Padrão: banco-muriae."
+    ),
+    sem_cache: bool = typer.Option(
+        False, "--sem-cache", help="Ignora o cache e re-renderiza fórmulas e mídias."
+    ),
 ) -> None:
     """Lê um .docx novo e diz o que dá para aproveitar dele."""
     if not arquivo.exists():
         console.print(f"[{VERMELHO}]Não encontrei:[/] {arquivo}")
         raise typer.Exit(1)
 
+    profile = _load_profile(perfil)
     _banner()
-    console.print(f"  [dim]{arquivo}  ({arquivo.stat().st_size / 1_000_000:.1f} MB)[/]\n")
-    descriptors = _catalog(arquivo, out)
+    console.print(f"  [dim]{arquivo}  ({arquivo.stat().st_size / 1_000_000:.1f} MB)[/]")
+    console.print(_profile_label(profile))
+    descriptors = _catalog(arquivo, out, profile, use_cache=not sem_cache)
 
     if not descriptors:
         console.print(
             f"  [{VERMELHO}]Nenhum descritor reconhecido.[/]\n"
             "  O leitor procura cabeçalhos como [bold]Descritor 1:[/], [bold]D2:[/] ou\n"
-            "  [bold]D3 -[/]. Se este documento usa outro padrão, ele precisa de uma\n"
-            "  regra nova em segment.py.\n"
+            "  [bold]D3 -[/]. Se este documento usa outro padrão, passe um perfil com\n"
+            "  [bold]--perfil profiles/...json[/].\n"
         )
         raise typer.Exit(1)
 
@@ -373,8 +449,60 @@ def analisar(
     sem_gabarito = sum(1 for d in descriptors for q in d.questions if not q.answer)
     console.print(
         f"\n  [dim]{len(descriptors)} descritores · {total} questões · "
-        f"{sem_gabarito} sem gabarito[/]\n"
+        f"{sem_gabarito} sem gabarito[/]"
     )
+
+    # Contagens por regra sobre os blocos crus (extract, sem mídia): o que casou
+    # cada padrão do perfil e a validação cruzada A == questões.
+    blocks, archive = extract(arquivo, profile)
+    archive.close()
+    diag = diagnose_questions(diagnose_blocks(blocks, profile), descriptors)
+
+    regras = Table(box=None, pad_edge=False, header_style="dim")
+    regras.add_column("regra", style="dim")
+    regras.add_column("casamentos", justify="right")
+    regras.add_row("separadores", str(diag.separators))
+    regras.add_row(
+        "cabeçalhos de descritor",
+        str(len(diag.descriptor_hits))
+        + (f"  [dim]({', '.join(str(n) for n in sorted(set(diag.descriptor_hits)))})[/]" if diag.descriptor_hits else ""),
+    )
+    regras.add_row("marcadores de seção", str(diag.sections))
+    letras = " · ".join(
+        f"{letra} {diag.alternatives.get(letra, 0)}"
+        for letra in (profile or PRESET_MURIAE).alternative_letters
+    )
+    regras.add_row("alternativas", letras)
+    regras.add_row("blocos vermelhos", str(diag.red_blocks))
+    regras.add_row("alternativas vermelhas", str(diag.red_alternatives))
+    console.print()
+    console.print(
+        Panel(regras, title="diagnóstico por regra", border_style=AZUL, title_align="left")
+    )
+
+    if diag.cross_ok:
+        extra = (
+            f"  [dim]({len(diag.no_first_ids)} sem {diag.first_letter}: "
+            f"{', '.join(diag.no_first_ids)})[/]"
+            if diag.no_first_ids
+            else ""
+        )
+        console.print(
+            f"  [{VERDE}]✓[/] validação cruzada: "
+            f"{diag.first_count} alternativas {diag.first_letter} == "
+            f"{diag.questions_with_first} questões com {diag.first_letter}{extra}\n"
+        )
+    else:
+        console.print(
+            f"  [{VERMELHO}]✗[/] validação cruzada: "
+            f"{diag.first_count} alternativas {diag.first_letter} vs "
+            f"{diag.questions_with_first} questões com {diag.first_letter} "
+            f"({diag.questions} no total) — "
+            f"o perfil pode não cobrir este documento\n"
+        )
+    if diag.pending:
+        motivos = ", ".join(f"{c} {m}" for m, c in sorted(diag.pending.items(), key=lambda kv: -kv[1]))
+        console.print(f"  [dim]needs_review: {motivos}[/]\n")
 
     if copiar:
         REFERENCE_DIR.mkdir(parents=True, exist_ok=True)
