@@ -117,7 +117,8 @@ def _build_styles(document: Document) -> None:
     add("SME Secao", 14, font=titulo_font, color=AZUL_ESCURO, bold=True,
         space_before=14, space_after=6, line_spacing=Pt(17))
 
-    intro = add("SME Intro", 10, space_after=4)
+    intro = add("SME Intro", 10, space_after=4,
+                align=WD_ALIGN_PARAGRAPH.JUSTIFY)
     intro.paragraph_format.left_indent = Mm(4)
     intro.paragraph_format.right_indent = Mm(4)
 

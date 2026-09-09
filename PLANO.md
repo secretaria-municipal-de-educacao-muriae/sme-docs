@@ -176,6 +176,24 @@ Duas adições fora do plano original, pedidas em uso:
 O PDF também deixou de depender da rede: as fontes agora são servidas do próprio
 projeto em vez do Google Fonts.
 
+### F0.6 — painel, ingestão e gabarito assistido · CONCLUÍDA
+
+- **`smedocs dev`** — painel que fica aberto, no espírito de um `npm run dev`. Mostra o
+  acervo, a fila do que falta e a situação de cada descritor, e vigia `reference/`:
+  soltar um `.docx` novo lá recarrega a tela.
+- **`smedocs analisar <arquivo>`** — inspeciona qualquer `.docx` sem mexer no projeto,
+  e diz se as regras de segmentação reconhecem o formato. Com `--copiar`, adota o
+  arquivo em `reference/`.
+- **Gabarito assistido sem API.** `pendencias` exporta as questões sem resposta num
+  pacote com enunciado, alternativas e caminho das figuras; uma sessão do Claude Code
+  resolve; `gabarito` importa para `gabarito/respostas.json`, versionado no repositório.
+  Primeiro lote de 8 já resolvido e conferido contra as figuras — descritores 2 e 3
+  subiram para 100% e 90%.
+- Caixas de texto justificadas no PDF e no DOCX.
+
+Isso antecipa parte da F5: a tela de revisão do Electron vai consumir exatamente o mesmo
+`answers.AnswerSheet`, então o trabalho feito agora pela linha de comando não se perde.
+
 ### F1 — Extrator
 
 Walker OOXML completo mais pipeline de mídia. Roda sobre o documento inteiro.

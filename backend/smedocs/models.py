@@ -28,6 +28,8 @@ class Alternative(BaseModel):
     letter: str
     fragments: list[Fragment] = Field(default_factory=list)
     correct: bool = False
+    # Marcada pelo gabarito preenchido a mao, nao pela cor vermelha do documento.
+    from_overlay: bool = False
 
     @field_validator("letter")
     @classmethod

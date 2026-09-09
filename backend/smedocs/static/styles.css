@@ -163,6 +163,7 @@ body {
 }
 .intro p {
   margin: 0 0 8px;
+  text-align: justify;
 }
 .intro p:last-child {
   margin-bottom: 0;

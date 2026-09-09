@@ -44,6 +44,7 @@ reference/
 Depois:
 
 ```bash
+python smedocs.py dev                   # painel que fica aberto, recarrega sozinho
 python smedocs.py                       # modo interativo, pergunta o que gerar
 python smedocs.py listar                # tabela de todos os descritores
 python smedocs.py gerar 10              # descritor 10 em PDF
@@ -52,13 +53,47 @@ python smedocs.py gerar 10 -f pdf -f docx
 python smedocs.py gerar --tudo
 python smedocs.py gerar 10 --sem-gabarito   # versão do aluno
 python smedocs.py conferir 10           # só o relatório, sem gerar arquivo
+python smedocs.py analisar outro.docx   # inspeciona um .docx qualquer
+python smedocs.py pendencias -n 20      # exporta questões sem gabarito
+python smedocs.py gabarito respostas.json   # importa as respostas
 ```
+
+### O painel `dev`
+
+`python smedocs.py dev` abre um painel que fica aberto num terminal ao lado, no espírito
+de um `npm run dev`: mostra o tamanho do acervo, a lista do que falta fazer e a situação
+de cada descritor.
+
+Ele vigia a pasta `reference/`. **Solte um `.docx` novo lá e a tela recarrega sozinha**,
+passando a analisar o arquivo mais recente. Para inspecionar um arquivo fora dessa pasta
+sem mexer em nada, use `analisar`; com `--copiar` ele entra em `reference/` no fim.
 
 Sem argumento, entra no modo interativo. Com argumento, roda e sai — o que serve para
 script. `-q` suprime a barra de progresso e imprime só os caminhos gerados;
 `listar -f json` devolve JSON.
 
 A saída vai para `out/descritor-<n>.pdf` e `out/descritor-<n>.docx`.
+
+### O gabarito das questões que o Word não marcou
+
+219 das 868 questões não têm marcação vermelha nenhuma no documento de origem. O
+gabarito delas simplesmente não existe no arquivo.
+
+Como não há orçamento de API, o programa **não adivinha nada em tempo de execução**. O
+ciclo é outro:
+
+```bash
+python smedocs.py pendencias -n 20      # escreve out/pendencias.md e out/pendencias.json
+# uma sessão do Claude Code (ou uma pessoa) resolve o lote lendo o .md
+python smedocs.py gabarito out/pendencias.json
+```
+
+O `.md` traz enunciado, alternativas e o caminho de cada figura, para quem responde
+poder abrir a imagem. O `.json` é o molde a preencher. O resultado entra em
+`gabarito/respostas.json`, **versionado junto com o código** — o trabalho é feito uma vez
+e vale para sempre.
+
+A sobreposição nunca contradiz o documento: ela só preenche onde não havia marcação.
 
 ### Os dois formatos
 
@@ -97,6 +132,8 @@ cerca de 12 segundos e fica em cache. As execuções seguintes levam menos de 1 
 | `backend/smedocs/docx_fonts.py`  | Embute Baloo 2 e Nunito dentro do DOCX                 |
 | `backend/smedocs/pipeline.py`    | Orquestra do .docx aos arquivos de saída              |
 | `backend/smedocs/cli.py`         | Interface de linha de comando                          |
+| `backend/smedocs/answers.py`     | Gabarito preenchido à mão, por fora do documento       |
+| `backend/smedocs/review.py`      | Pacote de revisão: exporta pendências, importa respostas |
 
 ## Duas decisões que não são óbvias
 

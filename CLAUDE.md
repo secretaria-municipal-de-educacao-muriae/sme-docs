@@ -260,6 +260,29 @@ Google Fonts vivem em `backend/smedocs/fonts/` (licença OFL, incluída). Elas s
 Baloo 2 tem entrelinha nativa muito alta. Nos títulos do `.docx`, `line_spacing` como
 múltiplo não resolve — use valor exato em `Pt`.
 
+## Gabarito preenchido à mão
+
+219 questões não têm marcação vermelha na origem. Isso não é falha de leitura — é
+ausência no documento.
+
+Como não há orçamento de API, nada é adivinhado em tempo de execução. O ciclo é
+`smedocs pendencias` para exportar o lote, uma sessão do Claude Code para resolver, e
+`smedocs gabarito` para trazer de volta. O resultado fica em `gabarito/respostas.json`,
+versionado — o trabalho é feito uma vez.
+
+`answers.apply` roda dentro de `pipeline.load`, depois da segmentação. Ele **só marca
+onde nenhuma alternativa estava marcada**: a sobreposição nunca contradiz o documento.
+A alternativa preenchida assim carrega `from_overlay=True`, para que os relatórios
+saibam separar o que veio do Word do que veio da revisão.
+
+Ao resolver um lote, olhe a figura antes de responder. Duas armadilhas já vistas:
+
+- A planificação do cubo: a opção com uma fileira de 5 quadrados tem 7 faces no total e
+  não fecha cubo. É preciso contar os quadrados, não olhar o formato.
+- Ângulo de escada apoiada: o número que aparece no desenho costuma ser o ângulo com o
+  **chão**, e o enunciado pede o ângulo com o **muro**. A alternativa que repete o
+  número do desenho é a pegadinha.
+
 ## Convenções
 
 - Cada estágio do pipeline grava seu artefato em disco antes de passar adiante. Depurar

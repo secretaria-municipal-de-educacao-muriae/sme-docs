@@ -10,7 +10,7 @@ import time
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from . import wordmath
+from . import answers, wordmath
 from .docx_render import render_docx
 from .extract import extract
 from .models import Descriptor
@@ -22,6 +22,7 @@ from .segment import Media, segment
 class Stats:
     questions: int = 0
     with_key: int = 0
+    from_overlay: int = 0
     clean: int = 0
     formulas: int = 0
     formulas_from_word: int = 0
@@ -56,6 +57,9 @@ def summarize(descriptors: list[Descriptor]) -> Stats:
     stats = Stats(
         questions=len(questions),
         with_key=sum(1 for q in questions if q.answer),
+        from_overlay=sum(
+            1 for q in questions for a in q.alternatives if a.correct and a.from_overlay
+        ),
         clean=sum(1 for q in questions if not q.needs_review),
         formulas=sum(1 for f in images if f.inline),
         formulas_from_word=sum(1 for f in images if (f.asset or "").startswith("eq-")),
@@ -95,6 +99,9 @@ def load(
     step("recuperando a estrutura")
     ctx = Media(assets_dir=out_dir / "assets", eq_dir=eq_dir, equations=equations)
     descriptors = segment(blocks, archive, ctx, only=only)
+
+    # O gabarito preenchido a mao entra por cima, so onde o documento nao marcou nada.
+    answers.apply(descriptors, answers.AnswerSheet.load())
     return descriptors, ctx, word_used
 
 

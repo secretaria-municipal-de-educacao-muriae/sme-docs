@@ -1,0 +1,53 @@
+{
+ "_leia_me": "Gabarito preenchido por fora do .docx, para as questões que não têm marcação vermelha na origem. Gerado e consumido por smedocs.",
+ "respostas": {
+  "D02-Q003": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "lote 1 - figuras conferidas",
+   "quando": "2026-09-09"
+  },
+  "D02-Q020": {
+   "letra": "D",
+   "origem": "claude-code",
+   "nota": "lote 1 - figuras conferidas",
+   "quando": "2026-09-09"
+  },
+  "D03-Q003": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "lote 1 - figuras conferidas",
+   "quando": "2026-09-09"
+  },
+  "D03-Q005": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "lote 1 - figuras conferidas",
+   "quando": "2026-09-09"
+  },
+  "D03-Q006": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "lote 1 - figuras conferidas",
+   "quando": "2026-09-09"
+  },
+  "D03-Q007": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "lote 1 - figuras conferidas",
+   "quando": "2026-09-09"
+  },
+  "D03-Q008": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "lote 1 - figuras conferidas",
+   "quando": "2026-09-09"
+  },
+  "D03-Q009": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "lote 1 - figuras conferidas",
+   "quando": "2026-09-09"
+  }
+ }
+}
