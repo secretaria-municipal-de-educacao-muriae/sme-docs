@@ -85,18 +85,18 @@ cerca de 12 segundos e fica em cache. As execuções seguintes levam menos de 1 
           └ percorre word/document.xml na ordem do documento
 ```
 
-| Módulo | Papel |
-|---|---|
-| `backend/smedocs/extract.py` | Lê o `.docx` para uma representação intermediária |
-| `backend/smedocs/wordmath.py` | Renderiza as fórmulas OLE usando o Word |
-| `backend/smedocs/media.py` | Normaliza imagens para PNG |
-| `backend/smedocs/segment.py` | Recupera a estrutura que o Word não tem |
-| `backend/smedocs/models.py` | Contratos e validação em Pydantic |
-| `backend/smedocs/render.py` | Monta o HTML e imprime o PDF |
-| `backend/smedocs/docx_render.py` | Monta o DOCX com estilos nomeados |
-| `backend/smedocs/docx_fonts.py` | Embute Baloo 2 e Nunito dentro do DOCX |
-| `backend/smedocs/pipeline.py` | Orquestra do .docx aos arquivos de saída |
-| `backend/smedocs/cli.py` | Interface de linha de comando |
+| Módulo                            | Papel                                                  |
+| ---------------------------------- | ------------------------------------------------------ |
+| `backend/smedocs/extract.py`     | Lê o`.docx` para uma representação intermediária |
+| `backend/smedocs/wordmath.py`    | Renderiza as fórmulas OLE usando o Word               |
+| `backend/smedocs/media.py`       | Normaliza imagens para PNG                             |
+| `backend/smedocs/segment.py`     | Recupera a estrutura que o Word não tem               |
+| `backend/smedocs/models.py`      | Contratos e validação em Pydantic                    |
+| `backend/smedocs/render.py`      | Monta o HTML e imprime o PDF                           |
+| `backend/smedocs/docx_render.py` | Monta o DOCX com estilos nomeados                      |
+| `backend/smedocs/docx_fonts.py`  | Embute Baloo 2 e Nunito dentro do DOCX                 |
+| `backend/smedocs/pipeline.py`    | Orquestra do .docx aos arquivos de saída              |
+| `backend/smedocs/cli.py`         | Interface de linha de comando                          |
 
 ## Duas decisões que não são óbvias
 
