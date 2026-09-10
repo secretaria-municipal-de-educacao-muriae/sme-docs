@@ -9,4 +9,11 @@ contextBridge.exposeInMainWorld('smedocs', {
   analyzeDocx: (args) => ipcRenderer.invoke('smedocs:analyze-docx', args),
   generate: (args) => ipcRenderer.invoke('smedocs:generate', args),
   openPath: (args) => ipcRenderer.invoke('smedocs:open-path', args),
+  defaultDocx: () => ipcRenderer.invoke('smedocs:default-docx'),
+  cancelOp: (args) => ipcRenderer.invoke('smedocs:cancel-op', args),
+  conferirDocx: (args) => ipcRenderer.invoke('smedocs:conferir-docx', args),
+  analisarNovo: (args) => ipcRenderer.invoke('smedocs:analisar-novo', args),
+  exportarPendencias: (args) => ipcRenderer.invoke('smedocs:exportar-pendencias', args),
+  pickJson: () => ipcRenderer.invoke('smedocs:pick-json'),
+  importarGabarito: (args) => ipcRenderer.invoke('smedocs:importar-gabarito', args),
 });

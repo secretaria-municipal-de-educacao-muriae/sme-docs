@@ -4,59 +4,133 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>SMEDocs</title>
-  <style>
-    :root { --azul: #1B56C4; --azul-escuro: #123E8F; --fundo: #EAF1FD; --texto: #232323; }
-    body { font-family: "Nunito", system-ui, sans-serif; background: var(--fundo); color: var(--texto); margin: 0; }
-    header { background: var(--azul); color: #fff; padding: 16px 24px; }
-    header h1 { margin: 0; font-size: 20px; }
-    main { padding: 24px; max-width: 860px; }
-    .card { background: #fff; border: 1px solid #DADADA; border-radius: 8px; padding: 16px; margin-bottom: 16px; }
-    button { background: var(--azul); color: #fff; border: 0; border-radius: 6px; padding: 10px 16px; cursor: pointer; margin-right: 8px; margin-top: 8px; }
-    button:disabled { opacity: .5; cursor: default; }
-    button.link { background: none; color: var(--azul); padding: 4px 0; text-decoration: underline; }
-    code { background: #F5F5F3; padding: 2px 6px; border-radius: 4px; }
-    table { border-collapse: collapse; width: 100%; margin-top: 12px; font-size: 14px; }
-    th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid #DADADA; }
-    th { color: var(--azul-escuro); }
-    #docx-path { word-break: break-all; }
-    .erro { color: #E63946; }
-    .ok { color: #3FA34D; }
-    select, input { padding: 8px; border: 1px solid #DADADA; border-radius: 6px; margin-top: 8px; }
-  </style>
+  <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
-  <header><h1>SMEDocs — casca Electron (F5)</h1></header>
-  <main>
-    <div class="card">
-      <p>Estado: <strong id="api-status">API ainda não disponível (F4 pendente)</strong></p>
-      <p>O backend atual é CLI (<code>python smedocs.py</code>). Quando a F4 entregar o FastAPI, esta janela fala com ele via <code id="api-url">—</code>.</p>
+<div class="app">
+  <nav class="sidebar" aria-label="Seções">
+    <div class="marca">SMEDocs</div>
+    <div class="marca-sub">banco de questões → apostila</div>
+    <button class="nav" data-secao="inicio" aria-current="page">Início</button>
+    <button class="nav" data-secao="gerar">Gerar</button>
+    <button class="nav" data-secao="conferir">Conferir</button>
+    <button class="nav" data-secao="gabarito">Gabarito</button>
+    <div class="rodape">
+      <div id="api-linha">ponte CLI pronta</div>
+      <button id="btn-pdf-teste">Imprimir página de teste (Chromium)</button>
     </div>
-    <div class="card">
-      <h2>Testar com um .docx</h2>
-      <p>Escolha um Word do setor pedagógico. A janela chama o CLI Python por baixo (<code>listar</code>/<code>gerar</code>) e mostra o resultado aqui.</p>
-      <button id="btn-docx">Escolher .docx…</button>
-      <span id="docx-path"></span>
-      <p id="analise-status"></p>
-      <table id="tabela" hidden>
-        <thead><tr><th>#</th><th>Descritor</th><th>Questões</th><th>Gabarito</th><th>Pendências</th></tr></thead>
-        <tbody id="tabela-corpo"></tbody>
-      </table>
-      <div id="gerar-box" hidden>
-        <label>Descritor: <input id="inp-desc" type="number" min="1" value="10" style="width:70px" /></label>
-        <label>Formato:
-          <select id="sel-formato"><option value="pdf">PDF</option><option value="docx">DOCX</option></select>
+  </nav>
+
+  <main class="conteudo">
+    <div class="doc-bar">
+      <span class="etiqueta">Documento:</span>
+      <span class="caminho" id="docx-caminho">nenhum selecionado</span>
+      <button class="acao" id="btn-trocar-docx" type="button">Escolher .docx…</button>
+    </div>
+
+    <section class="secao ativa" id="secao-inicio" aria-label="Início">
+      <h2>Início</h2>
+      <p class="estado" id="inicio-estado"></p>
+      <div class="painel" id="inicio-painel" hidden>
+        <div class="resumo" id="inicio-resumo"></div>
+        <h3>A fazer</h3>
+        <div id="inicio-afazeres"></div>
+        <h3>Descritores</h3>
+        <p class="tabela-ajuda">Situação de cada descritor do documento corrente. O botão <strong>Usar</strong> leva o descritor para a seção Gerar.</p>
+        <div class="legenda" aria-label="Legenda">
+          <span class="pilula ok">100%</span> completo
+          <span class="pilula medio">70–99%</span> quase lá
+          <span class="pilula ruim">&lt;70%</span> precisa de atenção
+        </div>
+        <div class="filtro-linha">
+          <label for="inicio-filtro">Filtrar:</label>
+          <input id="inicio-filtro" type="search" placeholder="número ou trecho do título…" />
+        </div>
+        <div class="tabela-wrap">
+          <table>
+            <thead><tr>
+              <th title="Número do descritor">#</th>
+              <th title="Título do descritor no documento">Descritor</th>
+              <th class="num" title="Questões encontradas">Questões</th>
+              <th title="Percentual com gabarito (marca vermelha ou preenchido à mão)">Gabarito</th>
+              <th class="num" title="Questões marcadas para revisão">Pendências</th>
+              <th title="Levar para a seção Gerar">Ação</th>
+            </tr></thead>
+            <tbody id="inicio-tabela"></tbody>
+          </table>
+        </div>
+        <p class="tabela-rodape" id="inicio-contagem"></p>
+      </div>
+    </section>
+
+    <section class="secao" id="secao-gerar" aria-label="Gerar">
+      <h2>Gerar apostila</h2>
+      <div class="painel">
+        <label>Descritores (números separados por espaço):
+          <input id="gerar-desc" type="text" value="10" style="width:220px" />
         </label>
-        <button id="btn-gerar">Gerar</button>
-        <p id="gerar-status"></p>
+        <label class="check"><input id="gerar-tudo" type="checkbox" /> todos</label>
+        <br />
+        <span class="check"><label><input type="checkbox" class="gerar-fmt" value="pdf" checked /> PDF</label></span>
+        <span class="check"><label><input type="checkbox" class="gerar-fmt" value="docx" /> DOCX</label></span>
+        <span class="check"><label><input id="gerar-sem-gabarito" type="checkbox" /> versão do aluno (sem gabarito)</label></span>
+        <br />
+        <button class="acao" id="btn-gerar" type="button">Gerar</button>
+        <button class="acao perigo" id="btn-gerar-cancelar" type="button" hidden>Cancelar</button>
+        <p class="estado" id="gerar-estado"></p>
         <div id="gerar-links"></div>
       </div>
-    </div>
-    <div class="card">
-      <h2>Exportar PDF</h2>
-      <p>O PDF sai pelo próprio Chromium via <code>webContents.printToPDF()</code> — o mesmo motor do template de referência (Skia/PDF m152).</p>
-      <button id="btn-pdf">Imprimir PDF de teste</button>
-    </div>
+    </section>
+
+    <section class="secao" id="secao-conferir" aria-label="Conferir">
+      <h2>Conferir</h2>
+      <div class="painel">
+        <h3>Relatório de pendências</h3>
+        <label>Descritores (vazio = todos):
+          <input id="conferir-desc" type="text" value="" style="width:220px" />
+        </label>
+        <button class="acao" id="btn-conferir" type="button">Conferir</button>
+        <button class="acao perigo" id="btn-conferir-cancelar" type="button" hidden>Cancelar</button>
+        <p class="estado" id="conferir-estado"></p>
+        <div id="conferir-resultado"></div>
+      </div>
+      <div class="painel">
+        <h3>Analisar documento novo</h3>
+        <p class="vazio">Lê um <code>.docx</code> qualquer e diz o que dá para aproveitar dele.</p>
+        <span class="caminho" id="analisar-caminho">nenhum arquivo escolhido</span>
+        <button class="acao" id="btn-analisar-escolher" type="button">Escolher arquivo…</button>
+        <label class="check"><input id="analisar-copiar" type="checkbox" /> adotar em <code>reference/</code></label>
+        <button class="acao" id="btn-analisar" type="button">Analisar</button>
+        <button class="acao perigo" id="btn-analisar-cancelar" type="button" hidden>Cancelar</button>
+        <p class="estado" id="analisar-estado"></p>
+        <div id="analisar-resultado"></div>
+      </div>
+    </section>
+
+    <section class="secao" id="secao-gabarito" aria-label="Gabarito">
+      <h2>Gabarito assistido</h2>
+      <div class="painel">
+        <h3>Exportar pendências</h3>
+        <label>Quantas por lote (0 = todas):
+          <input id="gabarito-limite" type="number" min="0" value="20" style="width:80px" />
+        </label>
+        <button class="acao" id="btn-exportar" type="button">Exportar lote</button>
+        <button class="acao perigo" id="btn-exportar-cancelar" type="button" hidden>Cancelar</button>
+        <p class="estado" id="exportar-estado"></p>
+        <div id="exportar-links"></div>
+      </div>
+      <div class="painel">
+        <h3>Importar respostas</h3>
+        <span class="caminho" id="importar-caminho">nenhum JSON escolhido</span>
+        <button class="acao" id="btn-importar-escolher" type="button">Escolher JSON…</button>
+        <button class="acao" id="btn-importar" type="button">Importar</button>
+        <button class="acao perigo" id="btn-importar-cancelar" type="button" hidden>Cancelar</button>
+        <p class="estado" id="importar-estado"></p>
+        <div id="importar-resultado"></div>
+      </div>
+    </section>
   </main>
-  <script src="./renderer.js"></script>
+</div>
+<script src="./renderer.js"></script>
 </body>
 </html>
