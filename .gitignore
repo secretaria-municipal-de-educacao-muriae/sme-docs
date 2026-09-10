@@ -17,3 +17,12 @@ venv/
 Thumbs.db
 desktop.ini
 ~$*
+
+# Fontes comerciais. Neo Sans Std e licenciada da Monotype e nao pode ser
+# redistribuida — este repositorio e publico. Coloque os .otf nesta pasta e rode
+# `python -m smedocs.fonts_otf2ttf` para gerar os .ttf que o renderizador usa.
+backend/smedocs/fonts/NeoSansStd-*
+
+# Material de origem da apostila infantil: PDF do setor pedagogico, fotos de
+# pessoas e reproducoes de obras. Mesmo motivo de reference/.
+backend/smedocs/reference-apostila-infantil/

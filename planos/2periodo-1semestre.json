@@ -1,0 +1,653 @@
+{
+  "_leia_me": "Apostila 2o periodo - aluno - 1o semestre. Cada pagina de questoes-infantil.pdf foi lida e casada com um modelo de modelos_infantil.json. O campo _origem diz de que pagina do PDF veio e o _porque diz por que aquele modelo. Renderiza com: smedocs apostila planos/2periodo-1semestre.json",
+  "paginas": [
+    {
+      "_origem": "pag 1 - ATIVIDADE 1",
+      "_porque": "fala de personagem em balao sobre cenario: e exatamente o M10",
+      "modelo": "M10",
+      "dados": {
+        "titulo": "ATIVIDADE 1",
+        "enunciado": ["SUA PROFESSORA VAI LER PARA VOCÊ O TEXTO SOBRE OS POVOS ORIGINÁRIOS."],
+        "destaque": [
+          "ELE COMEÇA ASSIM:",
+          "MUITO ANTES DA CHEGADA DOS",
+          "PORTUGUESES, O BRASIL JÁ ERA",
+          "HABITADO POR MUITOS POVOS",
+          "ORIGINÁRIOS."
+        ],
+        "cenario": "sala de aula com aquário, quadro e janela",
+        "personagem": "professor de jaleco ao lado da menina",
+        "folio": "1"
+      }
+    },
+    {
+      "_origem": "pag 2 - ATIVIDADE 19",
+      "_porque": "texto informativo de seis paragrafos; so o M09 aguenta esse volume",
+      "modelo": "M09",
+      "dados": {
+        "titulo": "ATIVIDADE 19",
+        "subtitulo": "CONHECENDO OS POVOS ORIGINÁRIOS",
+        "paragrafos": [
+          "MUITO ANTES DA CHEGADA DOS PORTUGUESES, O BRASIL JÁ ERA HABITADO POR MUITOS POVOS ORIGINÁRIOS.",
+          "ESSES POVOS SÃO CHAMADOS DE POVOS INDÍGENAS E VIVEM EM NOSSO PAÍS HÁ MILHARES DE ANOS.",
+          "CADA POVO INDÍGENA TEM SUA PRÓPRIA LÍNGUA, SEUS COSTUMES, SUAS HISTÓRIAS, SUAS PINTURAS, SUAS MÚSICAS, SUAS BRINCADEIRAS E SEU JEITO DE VIVER.",
+          "ELES CONHECEM MUITO A NATUREZA E APRENDEM, DESDE PEQUENOS, A CUIDAR DAS FLORESTAS, DOS RIOS, DOS ANIMAIS E DA TERRA.",
+          "OS POVOS INDÍGENAS TAMBÉM PRODUZEM LINDOS ARTESANATOS, COMO CESTOS, COLARES, CERÂMICAS E PINTURAS, QUE FAZEM PARTE DE SUA CULTURA E DE SUA HISTÓRIA.",
+          "ATÉ HOJE, OS POVOS INDÍGENAS CONTINUAM PRESERVANDO SEUS CONHECIMENTOS E TRADIÇÕES, CONTRIBUINDO PARA A DIVERSIDADE E A RIQUEZA CULTURAL DO BRASIL."
+        ],
+        "folio": "2"
+      }
+    },
+    {
+      "_origem": "pag 3 - ATIVIDADE 32",
+      "_porque": "duas fotos retangulares com legenda embaixo, fundo amarelo: M17, nao M08 (que usa foto redonda)",
+      "modelo": "M17",
+      "dados": {
+        "titulo": "ATIVIDADE 32",
+        "enunciado": [
+          "VAMOS OBSERVAR?",
+          "HÁ MUITO TEMPO, OS PURIS VIVIAM NA REGIÃO ONDE HOJE FICA MURIAÉ.",
+          "OS YANOMAMI VIVEM NA AMAZÔNIA, ATÉ OS DIAS DE HOJE.",
+          "VAMOS OBSERVAR AS CASAS!"
+        ],
+        "fundo": "amarelo",
+        "imagens": [
+          {"descricao": "oca dos Puris na mata", "rotulo": "MORADIA DOS PURIS"},
+          {"descricao": "shabono Yanomami com fogueira", "rotulo": "YANOMAMI"}
+        ],
+        "folio": "3"
+      }
+    },
+    {
+      "_origem": "pag 4 - ATIVIDADE 27",
+      "_porque": "figuras soltas numa caixa para circular os pares: M12",
+      "modelo": "M12",
+      "dados": {
+        "titulo": "ATIVIDADE 27",
+        "enunciado": ["CIRCULE COM A MESMA COR OS OBJETOS IGUAIS. FAÇA UM X NO QUE FICOU SEM PAR:"],
+        "grupos": [
+          {
+            "colunas": 5,
+            "figuras": [
+              "folhas", "oca de palha", "coração étnico", "tambor pequeno", "maracá",
+              "cocar", "machadinha", "raposa com cocar", "arco", "colar",
+              "coração étnico", "cachimbo", "tambor grande", "raposa com cocar", "cocar",
+              "machadinha", "colar", "flecha", "arco", "oca de palha"
+            ]
+          }
+        ],
+        "folio": "4"
+      }
+    },
+    {
+      "_origem": "pag 5 - ATIVIDADE 28",
+      "_porque": "texto curto seguido de fotos de alimento lado a lado: M17 sem rótulo",
+      "modelo": "M17",
+      "dados": {
+        "titulo": "ATIVIDADE 28",
+        "enunciado": [
+          "OS POVOS INDÍGENAS CONSOMEM MAIS PEIXES, CARNES DE CAÇA, FRUTAS, RAÍZES.",
+          "A MAIORIA DOS SEUS ALIMENTOS VEM DA NATUREZA.",
+          "A MANDIOCA É UM ALIMENTO MUITO CONSUMIDO POR ELES."
+        ],
+        "imagens": [
+          {"descricao": "tapioca recheada no prato"},
+          {"descricao": "pé de mandioca com as raízes à mostra"},
+          {"descricao": "bolinhos de mandioca no prato"}
+        ],
+        "folio": "5"
+      }
+    },
+    {
+      "_origem": "pag 6 - ATIVIDADE 35",
+      "_porque": "ingredientes e modo de fazer: M16",
+      "modelo": "M16",
+      "dados": {
+        "titulo": "ATIVIDADE 35",
+        "receita_titulo": "BOLINHO DE MANDIOCA COM QUEIJO",
+        "ingredientes": ["MANDIOCA COZIDA", "QUEIJO RALADO", "1 OVO", "FARINHA DE TRIGO", "SAL"],
+        "modo": [
+          "COLOQUE A MANDIOCA PARA COZINHAR",
+          "DEIXE ESFRIAR UM POUCO E AMASSE A MANDIOCA",
+          "COLOQUE O QUEIJO RALADO",
+          "JUNTE 1 OVO",
+          "MISTURE TUDO",
+          "COLOQUE FARINHA ATÉ DAR O PONTO DE ENROLAR",
+          "FAÇA OS BOLINHOS",
+          "LEVE PARA ASSAR"
+        ],
+        "personagem": "gatinho de chapéu de cozinheiro",
+        "folio": "6"
+      }
+    },
+    {
+      "_origem": "pag 7 - ATIVIDADE 42",
+      "_porque": "cantiga de roda em duas estrofes: M11",
+      "modelo": "M11",
+      "dados": {
+        "titulo": "ATIVIDADE 42",
+        "poema_titulo": "VAMOS CANTAR E BRINCAR DE RODA!",
+        "estrofes": [
+          ["PENEIREI A FARINHA", "A FARINHA CAIU", "TORNEI A PENEIRAR", "A FARINHA SUBIU"],
+          ["“EU TENHO, EU TENHO SIM", "EU TENHO A ......", "QUE GOSTA DE MIM” (2X)",
+           "ALGUÉM NESTA RODA", "QUE TE QUEIRA BEM” (3X)"]
+        ],
+        "credito": "CANTIGA DE RODA TRADICIONAL DO FOLCLORE BRASILEIRO",
+        "folio": "7"
+      }
+    },
+    {
+      "_origem": "pag 8 - ATIVIDADE 45",
+      "_porque": "cinco adivinhas independentes espalhadas na pagina: M14",
+      "modelo": "M14",
+      "dados": {
+        "titulo": "ATIVIDADE 45",
+        "enunciado": ["PALAVRAS QUE VIERAM DOS POVOS INDÍGENAS", "VAMOS DESCOBRIR?"],
+        "fundo": "amarelo",
+        "blocos": [
+          ["TENHO PENAS E SEI CANTAR,", "NA FLORESTA GOSTO DE MORAR.", "MEU NOME VEM DO TUPI TAMBÉM,", "QUEM SOU EU?"],
+          ["EU PULO NA ÁGUA,", "TENHO DENTES AFIADOS", "E ADORO NADAR NOS RIOS.", "QUEM SOU EU?"],
+          ["SOU AMARELO POR DENTRO,", "TENHO UMA COROA NA CABEÇA", "E SOU MUITO CHEIROSO!", "QUEM SOU EU?"],
+          ["EU FAÇO “POP PLOC!”", "QUANDO VOU AO FOGO.", "QUEM SOU EU?"],
+          ["TENHO CASCA E SOU DOCINHO,", "VIRO SUCO BEM GELADINHO.", "MEU NOME VEM DO TUPI TAMBÉM,", "QUEM SOU EU?"]
+        ],
+        "personagem": "menino detetive com lupa",
+        "credito": "TEXTO MARIANA POLASTRI",
+        "folio": "8"
+      }
+    },
+    {
+      "_origem": "pag 9 - ATIVIDADE 46",
+      "_porque": "sete palavras em coluna com pergunta de fecho: M15",
+      "modelo": "M15",
+      "dados": {
+        "titulo": "ATIVIDADE 46",
+        "enunciado": [
+          "DETETIVES DAS PALAVRAS!",
+          "MUITAS PALAVRAS QUE USAMOS TODOS OS DIAS VIERAM DA LÍNGUA TUPI:"
+        ],
+        "palavras": ["JABUTICABA", "ABACAXI", "PIPOCA", "JACARÉ", "PAÇOCA", "CAATINGA", "SABIÁ"],
+        "fecho": "QUAL DESSAS PALAVRAS VOCÊ MAIS GOSTOU DE DESCOBRIR? CONTE PARA A SUA TURMA.",
+        "personagem": "menina com pipoca",
+        "credito": "TEXTO MARIANA POLASTRI",
+        "folio": "9"
+      }
+    },
+    {
+      "_origem": "pag 10 - ATIVIDADE 48",
+      "_porque": "quadrinha de quatro versos sobre cenario de floresta: M11",
+      "modelo": "M11",
+      "dados": {
+        "titulo": "ATIVIDADE 48",
+        "estrofes": [[
+          "LÁ NO ALTO VOA O TUCANO,",
+          "NO CHÃO CAMINHA O TATU.",
+          "NA FLORESTA CANTA O SABIÁ,",
+          "E O DOCE MARACUJÁ VEM DE LÁ!"
+        ]],
+        "personagem": "cenário de floresta com tucano, sabiá e tatu",
+        "credito": "TEXTO MARIANA POLASTRI",
+        "folio": "10"
+      }
+    },
+    {
+      "_origem": "pag 11 - ATIVIDADE 18",
+      "_porque": "duas fileiras de cartoes figura+palavra para recortar e parear: M13",
+      "modelo": "M13",
+      "dados": {
+        "titulo": "ATIVIDADE 18",
+        "enunciado": [
+          "ENCONTRE OS PARES!",
+          "1. RECORTE AS FIGURAS ABAIXO.",
+          "2. ENCONTRE E COLOQUE CADA ELEMENTO DA QUADRINHA AO LUGAR OU À AÇÃO QUE COMBINA COM ELE."
+        ],
+        "fileiras": [
+          [
+            {"figura": "tucano no galho", "palavra": "TUCANO"},
+            {"figura": "tatu", "palavra": "TATU"},
+            {"figura": "sabiá cantando", "palavra": "SABIÁ"},
+            {"figura": "maracujá cortado", "palavra": "MARACUJÁ"}
+          ],
+          [
+            {"figura": "céu com sol e nuvens", "palavra": "ALTO"},
+            {"figura": "chão de terra", "palavra": "CHÃO"},
+            {"figura": "floresta", "palavra": "FLORESTA"},
+            {"figura": "campo ao longe", "palavra": "DE LÁ"}
+          ]
+        ],
+        "folio": "11"
+      }
+    },
+    {
+      "_origem": "pag 12 - ATIVIDADE 42",
+      "_porque": "poema longo em coluna unica com personagem e credito: M11",
+      "modelo": "M11",
+      "dados": {
+        "titulo": "ATIVIDADE 42",
+        "poema_titulo": "A VALSA DOS BICHOS",
+        "colunas": 2,
+        "estrofes": [
+          ["A DONA ANTA", "TÁ DESOLADA.", "CAXINGUELÊ", "NÃO QUER SABÊ.", "E O JACU", "TÁ JURURU!"],
+          ["CADÊ A MATA", "QUE SOMBREAVA?", "CADÊ A ÁGUA", "QUE BORBULHAVA?"],
+          ["A IGNORÂNCIA", "E A GANÂNCIA,", "SEM DÓ NEM PENA,", "LEVARAM TUDO!"],
+          ["POIS É, BICHO,", "DANÇOU..."]
+        ],
+        "credito": "A valsa dos bichos, do livro Poemas da minha terra tupi (Brinque-book, 2018), de Maté",
+        "folio": "12"
+      }
+    },
+    {
+      "_origem": "pag 13 - ATIVIDADE 49",
+      "_porque": "oito palavras soltas para pintar as que rimam: M14 no modo palavras",
+      "modelo": "M14",
+      "dados": {
+        "titulo": "ATIVIDADE 49",
+        "enunciado": ["PINTE DA MESMA COR AS PALAVRAS QUE RIMAM."],
+        "tipo": "palavras",
+        "blocos": ["DESOLADA", "ANTA", "SABÊ", "CAXINGUELÊ", "JURURU", "JACU", "MATA", "SOMBREADA"],
+        "folio": "13"
+      }
+    },
+    {
+      "_origem": "pag 14 - ATIVIDADE 37",
+      "_porque": "retrato unico com texto biografico embaixo: M02",
+      "modelo": "M02",
+      "dados": {
+        "titulo": "ATIVIDADE 37",
+        "enunciado": ["OBSERVE A FOTO DO ESCRITOR LUIZ GONZAGA DA SILVA:"],
+        "foto": "retrato de Luiz Gonzaga da Silva",
+        "texto": "LUIZ GONZAGA DA SILVA (1942–2018) FOI PROFESSOR, ESCRITOR E POETA MUITO IMPORTANTE PARA A CIDADE DE MURIAÉ, EM MINAS GERAIS. NASCEU EM GUARANI (MG) E DEDICOU GRANDE PARTE DE SUA VIDA AO ENSINO E À LITERATURA. ESCREVEU LIVROS, POESIAS E CRÔNICAS, AJUDANDO A VALORIZAR A CULTURA E A HISTÓRIA DA NOSSA REGIÃO.",
+        "folio": "14"
+      }
+    },
+    {
+      "_origem": "pag 15 - ATIVIDADE 48",
+      "_porque": "poema de quatro estrofes: M11 em duas colunas",
+      "modelo": "M11",
+      "dados": {
+        "titulo": "ATIVIDADE 48",
+        "poema_titulo": "CIRANDA DA PASSARADA",
+        "colunas": 2,
+        "estrofes": [
+          ["POMBINHA FOFA, MACIA,", "LÁ ESTÁ A JURITI,", "ESPERANDO O NAMORADO,", "O ARISCO BEM-TE-VI!"],
+          ["TICO-TICO SABE TUDO", "TICO-TICO SABE NADA", "O PARDAL É QUE É SABIDO", "LEVA UMA VIDA FOLGADA!"],
+          ["VOA LIVRE O CRICRIÓ,", "BEM SATISFEITO DA VIDA,", "CANTA LEVE O CURIÓ,", "COM VOZINHA RECOLHIDA..."],
+          ["CANARIM AMARELIM,", "TRINA LINDO O DANADIM!", "SABIÁ NA LARANJEIRA", "SOLTA UM CANTO TÃO TRISTIM!.."]
+        ],
+        "credito": "LUIZ GONZAGA DA SILVA",
+        "folio": "15"
+      }
+    },
+    {
+      "_origem": "pag 16 - ATIVIDADE 18",
+      "_porque": "tres passaros com o nome em pilula colorida embaixo: M17",
+      "modelo": "M17",
+      "dados": {
+        "titulo": "ATIVIDADE 18",
+        "enunciado": [
+          "QUEM ESTÁ NA CIRANDA?",
+          "NA POESIA “CIRANDA DA PASSARADA” APARECEM DIFERENTES PÁSSAROS.",
+          "OBSERVE OS PÁSSAROS E SEUS NOMES E CIRCULE O NOME DO PÁSSARO QUE TEM MAIS LETRAS."
+        ],
+        "imagens": [
+          {"descricao": "pardal no galho", "rotulo": "PARDAL", "cor": "#F4801E"},
+          {"descricao": "sabiá no galho", "rotulo": "SABIÁ", "cor": "#8CC63F"},
+          {"descricao": "curió no galho", "rotulo": "CURIÓ", "cor": "#4FB3D9"}
+        ],
+        "folio": "16"
+      }
+    },
+    {
+      "_origem": "pag 17 - ATIVIDADE 17",
+      "_porque": "duas manchas coloridas com passaros para achar o igual: M12",
+      "modelo": "M12",
+      "dados": {
+        "titulo": "ATIVIDADE 17",
+        "enunciado": ["ENCONTRE O PASSARINHO IGUAL AO QUE ESTÁ EM DESTAQUE"],
+        "grupos": [
+          {"cor": "#8CC63F", "colunas": 3,
+           "figuras": ["arara colorida", "cacatua branca", "arara em destaque",
+                       "periquito azul", "papagaio amarelo", "arara pequena"]},
+          {"cor": "#F6DE7A", "colunas": 3,
+           "figuras": ["arara vermelha", "papagaio roxo", "periquito verde em destaque",
+                       "periquito verde", "arara azul", "periquito verde claro"]}
+        ],
+        "folio": "17"
+      }
+    },
+    {
+      "_origem": "pag 18 - ATIVIDADE 10",
+      "_porque": "poema de tres estrofes: M11",
+      "modelo": "M11",
+      "dados": {
+        "titulo": "ATIVIDADE 10",
+        "poema_titulo": "ANJINHOS BRINCANDO NO CÉU",
+        "colunas": 2,
+        "estrofes": [
+          ["MAS, QUE BELEZA ESSE CÉU", "E COMO 'TÁ AZULINHO!...", "ESSAS NUVENS TÃO FOFINHAS", "SÃO PULA-PULA DE ANJINHOS!.."],
+          ["ELES BRINCAM SEM PARAR,", "NUMA DANÇA BEM MARCADA", "E CANTAM A CAROCHINHA", "CO’AQUELA LETRA ENGRAÇADA:"],
+          ["CORINA SACODE A SAIA!...", "CORINA ABRE OS BRAÇOS!!...", "CORINA TEM DÓ DE MIM!!!...", "CORINA, ME DÁ UM ABRAÇO!!!!!..."]
+        ],
+        "credito": "LUIZ GONZAGA DA SILVA",
+        "folio": "18"
+      }
+    },
+    {
+      "_origem": "pag 19 - ATIVIDADE 15",
+      "_porque": "tabela de ilustrar palavras: M03, aqui com quatro colunas",
+      "modelo": "M03",
+      "dados": {
+        "titulo": "ATIVIDADE 15",
+        "enunciado": ["ILUSTRE AS PALAVRAS:"],
+        "tabela": ["CÉU", "NUVENS", "CORINA", "ABRAÇO"],
+        "pergunta2": "AGORA CONTE PARA A TURMA O QUE VOCÊ DESENHOU.",
+        "molduras": [],
+        "folio": "19"
+      }
+    },
+    {
+      "_origem": "pag 20 - ATIVIDADE 50",
+      "_porque": "biografia da artista com retrato: M02",
+      "modelo": "M02",
+      "dados": {
+        "titulo": "ATIVIDADE 50",
+        "enunciado": ["CONHEÇA A ARTISTA CRISTINA BICALHO CANÊDO:"],
+        "foto": "retrato de Cristina Bicalho Canêdo",
+        "texto": "NASCEU EM MURIAÉ, 19 DE JUNHO DE 1953. ELA SEMPRE GOSTOU DE ARTE E ESTUDOU PARA SE TORNAR ARTISTA E PROFESSORA. APRENDEU A FAZER PINTURAS E ESCULTURAS E DEDICOU SUA VIDA AOS ESTUDOS E À CRIATIVIDADE.",
+        "folio": "20"
+      }
+    },
+    {
+      "_origem": "pag 21 - ATIVIDADE 51",
+      "_porque": "uma obra sozinha, sem espaco de resposta: M06",
+      "modelo": "M06",
+      "dados": {
+        "titulo": "ATIVIDADE 51",
+        "enunciado": ["OBSERVE A ESCULTURA DE CRISTINA BICALHO CANÊDO."],
+        "imagens": [{"descricao": "escultura em bronze de pés e mãos"}],
+        "folio": "21"
+      }
+    },
+    {
+      "_origem": "pag 22 - ATIVIDADE 51",
+      "_porque": "uma obra sozinha: M06",
+      "modelo": "M06",
+      "dados": {
+        "titulo": "ATIVIDADE 51",
+        "enunciado": ["OBSERVE A PINTURA DA CIRANDA."],
+        "imagens": [{"descricao": "pintura de roda de ciranda no campo"}],
+        "folio": "22"
+      }
+    },
+    {
+      "_origem": "pag 23 - ATIVIDADE 51",
+      "_porque": "uma obra sozinha: M06",
+      "modelo": "M06",
+      "dados": {
+        "titulo": "ATIVIDADE 51",
+        "enunciado": ["OBSERVE MAIS UMA OBRA DA ARTISTA."],
+        "imagens": [{"descricao": "terceira obra de Cristina Bicalho Canêdo"}],
+        "folio": "23"
+      }
+    },
+    {
+      "_origem": "pag 24 - ATIVIDADE 54",
+      "_porque": "banner ilustrado grande com um comando curto: M06 em fundo branco",
+      "modelo": "M06",
+      "dados": {
+        "titulo": "ATIVIDADE 54",
+        "enunciado": ["SUA PROFESSORA VAI CONTAR SOBRE O CONTINENTE AFRICANO."],
+        "fundo": "branco",
+        "imagens": [{"descricao": "trenzinho africano com a menina: VAMOS EMBARCAR NA HISTÓRIA DA ÁFRICA"}],
+        "folio": "24"
+      }
+    },
+    {
+      "_origem": "pag 25 - ATIVIDADE 55",
+      "_porque": "texto informativo longo: M09",
+      "modelo": "M09",
+      "dados": {
+        "titulo": "ATIVIDADE 55",
+        "subtitulo": "A ÁFRICA",
+        "paragrafos": [
+          "A ÁFRICA É UM CONTINENTE MUITO GRANDE E CHEIO DE BELEZAS.",
+          "LÁ VIVEM MUITOS POVOS, CADA UM COM SUA HISTÓRIA, SUA LÍNGUA, SUAS MÚSICAS, SUAS DANÇAS, SUAS BRINCADEIRAS E SEUS COSTUMES.",
+          "HÁ MUITO, MUITO TEMPO, DIFERENTES POVOS CONSTRUÍRAM CIDADES, REINOS E MONUMENTOS INCRÍVEIS, COMO AS FAMOSAS PIRÂMIDES DO EGITO.",
+          "OUTROS CRIARAM BELAS ESCULTURAS, CERÂMICAS, TECIDOS, INSTRUMENTOS MUSICAIS E MUITAS HISTÓRIAS QUE PASSARAM DE GERAÇÃO EM GERAÇÃO.",
+          "A CULTURA AFRICANA TAMBÉM FAZ PARTE DA NOSSA HISTÓRIA BRASILEIRA. ELA ESTÁ PRESENTE NAS MÚSICAS, NAS DANÇAS, NAS BRINCADEIRAS, NAS COMIDAS, NAS PALAVRAS E EM MUITAS TRADIÇÕES DO POVO BRASILEIRO.",
+          "VAMOS EMBARCAR NESSA VIAGEM E DESCOBRIR AS RIQUEZAS, AS HISTÓRIAS E A DIVERSIDADE DOS POVOS AFRICANOS!"
+        ],
+        "folio": "25"
+      }
+    },
+    {
+      "_origem": "pag 26 - ATIVIDADE 42",
+      "_porque": "poema de tres estrofes com nota de inspiracao: M11",
+      "modelo": "M11",
+      "dados": {
+        "titulo": "ATIVIDADE 42",
+        "poema_titulo": "ÁFRICA MORA EM MIM",
+        "colunas": 2,
+        "estrofes": [
+          ["ÁFRICA MORA EM MIM,", "NA DANÇA E NO OLHAR,", "NAS HISTÓRIAS E CANTIGAS", "QUE GOSTAMOS DE ESCUTAR."],
+          ["MORA NO SOM DO TAMBOR,", "NA ALEGRIA E NA UNIÃO.", "CADA POVO TEM SUA HISTÓRIA,", "CADA CULTURA, SEU CORAÇÃO."],
+          ["ÁFRICA É DIVERSIDADE,", "É CULTURA E TRADIÇÃO.", "CONHECER E RESPEITAR", "É APRENDER COM O CORAÇÃO!"]
+        ],
+        "credito": "Inspirado nos temas presentes nas obras de Sonia Rosa, Kiusam de Oliveira e Conceição Evaristo",
+        "folio": "26"
+      }
+    },
+    {
+      "_origem": "pag 27 - orientacao",
+      "_porque": "pagina dirigida ao professor, sem tarefa de aluno: M18",
+      "modelo": "M18",
+      "dados": {
+        "titulo": "ORIENTAÇÃO AO PROFESSOR",
+        "paragrafos": [
+          "EM RODA DE CONVERSA COM AS CRIANÇAS SOBRE A DIVERSIDADE CULTURAL PRESENTE EM NOSSO PAÍS.",
+          "EXPLIQUE, DE FORMA SIMPLES E ACOLHEDORA, QUE OS POVOS AFRICANOS CONTRIBUÍRAM PARA A FORMAÇÃO DA CULTURA BRASILEIRA, TRAZENDO CONHECIMENTOS, COSTUMES, MÚSICAS, BRINCADEIRAS, DANÇAS, HISTÓRIAS E ALIMENTOS QUE FAZEM PARTE DO NOSSO COTIDIANO.",
+          "VALORIZE AS CONTRIBUIÇÕES DOS POVOS AFRICANOS, DESTACANDO ASPECTOS POSITIVOS DE SUA CULTURA E INCENTIVANDO O RESPEITO ÀS DIFERENÇAS.",
+          "DURANTE A ATIVIDADE, PERMITA QUE AS CRIANÇAS COMPARTILHEM SUAS EXPERIÊNCIAS, OBSERVEM IMAGENS, EXPLOREM OBJETOS, MÚSICAS OU ALIMENTOS RELACIONADOS AO TEMA E EXPRESSEM SUAS DESCOBERTAS POR MEIO DE DESENHOS, PINTURAS OU RODAS DE CONVERSA."
+        ],
+        "folio": "27"
+      }
+    },
+    {
+      "_origem": "pag 28 - ATIVIDADE 36",
+      "_porque": "texto curto seguido de lista de alimentos: M15",
+      "modelo": "M15",
+      "dados": {
+        "titulo": "ATIVIDADE 36",
+        "enunciado": [
+          "SABORES QUE CONTAM HISTÓRIAS",
+          "NOSSA VIAGEM PELA ÁFRICA TAMBÉM PODE ACONTECER PELOS SABORES.",
+          "VOCÊ JÁ IMAGINOU QUE ALGUNS ALIMENTOS QUE COMEMOS TODOS OS DIAS VIAJARAM DE MUITO LONGE ATÉ CHEGAR AO BRASIL?"
+        ],
+        "palavras": ["BANANA", "COCO", "QUIABO"],
+        "fecho": "QUER DESCOBRIR DE ONDE ELES VIERAM E QUEM OS TROUXE PARA CÁ?",
+        "credito": "TEXTO MARIANA POLASTRI",
+        "folio": "28"
+      }
+    },
+    {
+      "_origem": "pag 29 - ATIVIDADE 30",
+      "_porque": "contar frutas numa cena e pintar um quadrinho por unidade: M19",
+      "modelo": "M19",
+      "dados": {
+        "titulo": "ATIVIDADE 30",
+        "enunciado": ["COLORA 1 (UM) QUADRADINHO PARA CADA FRUTA QUE VOCÊ ENCONTRAR"],
+        "cena": "quadro com mamões, cocos, graviolas, bananas e melancias espalhados",
+        "icones": ["mamão", "coco", "graviola", "banana", "melancia"],
+        "linhas": 5,
+        "folio": "29"
+      }
+    },
+    {
+      "_origem": "pag 30 - orientacao",
+      "_porque": "pagina dirigida ao professor: M18",
+      "modelo": "M18",
+      "dados": {
+        "titulo": "PARA O PROFESSOR",
+        "paragrafos": [
+          "CONVERSAR COM AS CRIANÇAS SOBRE OS ALIMENTOS DE ORIGEM AFRICANA.",
+          "LANÇAR AS IDEIAS: ONDE EXISTEM ESTES ALIMENTOS? ONDE PODEMOS COMPRAR?",
+          "QUE TAL OBSERVAR, EXPERIMENTAR OS AROMAS, AS CORES E OS SABORES DESSES ALIMENTOS? ELES NOS AJUDAM A CONHECER UM POUCO MAIS DA HISTÓRIA DO NOSSO POVO E DAS CONTRIBUIÇÕES DOS POVOS AFRICANOS PARA A FORMAÇÃO DA CULTURA BRASILEIRA.",
+          "VOCÊ JÁ EXPERIMENTOU ALGUM DESSES ALIMENTOS? QUAL DELES VOCÊ MAIS GOSTA? COMO ELE É PREPARADO NA SUA CASA?",
+          "LEVAR PREVIAMENTE MAIS DE UM ALIMENTO PARA AS CRIANÇAS EXPERIMENTAREM, SENTIREM OS SABORES."
+        ],
+        "folio": "30"
+      }
+    },
+    {
+      "_origem": "pag 31 - ATIVIDADE 28",
+      "_porque": "situacao-problema com espaco de resolucao: M05",
+      "modelo": "M05",
+      "dados": {
+        "titulo": "ATIVIDADE 28",
+        "enunciado": ["SITUAÇÃO-PROBLEMA", "UMA FEIRA CHEIA DE FRUTAS"],
+        "problemas": [
+          "PEDRO FOI À FEIRA E ENCONTROU FRUTAS DE DIFERENTES PARTES DO MUNDO. ELE ESCOLHEU 3 BANANAS, 1 MELANCIA, 2 COCOS E 3 GRAVIOLAS. QUANTAS FRUTAS PEDRO LEVOU PARA CASA? REPRESENTE A SITUAÇÃO COM DESENHOS."
+        ],
+        "folio": "31"
+      }
+    },
+    {
+      "_origem": "pag 32 - ATIVIDADE 28",
+      "_porque": "tres cenas sem rotulo, para o aluno descobrir a palavra: M17",
+      "modelo": "M17",
+      "dados": {
+        "titulo": "ATIVIDADE 28",
+        "enunciado": [
+          "VOCÊ SABIA?",
+          "A NOSSA LÍNGUA É FORMADA POR PALAVRAS DE MUITOS POVOS.",
+          "ALGUMAS DELAS VIERAM DA ÁFRICA E FAZEM PARTE DO NOSSO DIA A DIA.",
+          "OLHE AS IMAGENS E DESCUBRA QUAIS SÃO ESSAS PALAVRAS!"
+        ],
+        "imagens": [
+          {"descricao": "menino de mochila com o gato: CAFUNÉ"},
+          {"descricao": "duas meninas cochichando: COCHICHO"},
+          {"descricao": "menina dançando com tambor: SAMBA"}
+        ],
+        "folio": "32"
+      }
+    },
+    {
+      "_origem": "pag 33 - ATIVIDADE 29",
+      "_porque": "somas de silabas com linha de resposta: M20",
+      "modelo": "M20",
+      "dados": {
+        "titulo": "ATIVIDADE 29",
+        "enunciado": [
+          "VOCÊ SABIA?",
+          "MUITAS PALAVRAS QUE USAMOS TODOS OS DIAS VIERAM DA MANEIRA DE FALAR DOS POVOS AFRICANOS.",
+          "VAMOS BRINCAR, MONTANDO AS PALAVRAS!"
+        ],
+        "equacoes": ["MA + RIM + BON + DO =", "SAM + BA =", "CA + FU + NÉ =", "CO + CHI + CHO ="],
+        "folio": "33"
+      }
+    },
+    {
+      "_origem": "pag 34 - ATIVIDADE 33",
+      "_porque": "texto medio com ilustracao grande sangrando na direita: M21",
+      "modelo": "M21",
+      "dados": {
+        "titulo": "ATIVIDADE 33",
+        "subtitulo": "CONHECENDO A CAPOEIRA",
+        "paragrafos": [
+          "A CAPOEIRA É UMA MANIFESTAÇÃO CULTURAL BRASILEIRA QUE UNE MÚSICA, MOVIMENTO, CANTO E BRINCADEIRA.",
+          "ELA SURGIU DA FORÇA E DA CRIATIVIDADE DOS POVOS AFRICANOS E, ATÉ HOJE, É PRATICADA EM RODAS, AO SOM DO BERIMBAU E DE OUTROS INSTRUMENTOS."
+        ],
+        "ilustracao": "roda de capoeira com crianças, berimbau, atabaque e pandeiro",
+        "folio": "34"
+      }
+    },
+    {
+      "_origem": "pag 35 - ATIVIDADE 19",
+      "_porque": "cantiga de capoeira, uma estrofe: M11",
+      "modelo": "M11",
+      "dados": {
+        "titulo": "ATIVIDADE 19",
+        "poema_titulo": "É CAPOEIRA",
+        "estrofes": [[
+          "BERIMBAU TOCA, A RODA VAI GIRAR.",
+          "COM GINGA E MUITA ALEGRIA,",
+          "EU CANTO E VOU JOGAR.",
+          "COM RESPEITO E AMIZADE,",
+          "A CAPOEIRA VAMOS CONHECER,",
+          "APRENDER E BRINCAR!"
+        ]],
+        "personagem": "criança jogando capoeira",
+        "folio": "35"
+      }
+    },
+    {
+      "_origem": "pag 36 - ATIVIDADE 37",
+      "_porque": "texto sobre o artista com ilustracao lateral: M21",
+      "modelo": "M21",
+      "dados": {
+        "titulo": "ATIVIDADE 37",
+        "subtitulo": "CONHECENDO HEITOR DOS PRAZERES",
+        "paragrafos": [
+          "HEITOR DOS PRAZERES FOI UM ARTISTA NEGRO BRASILEIRO QUE GOSTAVA DE PINTAR CENAS DA VIDA DAS PESSOAS, COMO BRINCADEIRAS, FESTAS, MÚSICA E CAPOEIRA.",
+          "SUAS PINTURAS SÃO COLORIDAS E MOSTRAM A RIQUEZA DA CULTURA BRASILEIRA.",
+          "VOCÊ SABIA? ALÉM DE PINTAR, HEITOR DOS PRAZERES TAMBÉM ERA MÚSICO E AJUDOU A CONTAR A HISTÓRIA DO SAMBA NO BRASIL."
+        ],
+        "ilustracao": "retrato de Heitor dos Prazeres",
+        "folio": "36"
+      }
+    },
+    {
+      "_origem": "pag 37 - ATIVIDADE 38",
+      "_porque": "duas telas lado a lado para apreciacao: M06 com duas imagens",
+      "modelo": "M06",
+      "dados": {
+        "titulo": "ATIVIDADE 38",
+        "enunciado": ["OBSERVE AS OBRAS DE HEITOR DOS PRAZERES."],
+        "imagens": [
+          {"descricao": "pintura de roda de samba com sombrinhas"},
+          {"descricao": "pintura de morro com casas coloridas"}
+        ],
+        "folio": "37"
+      }
+    },
+    {
+      "_origem": "pag 38 - ATIVIDADE 38",
+      "_porque": "duas telas lado a lado: M06",
+      "modelo": "M06",
+      "dados": {
+        "titulo": "ATIVIDADE 38",
+        "enunciado": ["O QUE VOCÊ VÊ NESTAS OBRAS?"],
+        "imagens": [
+          {"descricao": "terceira obra de Heitor dos Prazeres"},
+          {"descricao": "quarta obra de Heitor dos Prazeres"}
+        ],
+        "folio": "38"
+      }
+    },
+    {
+      "_origem": "pag 39 - ATIVIDADE 38",
+      "_porque": "obras para apreciacao: M06",
+      "modelo": "M06",
+      "dados": {
+        "titulo": "ATIVIDADE 38",
+        "enunciado": ["QUAIS CORES O ARTISTA MAIS USOU?"],
+        "imagens": [
+          {"descricao": "quinta obra de Heitor dos Prazeres"},
+          {"descricao": "sexta obra de Heitor dos Prazeres"}
+        ],
+        "folio": "39"
+      }
+    },
+    {
+      "_origem": "pag 40 - ATIVIDADE 38",
+      "_porque": "obra final para apreciacao: M06",
+      "modelo": "M06",
+      "dados": {
+        "titulo": "ATIVIDADE 38",
+        "enunciado": ["ESCOLHA UMA OBRA E CONTE PARA A TURMA O QUE ELA MOSTRA."],
+        "imagens": [{"descricao": "sétima obra de Heitor dos Prazeres"}],
+        "folio": "40"
+      }
+    }
+  ]
+}

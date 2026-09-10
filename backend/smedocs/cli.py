@@ -28,7 +28,7 @@ from rich.progress import Progress, SpinnerColumn, TextColumn
 from rich.table import Table
 from rich.text import Text
 
-from . import answers, pipeline, review
+from . import answers, pipeline, render, review
 from .models import Descriptor
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -409,6 +409,92 @@ def pendencias(
     console.print(f"  [{VERDE}]✓[/] {markdown}   [dim]leia este[/]")
     console.print(f"  [{VERDE}]✓[/] {molde}   [dim]preencha este[/]\n")
     console.print("  [dim]Depois:[/] [bold]smedocs gabarito out/pendencias.json[/]\n")
+
+
+@app.command("modelos")
+def modelos(
+    out: Path = typer.Option(DEFAULT_OUT, "--out", help="Pasta de saída."),
+    pdf: bool = typer.Option(True, "--pdf/--sem-pdf", help="Imprimir o PDF também."),
+) -> None:
+    """Gera o catálogo de modelos de página da apostila de educação infantil."""
+    _banner()
+    paginas = render.catalogo_infantil()
+    html = render.render_infantil(paginas, out)
+    console.print(f"  [bold]{len(paginas)}[/] modelos")
+    console.print(f"  [{VERDE}]✓[/] {html}")
+    if pdf:
+        destino = render.print_pdf(html, out / "modelos-infantil.pdf")
+        console.print(f"  [{VERDE}]✓[/] {destino}")
+    console.print()
+
+
+@app.command("apostila")
+def apostila(
+    plano: Path = typer.Argument(..., help="JSON com as páginas escolhidas."),
+    out: Path = typer.Option(DEFAULT_OUT, "--out", help="Pasta de saída."),
+    pdf: bool = typer.Option(True, "--pdf/--sem-pdf", help="Imprimir o PDF também."),
+) -> None:
+    """Monta a apostila infantil a partir de um plano de páginas.
+
+    O plano é uma lista de {"modelo": "M05", "dados": {...}} — os campos de `dados`
+    são os `slots` do modelo em modelos_infantil.json. A escolha do modelo para cada
+    atividade é feita fora daqui, numa sessão do Claude Code lendo o PDF da professora;
+    em tempo de execução nada é adivinhado.
+    """
+    if not plano.exists():
+        console.print(f"[{VERMELHO}]Não encontrei:[/] {plano}")
+        raise typer.Exit(1)
+
+    _banner()
+    paginas = json.loads(plano.read_text(encoding="utf-8"))
+    if isinstance(paginas, dict):
+        paginas = paginas["paginas"]
+
+    conhecidos = {m["modelo"] for m in render.catalogo_infantil()}
+    for i, pagina in enumerate(paginas, 1):
+        if pagina.get("modelo") not in conhecidos:
+            console.print(
+                f"[{VERMELHO}]Página {i}:[/] modelo {pagina.get('modelo')!r} não existe. "
+                f"Use um destes: {', '.join(sorted(conhecidos))}"
+            )
+            raise typer.Exit(1)
+
+    html = render.render_infantil(
+        paginas, out, ficha=False, filename="apostila-infantil.html",
+        titulo_arquivo="Apostila — Educação Infantil",
+    )
+    console.print(f"  [bold]{len(paginas)}[/] páginas")
+    console.print(f"  [{VERDE}]✓[/] {html}")
+    if pdf:
+        console.print(f"  [{VERDE}]✓[/] {render.print_pdf(html, out / 'apostila-infantil.pdf')}")
+    console.print()
+
+
+@app.command("svg")
+def svg(
+    pdf: Path = typer.Argument(None, help="PDF de origem. Padrão: out/modelos-infantil.pdf"),
+    out: Path = typer.Option(None, "--out", help="Pasta de saída. Padrão: <pdf>/svg"),
+    curvas: bool = typer.Option(
+        False, "--curvas", help="Converter o texto em contorno (não fica mais editável)."
+    ),
+) -> None:
+    """Exporta cada página do PDF como SVG vetorial.
+
+    O PDF já é vetor e abre direto no Illustrator; isto serve para editar no Figma,
+    no Inkscape ou no navegador.
+    """
+    origem = pdf or (DEFAULT_OUT / "modelos-infantil.pdf")
+    if not origem.exists():
+        console.print(f"[{VERMELHO}]Não encontrei:[/] {origem}")
+        raise typer.Exit(1)
+
+    _banner()
+    arquivos = render.export_svg(origem, out or origem.parent / "svg", curvas)
+    console.print(f"  [bold]{len(arquivos)}[/] páginas em SVG")
+    console.print(f"  [{VERDE}]✓[/] {arquivos[0].parent}")
+    if not curvas:
+        console.print("  [dim]texto continua editável; use --curvas para virar contorno[/]")
+    console.print()
 
 
 @app.command("gabarito")

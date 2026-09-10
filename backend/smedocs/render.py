@@ -7,6 +7,7 @@ e o proprio Electron, que ja embute esse motor; aqui o Chrome instalado faz o pa
 
 from __future__ import annotations
 
+import json
 import os
 import shutil
 import subprocess
@@ -116,3 +117,72 @@ def print_pdf(html_path: Path, pdf_path: Path, timeout: int = 300) -> Path:
             timeout=timeout,
         )
     return pdf_path
+
+
+def render_infantil(
+    paginas: list[dict],
+    out_dir: Path,
+    ficha: bool = True,
+    filename: str = "modelos-infantil.html",
+    titulo_arquivo: str = "Modelos — Apostila Educação Infantil",
+) -> Path:
+    """Monta as paginas da apostila infantil (A4 deitado).
+
+    `paginas` e uma lista de {"modelo": "M03", "nome": ..., "quando_usar": ..., "dados": {...}}.
+    Com `ficha` ligada sai o catalogo de modelos, com a legenda de cada um acima da
+    pagina; ela some na impressao. Desligada sai a apostila limpa.
+    """
+    env = Environment(
+        loader=FileSystemLoader(HERE / "templates"),
+        autoescape=select_autoescape(["html"]),
+        trim_blocks=True,
+        lstrip_blocks=True,
+    )
+    html = env.get_template("infantil.html.j2").render(
+        paginas=paginas, ficha=ficha, titulo_arquivo=titulo_arquivo
+    )
+
+    out_dir.mkdir(parents=True, exist_ok=True)
+    shutil.copy(HERE / "static" / "infantil.css", out_dir / "infantil.css")
+    shutil.copytree(HERE / "static" / "infantil", out_dir / "infantil", dirs_exist_ok=True)
+    shutil.copytree(HERE / "fonts", out_dir / "fonts", dirs_exist_ok=True)
+    path = out_dir / filename
+    path.write_text(html, encoding="utf-8")
+    return path
+
+
+def catalogo_infantil() -> list[dict]:
+    """Le modelos_infantil.json e devolve uma pagina por modelo, com o conteudo de exemplo."""
+    dados = json.loads((HERE / "modelos_infantil.json").read_text(encoding="utf-8"))
+    return [
+        {
+            "modelo": m["id"],
+            "nome": m["nome"],
+            "quando_usar": m["quando_usar"],
+            "dados": m["demo"],
+        }
+        for m in dados["modelos"]
+    ]
+
+
+def export_svg(pdf_path: Path, out_dir: Path, texto_em_curvas: bool = False) -> list[Path]:
+    """Escreve um SVG por pagina do PDF. Um arquivo por pagina, vetor de verdade.
+
+    O PDF do Chrome ja e vetorial e o Illustrator abre ele direto; o SVG existe para
+    quem prefere editar no Figma, no Inkscape ou dentro do proprio navegador.
+
+    Com `texto_em_curvas` o texto vira contorno: fica identico em qualquer maquina,
+    mas deixa de ser texto editavel. Sem isso, o SVG guarda o nome da fonte — e por
+    isso as faces do projeto sao .ttf e nao .otf (ver fonts_otf2ttf.py).
+    """
+    import pymupdf
+
+    out_dir.mkdir(parents=True, exist_ok=True)
+    destino = []
+    with pymupdf.open(pdf_path) as doc:
+        for numero, pagina in enumerate(doc, 1):
+            svg = pagina.get_svg_image(text_as_path=texto_em_curvas)
+            caminho = out_dir / f"{pdf_path.stem}-{numero:02d}.svg"
+            caminho.write_text(svg, encoding="utf-8")
+            destino.append(caminho)
+    return destino
