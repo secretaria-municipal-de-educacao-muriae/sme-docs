@@ -59,6 +59,19 @@ def _resolve(docx: Path | None) -> Path:
     return path
 
 
+def _resolve_many(docx: list[Path]) -> list[Path]:
+    """Como `_resolve`, mas aceita `--docx` repetido para mesclar mais de um arquivo."""
+    paths = docx or [DEFAULT_DOCX]
+    missing = [p for p in paths if not p.exists()]
+    if missing:
+        console.print(
+            f"[{VERMELHO}]Documento não encontrado:[/] {missing[0]}\n"
+            f"Coloque o .docx em [bold]reference/[/] ou passe [bold]--docx[/]."
+        )
+        raise typer.Exit(1)
+    return paths
+
+
 def _banner() -> None:
     console.print()
     console.print(
@@ -108,7 +121,7 @@ def _report(result: pipeline.Result) -> None:
 
 
 def _run(
-    docx: Path,
+    docx: Path | list[Path],
     numbers: set[int] | None,
     formats: tuple[str, ...],
     show_key: bool,
@@ -218,15 +231,25 @@ def gerar(
     sem_gabarito: bool = typer.Option(
         False, "--sem-gabarito", help="Versão do aluno, sem as respostas."
     ),
-    docx: Path = typer.Option(None, "--docx", help="Arquivo .docx de origem."),
+    docx: list[Path] = typer.Option(
+        None,
+        "--docx",
+        help="Arquivo .docx de origem. Repita para mesclar mais de um "
+        "(ex.: o acervo principal mais um arquivo novo do cliente).",
+    ),
     out: Path = typer.Option(DEFAULT_OUT, "--out", help="Pasta de saída."),
     sem_word: bool = typer.Option(
         False, "--sem-word", help="Não usar o Word para as fórmulas."
     ),
     quiet: bool = typer.Option(False, "-q", "--quiet", help="Sem barra de progresso."),
 ) -> None:
-    """Gera a apostila de um ou mais descritores."""
-    source = _resolve(docx)
+    """Gera a apostila de um ou mais descritores.
+
+    Mesclando arquivos (--docx a.docx --docx b.docx): descritores com o mesmo numero
+    nos dois arquivos ficam com as questoes combinadas; um numero que so existe no
+    segundo vira descritor novo. Nao precisa colar o conteudo dentro do .docx grande.
+    """
+    source = _resolve_many(docx)
     if not descritores and not tudo:
         console.print(
             f"[{VERMELHO}]Diga quais descritores.[/] "

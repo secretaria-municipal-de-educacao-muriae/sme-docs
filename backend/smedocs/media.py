@@ -70,7 +70,7 @@ def _trim(img: Image.Image) -> tuple[Image.Image, float, float]:
 
 
 def _from_word(
-    part: str, width_pt: float, equations: dict, eq_dir: Path, out_dir: Path
+    part: str, width_pt: float, equations: dict, eq_dir: Path, out_dir: Path, tag: str = ""
 ) -> Asset | None:
     """Usa o recorte que o Word produziu, quando existe para esta parte."""
     entry = equations.get(Path(part).name)
@@ -80,7 +80,10 @@ def _from_word(
     if not source.exists():
         return None
 
-    dest = out_dir / f"eq-{Path(part).stem}.png"
+    # O nome da parte ("image253.wmf") vem do Word e se repete entre documentos
+    # diferentes. Ao mesclar mais de um .docx no mesmo assets_dir, a tag evita que a
+    # formula do segundo documento sobrescreva a do primeiro.
+    dest = out_dir / f"eq-{tag}{Path(part).stem}.png"
     if not dest.exists():
         shutil.copy(source, dest)
 
@@ -110,12 +113,13 @@ def convert(
     out_dir: Path,
     equations: dict | None = None,
     eq_dir: Path | None = None,
+    tag: str = "",
 ) -> Asset:
     """Converte uma parte de midia do docx para PNG em out_dir."""
     out_dir.mkdir(parents=True, exist_ok=True)
 
     if is_ole and equations and eq_dir:
-        asset = _from_word(part, width_pt, equations, eq_dir, out_dir)
+        asset = _from_word(part, width_pt, equations, eq_dir, out_dir, tag)
         if asset:
             return asset
 

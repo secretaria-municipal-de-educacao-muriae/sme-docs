@@ -23,6 +23,9 @@ class Media:
     assets_dir: Path
     eq_dir: Path | None = None
     equations: dict = field(default_factory=dict)
+    # So usada ao mesclar varios .docx no mesmo assets_dir: evita que a formula
+    # "eq-image253.png" de um documento sobrescreva a do outro. Vazia no caso comum.
+    source_tag: str = ""
 
 # Quatro formatos convivem no mesmo arquivo: "Descritor 1:", "D2:", "D3 -", "D8 –".
 RE_DESCRIPTOR = re.compile(r"^\s*(?:DESCRITOR\s*|D\s*)(\d{1,2})\s*[:\-–—.]\s*(.*)", re.I)
@@ -85,6 +88,7 @@ def _fragments(block: Block, z: zipfile.ZipFile, ctx: "Media") -> list[Fragment]
                 ctx.assets_dir,
                 equations=ctx.equations,
                 eq_dir=ctx.eq_dir,
+                tag=ctx.source_tag,
             )
             out.append(
                 Fragment(

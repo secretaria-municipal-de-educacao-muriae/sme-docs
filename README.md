@@ -62,6 +62,7 @@ python smedocs.py gerar 10              # descritor 10 em PDF
 python smedocs.py gerar 10 -f docx      # em DOCX
 python smedocs.py gerar 10 -f pdf -f docx
 python smedocs.py gerar --tudo
+python smedocs.py gerar 31 --docx reference\banco.docx --docx reference\descritor-31-cliente.docx
 python smedocs.py gerar 10 --sem-gabarito   # versão do aluno
 python smedocs.py conferir 10           # só o relatório, sem gerar arquivo
 python smedocs.py analisar outro.docx   # inspeciona um .docx qualquer
@@ -84,6 +85,18 @@ script. `-q` suprime a barra de progresso e imprime só os caminhos gerados;
 `listar -f json` devolve JSON.
 
 A saída vai para `out/descritor-<n>.pdf` e `out/descritor-<n>.docx`.
+
+### Mesclar um arquivo novo do cliente
+
+Repita `--docx` para gerar a partir de mais de um `.docx` de uma vez — não precisa
+colar o conteúdo novo dentro do arquivo grande. Um descritor que aparece nos dois
+arquivos sai com as questões combinadas; um que só existe no segundo vira descritor
+novo. Cada arquivo precisa ter o cabeçalho reconhecido (`Descritor N:`, `DN:` etc.),
+igual ao acervo principal.
+
+```bash
+python smedocs.py gerar 31 --docx reference\banco.docx --docx reference\novo.docx
+```
 
 ### O gabarito das questões que o Word não marcou
 

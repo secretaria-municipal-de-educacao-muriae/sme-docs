@@ -73,40 +73,69 @@ def summarize(descriptors: list[Descriptor]) -> Stats:
 
 
 def load(
-    docx: Path,
+    docx: Path | list[Path],
     out_dir: Path,
     only: set[int] | None = None,
     use_word: bool = True,
     on_step=None,
 ) -> tuple[list[Descriptor], Media, bool]:
-    """Le o documento e devolve os descritores pedidos."""
+    """Le um ou mais documentos e devolve os descritores pedidos, mesclados.
+
+    Com mais de um arquivo, descritores do mesmo numero se combinam: as questoes do
+    segundo arquivo continuam a numeracao das do primeiro. Um numero de descritor que
+    so existe no segundo arquivo — o caso do cliente mandando o 31 que falta no acervo
+    principal — vira descritor novo, sem precisar colar dentro do .docx grande.
+    """
 
     def step(message: str) -> None:
         if on_step:
             on_step(message)
 
-    equations: dict = {}
-    eq_dir = out_dir / "eqcache"
+    sources = docx if isinstance(docx, (list, tuple)) else [docx]
+    multi = len(sources) > 1
+    assets_dir = out_dir / "assets"
     word_used = False
-    if use_word and wordmath.is_available():
-        step("renderizando fórmulas pelo Word")
-        equations = wordmath.render_equations(docx, eq_dir)
-        word_used = True
+    merged: dict[int, Descriptor] = {}
 
-    step("lendo o documento")
-    blocks, archive = extract(docx)
+    for source in sources:
+        eq_dir = out_dir / "eqcache" / source.stem if multi else out_dir / "eqcache"
+        equations: dict = {}
+        if use_word and wordmath.is_available():
+            step(f"renderizando fórmulas pelo Word ({source.name})" if multi else "renderizando fórmulas pelo Word")
+            equations = wordmath.render_equations(source, eq_dir)
+            word_used = True
 
-    step("recuperando a estrutura")
-    ctx = Media(assets_dir=out_dir / "assets", eq_dir=eq_dir, equations=equations)
-    descriptors = segment(blocks, archive, ctx, only=only)
+        step(f"lendo {source.name}" if multi else "lendo o documento")
+        blocks, archive = extract(source)
+
+        step("recuperando a estrutura")
+        ctx = Media(
+            assets_dir=assets_dir,
+            eq_dir=eq_dir,
+            equations=equations,
+            source_tag=f"{source.stem}-" if multi else "",
+        )
+        for descriptor in segment(blocks, archive, ctx, only=only):
+            base = merged.get(descriptor.number)
+            if base is None:
+                merged[descriptor.number] = descriptor
+                continue
+            # Mesmo numero de descritor em dois arquivos: as questoes do segundo
+            # continuam a sequencia do primeiro em vez de colidir no id.
+            start = len(base.questions) + 1
+            for i, question in enumerate(descriptor.questions, start=start):
+                question.id = f"D{descriptor.number:02d}-Q{i:03d}"
+            base.questions.extend(descriptor.questions)
+
+    descriptors = [merged[n] for n in sorted(merged)]
 
     # O gabarito preenchido a mao entra por cima, so onde o documento nao marcou nada.
     answers.apply(descriptors, answers.AnswerSheet.load())
-    return descriptors, ctx, word_used
+    return descriptors, Media(assets_dir=assets_dir), word_used
 
 
 def build(
-    docx: Path,
+    docx: Path | list[Path],
     out_dir: Path,
     only: set[int] | None = None,
     formats: tuple[str, ...] = ("pdf",),
