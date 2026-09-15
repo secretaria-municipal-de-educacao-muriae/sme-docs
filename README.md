@@ -14,12 +14,12 @@ Ainda **não** existe interface. Electron, banco de dados e API estão planejado
 fases seguintes — ver [PLANO.md](PLANO.md).
 
 ```
-31 descritores · 868 questões · 647 com gabarito automático (74%)
-619 questões sem nenhuma pendência · 539 fórmulas de matemática renderizadas
+31 descritores · 886 questões · 859 com gabarito (96%), 212 à mão
+830 questões sem nenhuma pendência · 528 fórmulas de matemática renderizadas
 ```
 
 Existe também um segundo formato, a **apostila de educação infantil**: A4 deitado, uma
-página por atividade, 21 modelos de página. Ver
+página por atividade, 22 modelos de página. Ver
 [Apostila de educação infantil](#apostila-de-educação-infantil).
 
 ## Requisitos

@@ -31,7 +31,7 @@ Ficam em `reference/`. São a fonte da verdade sobre o formato de entrada e de s
 
 | Arquivo | Papel |
 |---|---|
-| `APOSTILA BANCO DE QUESTÕES POR DESCRITOR ATE 31.docx` | Entrada real, pior caso. 20 MB, 188 páginas |
+| `APOSTILA BANCO DE QUESTÕES POR DESCRITOR ATE 31.docx` | Entrada real, pior caso. 21,5 MB. Trocado em 2026-09-15 pelo arquivo que o cliente mandou renomeado `32.docx`: mesmos descritores 1–30 (idênticos, mesma contagem de parágrafo), descritor 32 ampliado de 199 para 264 blocos de conteúdo. A versão anterior fica como `.docx.bak` |
 | `Apostila de recomposição de aprendizagem (1).pdf` | Saída desejada, 46 páginas |
 | `modelo-claude-apostila.zip` | Fonte do template acima, gerado pelo Claude Design |
 
@@ -49,7 +49,9 @@ Análise feita direto sobre `word/document.xml`. Números conferidos, não estim
   independentemente. Use as duas regras juntas.
 - Cabeçalho de descritor aparece em quatro formatos no mesmo arquivo:
   `Descritor 1:` / `D2:` / `D3 -` / `D8 –` (en dash). São 31 descritores, numerados
-  1 a 30 mais 32 — o 31 não existe apesar do título do arquivo.
+  1 a 30 mais 32 — o 31 não existe apesar do título do arquivo. O 32 tem cabeçalho e
+  texto pedagógico desde sempre, mas ficava com **0 questões extraídas** — ver
+  "Alternativas em imagem, sem letra" abaixo.
 - Marcador secundário de seção: `ATIVIDADES DO DESCRITOR N`, 30 ocorrências, com um
   `ATIVIDADES DOS DESCRITOR 6` (erro de digitação no original).
 - Origem da questão vem como prefixo do enunciado entre parênteses seguido de ponto:
@@ -63,22 +65,70 @@ Análise feita direto sobre `word/document.xml`. Números conferidos, não estim
 **A alternativa correta está marcada em vermelho no próprio Word.** Duas cores em uso:
 `FF0000` e `EE0000`. Ambas contam.
 
-Cobertura medida pelo pipeline sobre as 868 questões que ele extrai hoje:
+Cobertura medida pelo pipeline sobre as 886 questões que ele extrai hoje (868 dos
+descritores 1–30, mais 18 do descritor 32 — ver abaixo):
 
-- 647 (74%) têm gabarito automático
-- 219 (25%) não têm nenhuma marcação — precisam de revisão humana
-- 619 questões saem sem nenhuma pendência
+- 859 (96%) têm gabarito, 212 delas preenchidas à mão via `smedocs pendencias`/`gabarito`
+- 830 (93%) saem sem nenhuma pendência
 
-As 62 restantes têm defeito estrutural (letras fora de sequência 26, só 2 alternativas
-13, só 3 alternativas 12, letras repetidas 5, 2 marcações 2, só 1 alternativa 3,
-enunciado vazio 1). Amostradas, são em boa parte defeitos do próprio original.
+As restantes têm defeito estrutural (letras fora de sequência 26, só 2 alternativas 18,
+só 3 alternativas 13, letras repetidas 5, 2 marcações 2, só 1 alternativa 3, enunciado
+vazio 1, mais 7 do descritor 32 com imagens de alternativa fundidas numa única figura —
+ver abaixo). Amostradas, são em boa parte defeitos do próprio original.
 
-Existe também um punhado de `Resp. B` escrito literalmente no texto. Raro (1 bloco),
-não vale construir regra dedicada, mas o revisor humano vai encontrar.
+Existe também um punhado de `Resp. B` escrito literalmente no texto. Raro nos
+descritores 1–30 (1 bloco), mas comum no 32 — ali é o único jeito de saber a resposta
+sem contar pixel de gráfico, e vale conferir contra a figura antes de confiar (ver
+"Alternativas em imagem, sem letra").
 
 Cuidado: nem todo parágrafo vermelho é alternativa. Enunciados inteiros aparecem em
 vermelho em alguns pontos. Filtre por "parágrafo vermelho **que casa com o padrão de
 alternativa**".
+
+### Alternativas em imagem, sem letra (descritor 32)
+
+O descritor 32 ("associar informações apresentadas em listas e/ou tabelas simples aos
+gráficos que as representam") não tem uma única alternativa `A)`/`B)`/`C)`/`D)` de
+texto — a resposta é escolher entre 2 a 4 **imagens** de gráfico, e o Word nunca
+escreve a letra antes de cada uma. Sem tratamento, `_build_question` não encontrava
+nenhuma alternativa e a questão inteira desaparecia, sem entrar nem como "sem
+gabarito" — sumia em silêncio, 0 questões extraídas do descritor inteiro.
+
+Duas regras novas em `segment.py`, **restritas ao descritor 32**:
+
+- `_image_alternatives`: quando nenhum bloco do grupo casa com `RE_ALTERNATIVE`, tudo
+  depois do último bloco de texto que for imagem pura vira uma alternativa, na ordem
+  em que aparece (A, B, C...). O corte é por **imagem**, não por bloco — dois blocos
+  chegaram com duas imagens cada, coladas lado a lado, e contar por bloco perdia
+  metade das alternativas. Um tab ou espaço solto no bloco também gera um fragmento de
+  texto vazio que não pode entrar nessa contagem.
+- `_split_image_groups`: as últimas questões do descritor 32 não têm a fileira de
+  asteriscos entre elas (o separador simplesmente falta ali, único ponto do documento
+  onde isso acontece). Sem letra pra servir de sinal de corte, o sinal é o tamanho da
+  corrida de imagens: só corta ao ver texto depois de **duas ou mais** imagens
+  seguidas. Cortar em uma imagem só quebra a questão ao meio, porque o próprio
+  enunciado às vezes traz uma imagem de apoio (a tabela ou o gráfico que a pergunta
+  descreve) antes da pergunta de verdade.
+
+**Por que as duas regras são restritas ao descritor 32 e não valem para o documento
+inteiro:** o id de cada questão (`D{descritor}-Q{seq:03d}`) é posicional, e o gabarito
+preenchido à mão em `gabarito/respostas.json` é chaveado por esse id. Testado sobre o
+documento inteiro: habilitar a recuperação de imagem-sem-letra em todos os descritores
+subiu o total de 868 para 925 questões — 13 delas só no descritor 2 (planificação de
+sólidos, mesmo formato do 32, silenciosamente descartadas até aqui). Mas isso desloca
+o `Qseq` de tudo que vem depois da questão recuperada dentro do descritor, e a resposta
+que uma sessão anterior gravou para `D02-Q003` passa a valer para uma questão
+completamente diferente — sem erro, sem aviso, a resposta certa aplicada à questão
+errada. Descartado por enquanto: recuperar essas ~39 questões extras nos descritores
+1–30 exige remapear as respostas já gravadas por conteúdo (comparar o enunciado antigo
+com o novo), não só religar a regra. Fica registrado aqui para quem for fazer essa
+segunda passada.
+
+**Defeito que sobrou, não é da segmentação:** em pelo menos 7 questões do descritor 32
+(Q008, Q009, Q012, Q014, Q015, Q017, Q018) duas alternativas de gráfico foram
+desenhadas **dentro do mesmo arquivo de imagem** (a própria figura já vem com "(A)" e
+"(C)" lado a lado, por exemplo). Não dá para separar sem recortar a imagem — fora do
+alcance do parser de texto. Essas ficam com `needs_review` e sem letra no overlay.
 
 ### Fórmulas de matemática — o ponto crítico
 

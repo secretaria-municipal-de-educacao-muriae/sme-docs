@@ -199,10 +199,74 @@ def _strip_source(fragments: list[Fragment]) -> tuple[str | None, list[Fragment]
     return m.group(1).strip(), [rest] + fragments[1:]
 
 
+def _image_alternatives(
+    blocks: list[Block], descriptor: int, seq: int, z, ctx: "Media"
+) -> Question | None:
+    """Questao cujas alternativas sao imagens soltas, sem rotulo "A)".
+
+    Caso do descritor 32: a resposta e um grafico entre quatro, nao texto — o proprio
+    Word nunca escreve a letra antes da imagem. Sem essa regra a questao inteira virava
+    enunciado, porque nenhum bloco casa com RE_ALTERNATIVE. O corte entre enunciado e
+    alternativas e o ultimo bloco de texto do grupo: tudo depois dele que for imagem
+    pura vira alternativa, na ordem em que aparece, A, B, C...
+    """
+    last_text = max(
+        (i for i, b in enumerate(blocks) if b.text.strip() and not _is_separator(b)),
+        default=-1,
+    )
+    # As duas primeiras opcoes as vezes vem coladas num paragrafo so, "(A)(B)" lado a
+    # lado sem rotulo — igual ao caso ja tratado para texto, mas aqui com imagem. O
+    # corte tem que ser por imagem, nao por bloco, senao duas alternativas viram uma so.
+    image_fragments: list[Fragment] = []
+    for block in blocks[last_text + 1 :]:
+        if block.text.strip() or not block.images or _is_separator(block):
+            continue
+        # Um tab ou espaco solto no bloco vira fragmento de texto vazio — sem filtrar,
+        # ele contava como alternativa fantasma entre duas imagens de verdade.
+        image_fragments.extend(f for f in _fragments(block, z, ctx) if f.kind == "image")
+    if len(image_fragments) < 2:
+        return None
+
+    stem: list[Fragment] = []
+    for block in blocks[: last_text + 1]:
+        text = block.text.strip()
+        if not text and not block.images:
+            continue
+        if _is_separator(block) or RE_ACTIVITIES.match(text):
+            continue
+        if stem:
+            stem.append(Fragment(kind="break"))
+        stem.extend(_fragments(block, z, ctx))
+
+    alternatives = [
+        Alternative(letter=letter, fragments=[frag])
+        for letter, frag in zip("ABCDE", image_fragments)
+    ]
+    source, stem = _strip_source(stem)
+    q = Question(
+        id=f"D{descriptor:02d}-Q{seq:03d}",
+        descriptor=descriptor,
+        source=source,
+        stem=stem,
+        alternatives=alternatives,
+    )
+    q.needs_review = q.validate_shape()
+    return q
+
+
 def _build_question(
     blocks: list[Block], descriptor: int, seq: int, z, ctx: "Media"
 ) -> Question | None:
     """Monta uma questao a partir dos blocos entre dois cortes."""
+    # Restrito ao D32: ver o comentario equivalente em segment(), sobre id estavel
+    # para o gabarito preenchido a mao.
+    if descriptor == 32 and not any(
+        b.text.strip() and RE_ALTERNATIVE.match(b.text) for b in blocks
+    ):
+        image_question = _image_alternatives(blocks, descriptor, seq, z, ctx)
+        if image_question:
+            return image_question
+
     stem: list[Fragment] = []
     alternatives: list[Alternative] = []
     current: Alternative | None = None
@@ -362,6 +426,39 @@ def _split_questions(blocks: list[Block]) -> list[list[Block]]:
     return [g for g in groups if g]
 
 
+def _split_image_groups(blocks: list[Block]) -> list[list[Block]]:
+    """Corta um grupo sem alternativa com letra em varias questoes de imagem.
+
+    Caso do fim do descritor 32: as ultimas questoes nao tem a fileira de asteriscos
+    entre elas — o separador so falta ali, no resto do documento ele esta presente.
+    Sem alternativa com letra para servir de sinal de corte (como em
+    `_split_questions`), o sinal aqui e o tamanho da corrida de imagens: um enunciado
+    tambem pode trazer uma imagem de apoio sozinha (a tabela ou o grafico que a
+    pergunta descreve) antes da pergunta em si, e cortar nessa unica imagem particiona
+    a questao ao meio. So corta ao ver texto depois de **duas ou mais** imagens
+    seguidas — aí sim e o conjunto de alternativas terminando e a proxima questao
+    comecando.
+    """
+    groups: list[list[Block]] = []
+    current: list[Block] = []
+    run = 0  # imagens soltas seguidas desde o ultimo texto
+
+    for block in blocks:
+        text = block.text.strip()
+        if text and not _is_separator(block):
+            if run >= 2:
+                groups.append(current)
+                current = []
+            run = 0
+        elif block.images and not text:
+            run += 1
+        current.append(block)
+
+    if current:
+        groups.append(current)
+    return [g for g in groups if g]
+
+
 def segment(
     blocks: list[Block],
     z: zipfile.ZipFile,
@@ -423,8 +520,26 @@ def segment(
                 intro.extend(_fragments(b, z, ctx))
                 intro.append(Fragment(kind="text", text="\n"))
 
+        all_groups: list[list[Block]] = []
+        for group in _split_questions(_detach_glued_alternatives(question_blocks)):
+            has_lettered = any(
+                b.text.strip() and RE_ALTERNATIVE.match(b.text) for b in group
+            )
+            # Restrito ao D32 de proposito: varios outros descritores tambem tem
+            # grupos sem alternativa com letra (silenciosamente descartados ate aqui,
+            # nunca contados nem como "sem gabarito"). Habilitar a recuperacao neles
+            # muda quantas questoes cada descritor tem, o que desloca o Q{seq:03d} de
+            # tudo que vem depois — e esse id e a chave do gabarito preenchido a mao em
+            # gabarito/respostas.json. Sem remapear as respostas ja gravadas por
+            # conteudo, a resposta certa passaria a valer pra questao errada. Ver
+            # CLAUDE.md.
+            if has_lettered or number != 32:
+                all_groups.append(group)
+            else:
+                all_groups.extend(_split_image_groups(group))
+
         questions = []
-        for seq, group in enumerate(_split_questions(_detach_glued_alternatives(question_blocks)), start=1):
+        for seq, group in enumerate(all_groups, start=1):
             q = _build_question(group, number, seq, z, ctx)
             if q:
                 questions.append(q)
