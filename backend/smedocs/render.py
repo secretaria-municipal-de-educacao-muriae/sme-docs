@@ -98,9 +98,15 @@ def render_html(
 
 
 def print_pdf(html_path: Path, pdf_path: Path, timeout: int = 300) -> Path:
-    """Imprime via Chrome headless. Mesmo caminho que o Electron usara depois."""
+    """Imprime via Chrome headless. Mesmo caminho que o Electron usara depois.
+
+    O caminho do PDF precisa ser absoluto: com um `--out` relativo, o Chrome grava (ou
+    tenta gravar) relativo ao seu proprio diretorio interno, nao ao cwd do processo que
+    o chamou, e falha em silencio — sai com codigo 0 e so acusa o erro no stderr.
+    """
+    pdf_path = pdf_path.resolve()
     with tempfile.TemporaryDirectory() as profile:
-        subprocess.run(
+        result = subprocess.run(
             [
                 find_chrome(),
                 "--headless",
@@ -115,6 +121,10 @@ def print_pdf(html_path: Path, pdf_path: Path, timeout: int = 300) -> Path:
             check=True,
             capture_output=True,
             timeout=timeout,
+        )
+    if not pdf_path.exists():
+        raise RuntimeError(
+            f"Chrome não gravou o PDF em {pdf_path}: {result.stderr.decode(errors='replace')}"
         )
     return pdf_path
 

@@ -1,0 +1,149 @@
+{
+ "_leia_me": "Plano de páginas gerado a partir de reference/APOSTILA 1º PERÍODO.pdf (9 páginas, tema povos indígenas e Hector Carybé). Slots de imagem sem 'arquivo' saem com borda tracejada — soltar o PNG depois preenche sozinho. Ver README.md > Apostila de educação infantil.",
+ "paginas": [
+  {
+   "_origem": "pag 1 - abertura, sem numero de atividade",
+   "_porque": "texto de abertura sobre povos indigenas seguido de uma ilustracao unica grande: mesmo papel do M10 usado na abertura do plano anterior, mesmo sem balao explicito no original",
+   "modelo": "M10",
+   "dados": {
+    "titulo": "",
+    "enunciado": [
+     "MUITOS POVOS INDÍGENAS VIVEM PERTO DAS FLORESTAS E CONHECEM MUITO BEM OS ANIMAIS, AS PLANTAS E OS RIOS."
+    ],
+    "destaque": [
+     "A FLORESTA É A CASA DE MUITOS ANIMAIS E FAZ PARTE DA",
+     "VIDA DE MUITOS POVOS INDÍGENAS."
+    ],
+    "cenario": "menina indígena sorridente, cercada por galo, macaco, ganso, filhote de onça-pintada e tatu, numa clareira com folhagem verde ao redor",
+    "folio": "1"
+   }
+  },
+  {
+   "_origem": "pag 2 - CIRCULE APENAS OS ANIMAIS DA CENA",
+   "_porque": "titulo curto de instrucao mais uma unica ilustracao grande de cena de floresta; a resposta e desenhada em cima da propria imagem, sem caixa extra, exatamente o M06",
+   "modelo": "M06",
+   "dados": {
+    "titulo": "CIRCULE APENAS OS ANIMAIS DA CENA",
+    "fundo": "verde",
+    "imagem": "cena de floresta com macaco, tucano, arara, preguiça, onça-pintada, tatu, capivara, uma menina indígena e um menino fotografando",
+    "folio": "2"
+   }
+  },
+  {
+   "_origem": "pag 3 - cantiga Onça Pintada (Zeca Baleiro)",
+   "_porque": "cantiga de 5 versos com credito do autor: M11. A pagina original tambem pede um desenho do animal dentro de uma moldura, mas o M11 nao tem slot de moldura de resposta — sinalizado aqui para quem revisar acrescentar a caixa a mao ou estender o modelo",
+   "modelo": "M11",
+   "dados": {
+    "titulo": "",
+    "enunciado": [
+     "QUE ANIMAL APARECE NA MÚSICA QUE VOCÊ VAI APRENDER A CANTAR? DEPOIS, DESENHE ESTE ANIMAL."
+    ],
+    "estrofes": [
+     [
+      "Ê, ONÇA PINTADA",
+      "QUEM FOI QUE TE PINTOU?",
+      "QUEM TE PÔS O PRETO?",
+      "QUEM TE PÔS O PRETO?",
+      "QUEM TE AMARELOU?"
+     ]
+    ],
+    "credito": "Onça Pintada — Zeca Baleiro",
+    "folio": "3"
+   }
+  },
+  {
+   "_origem": "pag 4 - ENCONTRE A SOMBRA",
+   "_porque": "figura colorida de modelo mais 4 silhuetas pretas pra comparar: tratado como um grupo de figuras soltas do M12, mesmo que no original o modelo fique separado acima da grade 2x2 de sombras",
+   "modelo": "M12",
+   "dados": {
+    "titulo": "ENCONTRE A SOMBRA",
+    "grupos": [
+     {
+      "colunas": 2,
+      "figuras": [
+       "filhote de onça-pintada colorido (modelo)",
+       "silhueta preta de filhote de onça — opção 1",
+       "silhueta preta de filhote de onça — opção 2",
+       "silhueta preta de filhote de onça — opção 3",
+       "silhueta preta de filhote de onça — opção 4"
+      ]
+     }
+    ],
+    "folio": "4"
+   }
+  },
+  {
+   "_origem": "pag 5 - quadrinha sobre palavras de origem tupi",
+   "_porque": "quadrinha de 4 versos com personagem decorativo (arara com galho de frutinhas): M11, sinal direto 'quadrinha'",
+   "modelo": "M11",
+   "dados": {
+    "titulo": "VAMOS LER A QUADRINHA",
+    "estrofes": [
+     [
+      "A ARARA GOSTA DE VOAR,",
+      "O GUARANÁ NOS FAZ DESPERTAR.",
+      "MUITAS PALAVRAS QUE USAMOS POR AQUI,",
+      "VIERAM DOS POVOS QUE FALAVAM TUPI!"
+     ]
+    ],
+    "personagem": "arara vermelha voando ao lado de um galho com frutinhas vermelhas",
+    "folio": "5"
+   }
+  },
+  {
+   "_origem": "pag 6 - PINTE A RIMA",
+   "_porque": "tres linhas de palavra-alvo mais candidatas de rima com emoji: nenhum modelo tem exatamente esse layout de linha unica emoji+seta+opcoes, o mais proximo em conteudo e proposito ('que rimam', 'pinte da mesma cor') e o M14 com tipo palavras, um bloco por linha",
+   "modelo": "M14",
+   "dados": {
+    "titulo": "PINTE A RIMA!",
+    "enunciado": [
+     "A ARARA ENCONTROU PALAVRAS QUE RIMAM. DESCUBRA QUAIS SÃO E PINTE AS IMAGENS."
+    ],
+    "tipo": "palavras",
+    "blocos": [
+     "🦜 ARARA → 👑 TIARA - 🐊 JACARÉ - 🐒 MACACO",
+     "🐊 JACARÉ → 🦜 ARARA - ☕ CAFÉ - 🐟 PEIXE",
+     "🥤 GUARANÁ → 🦜 ARARA - 🥭 CAJÁ - 🦔 TATU"
+    ],
+    "folio": "6"
+   }
+  },
+  {
+   "_origem": "pag 7 - biografia de Hector Carybé",
+   "_porque": "foto unica centralizada mais texto biografico curto abaixo: exatamente o M02",
+   "modelo": "M02",
+   "dados": {
+    "titulo": "HECTOR CARYBÉ",
+    "foto": "retrato de Hector Carybé, homem idoso de cabelo branco, camisa azul estampada, mão no queixo",
+    "texto": "O ARGENTINO HECTOR CARYBÉ (1911-1997) FOI UM ARTISTA PLÁSTICO QUE TAMBÉM FEZ DA BAHIA SUA CASA. O MAIOR VÍNCULO ERA O AMOR AO BRASIL E MAIS ESPECIFICAMENTE A CULTURA AFRO-BRASILEIRA. \"ENCANTOU-SE POR TODO O COTIDIANO NOS MERCADOS BAIANOS, NA PESCARIA E NA CAVALGADA, QUE IRIAM CARACTERIZAR AS PESSOAS SEM ROSTO E CORPOS DESLOCADOS QUE PINTAVA\".",
+    "folio": "7"
+   }
+  },
+  {
+   "_origem": "pag 8 - duas obras de Hector Carybé",
+   "_porque": "duas pinturas lado a lado, sem texto nenhum: M06 com imagens em dupla",
+   "modelo": "M06",
+   "dados": {
+    "titulo": "",
+    "imagens": [
+     {"descricao": "pintura de roda de capoeira na praia, estilo Hector Carybé"},
+     {"descricao": "pintura de pescadores puxando rede na praia, com vendedores e barracas ao redor, estilo Hector Carybé"}
+    ],
+    "folio": "8"
+   }
+  },
+  {
+   "_origem": "pag 9 - mais duas obras de Hector Carybé",
+   "_porque": "mesmo padrao da pagina anterior: duas pinturas lado a lado sem texto, M06 com imagens em dupla",
+   "modelo": "M06",
+   "dados": {
+    "titulo": "",
+    "imagens": [
+     {"descricao": "pintura de grupo tocando e dançando, com violão, pandeiro e tamborim, estilo Hector Carybé"},
+     {"descricao": "pintura de caçadores sob uma árvore grande com animais e pássaros, estilo Hector Carybé"}
+    ],
+    "folio": "9"
+   }
+  }
+ ]
+}
