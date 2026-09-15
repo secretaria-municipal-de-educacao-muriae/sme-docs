@@ -968,6 +968,49 @@
         "ilustracao": "roda de capoeira com crianças, berimbau e atabaque",
         "folio": "34"
       }
+    },
+    {
+      "id": "M22",
+      "nome": "Poema ou cantiga com moldura de resposta",
+      "referencia": "APOSTILA 1º PERÍODO.pdf pag 3",
+      "quando_usar": "Igual ao M11 (poema, cantiga, quadrinha), mas a atividade pede uma resposta desenhada: 'depois, desenhe este animal'. A caixa de desenho fica ao lado dos versos, no espaço que sobraria vazio.",
+      "sinais": [
+        "cantiga",
+        "poema",
+        "quadrinha",
+        "depois desenhe",
+        "desenhe este",
+        "que rimam"
+      ],
+      "fundo": "branco, amarelo ou azul",
+      "capacidade": {
+        "estrofes": 2,
+        "versos_por_estrofe": 6
+      },
+      "slots": {
+        "titulo": "texto curto, opcional",
+        "enunciado": "linhas de instrução antes dos versos, opcional",
+        "estrofes": "lista de estrofes; cada estrofe é uma lista de versos",
+        "credito": "autor e fonte, canto inferior direito",
+        "fundo": "branco, amarelo ou azul"
+      },
+      "demo": {
+        "titulo": "",
+        "enunciado": [
+          "QUE ANIMAL APARECE NA MÚSICA QUE VOCÊ VAI APRENDER A CANTAR? DEPOIS, DESENHE ESTE ANIMAL."
+        ],
+        "estrofes": [
+          [
+            "Ê, ONÇA PINTADA",
+            "QUEM FOI QUE TE PINTOU?",
+            "QUEM TE PÔS O PRETO?",
+            "QUEM TE PÔS O PRETO?",
+            "QUEM TE AMARELOU?"
+          ]
+        ],
+        "credito": "Onça Pintada — Zeca Baleiro",
+        "folio": "3"
+      }
     }
   ]
 }

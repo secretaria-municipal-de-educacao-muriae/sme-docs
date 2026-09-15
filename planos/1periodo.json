@@ -31,8 +31,8 @@
   },
   {
    "_origem": "pag 3 - cantiga Onça Pintada (Zeca Baleiro)",
-   "_porque": "cantiga de 5 versos com credito do autor: M11. A pagina original tambem pede um desenho do animal dentro de uma moldura, mas o M11 nao tem slot de moldura de resposta — sinalizado aqui para quem revisar acrescentar a caixa a mao ou estender o modelo",
-   "modelo": "M11",
+   "_porque": "cantiga de 5 versos com credito do autor e pedido de desenho ('depois, desenhe este animal'): M22, criado a partir do M11 com uma caixa de resposta ao lado dos versos",
+   "modelo": "M22",
    "dados": {
     "titulo": "",
     "enunciado": [

@@ -730,6 +730,27 @@ body {
   max-width: 690px;
 }
 
+/* ---------- M22 poema/cantiga com moldura de resposta (pag 3 do 1o periodo) ----------
+   Mesma cantiga do M11, mas com uma caixa de desenho ao lado — quando a atividade pede
+   "desenhe este animal" e nao so ler os versos. */
+.poema-moldura {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 56px;
+  margin-top: 26px;
+}
+
+.poema-moldura .poema {
+  margin-top: 0;
+}
+
+.moldura--resposta {
+  width: 420px;
+  height: 420px;
+  flex-shrink: 0;
+}
+
 .pagina:has(.personagem-poema) .espalhados {
   grid-template-columns: repeat(2, 1fr);
   gap: 28px 24px;

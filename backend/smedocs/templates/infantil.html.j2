@@ -426,11 +426,30 @@
 </div>
 {% endmacro %}
 
+{# ---------- M22 poema/cantiga com moldura de resposta ---------- #}
+{% macro m22(d) %}
+<div class="pagina {{ 'pagina--amarela' if d.fundo == 'amarelo' else ('pagina--azul' if d.fundo == 'azul' else '') }}">
+  {{ cabecalho(d) }}
+  <div class="poema-moldura">
+    <div class="poema">
+      {% for estrofe in d.estrofes %}
+      <div class="estrofe">
+        {% for verso in estrofe %}<div class="verso">{{ verso }}</div>{% endfor %}
+      </div>
+      {% endfor %}
+    </div>
+    <div class="moldura moldura--resposta"></div>
+  </div>
+  {% if d.credito %}<div class="credito">{{ d.credito }}</div>{% endif %}
+  <div class="folio folio--esq">{{ d.folio }}</div>
+</div>
+{% endmacro %}
+
 {% set desenho = {'M01': m01, 'M02': m02, 'M03': m03, 'M04': m04, 'M05': m05,
                   'M06': m06, 'M07': m07, 'M08': m08, 'M09': m09, 'M10': m10,
                   'M11': m11, 'M12': m12, 'M13': m13, 'M14': m14, 'M15': m15,
                   'M16': m16, 'M17': m17, 'M18': m18, 'M19': m19, 'M20': m20,
-                  'M21': m21} %}
+                  'M21': m21, 'M22': m22} %}
 
 <div class="catalogo">
 {% for p in paginas %}
