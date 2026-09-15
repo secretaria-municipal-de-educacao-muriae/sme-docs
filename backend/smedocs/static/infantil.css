@@ -1,0 +1,1093 @@
+/* Modelos de pagina da apostila de educacao infantil.
+   Portados de "Modelos de Apostila A4.dc.html" (Claude Design) e conferidos contra
+   os PNG de reference-apostila-infantil/. Formato A4 DEITADO, 297x210mm = 1123x794px.
+
+   As medidas daqui sairam de medicao sobre os PNG de referencia, nao de estimativa
+   (ver CLAUDE.md). Metodo: a pagina ocupa 860x613px dentro do PNG, com 8px de sombra
+   em volta; tudo foi convertido para a escala de 1123px de largura. O que vale para
+   todos os modelos:
+
+     margem esquerda do texto   86px
+     titulo e enunciado         25px  (altura de caixa alta medida 18,3px / 0,743)
+     entrelinha do enunciado    39px
+     folio                      54x46px, 38px da borda, 18px da base */
+
+/* Neo Sans Std e fonte comercial (Monotype): os arquivos ficam em
+   backend/smedocs/fonts/ mas nao sao redistribuiveis fora do setor.
+   Bold nos titulos, Regular nos enunciados. Fallback: Century Gothic, ja no Windows.
+
+   As faces usadas aqui sao as .ttf geradas por fonts_otf2ttf.py, nao as .otf
+   originais: o Chrome embute OTF como fonte Type3, que perde o nome da familia e
+   estraga a exportacao para SVG e a abertura no Illustrator. Ver aquele modulo.
+
+   Aviso sobre o titulo: medido, o titulo laranja da referencia sai de 8% a 16% mais
+   estreito que o Neo Sans Std Bold na mesma altura de caixa alta. O original usou uma
+   variante condensada que nao esta aqui. Se ela aparecer, troque o arquivo do
+   @font-face de peso 700 — o resto do layout nao muda. */
+@font-face {
+  font-family: "Neo Sans";
+  src: url("fonts/NeoSansStd-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Neo Sans";
+  src: url("fonts/NeoSansStd-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Neo Sans";
+  src: url("fonts/NeoSansStd-Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+}
+:root {
+  --laranja: #f4801e;
+  --texto: #2e2e2e;
+  --regua: #999999;
+  --azul-fundo: #bee3f0;
+  --amarelo-fundo: #f6de7a;
+  --amarelo-faixa: #fce9b8;
+  --fonte: "Neo Sans", "Century Gothic", sans-serif;
+  --margem: 86px;
+  --corpo: 25px;
+}
+
+@page {
+  size: A4 landscape;
+  margin: 0;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--fonte);
+  color: var(--texto);
+  background: #e9e9e9;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- moldura da pagina ---------- */
+
+.pagina {
+  position: relative;
+  box-sizing: border-box;
+  width: 1123px;
+  height: 794px;
+  padding: 55px 42px 0 var(--margem);
+  overflow: hidden;
+  background: #ffffff;
+  page-break-after: always;
+}
+
+.pagina:last-child {
+  page-break-after: auto;
+}
+
+.pagina--azul {
+  background: var(--azul-fundo);
+}
+.pagina--amarela {
+  background: var(--amarelo-fundo);
+}
+.pagina--degrade {
+  background: linear-gradient(180deg, #fcefc8 0%, #ffffff 62%);
+}
+.pagina--sangria {
+  padding: 0;
+}
+
+.titulo {
+  font-weight: 700;
+  font-size: var(--corpo);
+  line-height: 1.1;
+  color: var(--laranja);
+  text-transform: uppercase;
+  position: relative;
+}
+
+/* Cap top do titulo medido em 58px; do titulo ao enunciado, 37px de caixa a caixa. */
+.enunciado {
+  font-weight: 400;
+  font-size: var(--corpo);
+  line-height: 1.56;
+  letter-spacing: 0.2px;
+  color: var(--texto);
+  text-transform: uppercase;
+  margin-top: 24px;
+  max-width: 995px;
+  position: relative;
+}
+
+.enunciado + .enunciado {
+  margin-top: 0;
+}
+
+.enunciado--justo {
+  text-align: justify;
+}
+
+.folio {
+  position: absolute;
+  bottom: 18px;
+  box-sizing: border-box;
+  min-width: 54px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 12px;
+  background: var(--laranja);
+  color: #fff;
+  font-weight: 700;
+  font-size: 25px;
+  border-radius: 7px;
+  z-index: 3;
+}
+.folio--esq {
+  left: 38px;
+}
+.folio--dir {
+  right: 38px;
+}
+
+/* Onde entra imagem que ainda nao existe. A borda tracejada e o sinal visivel de que
+   falta arte — quando o arquivo chega, ela some junto com o fundo cinza. */
+.slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 6px;
+  background: #f2f2f2;
+  border: 1.5px dashed #b5b5b5;
+  color: #8a8a8a;
+  font-family: var(--fonte);
+  font-size: 13px;
+  line-height: 1.25;
+  text-align: center;
+  text-transform: none;
+  letter-spacing: 0;
+  overflow: hidden;
+}
+
+.slot:has(img) {
+  padding: 0;
+  background: none;
+  border: 0;
+}
+
+.slot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.slot--redondo,
+.slot--redondo img {
+  border-radius: 50%;
+}
+
+/* ---------- ondas decorativas ---------- */
+
+.onda-h,
+.onda-diag {
+  position: absolute;
+  z-index: 0;
+}
+
+/* ---------- M01 rima / recorte e colagem ----------
+   Medido: grade de y=210 a y=531 (3 linhas de 107px), da margem ate x=1033.
+   Tiras em duas linhas de tres, 567..623 e 640..696, recuadas para x=148. */
+
+.grades {
+  display: flex;
+  gap: 62px;
+  margin-top: 34px;
+}
+
+.grade-rima {
+  display: grid;
+  grid-template-columns: 158px 288px;
+  border: 2.5px solid var(--texto);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.grade-rima > * {
+  height: 105px;
+  border-bottom: 2px solid var(--texto);
+  box-sizing: border-box;
+}
+.grade-rima > *:nth-last-child(-n + 2) {
+  border-bottom: 0;
+}
+.grade-rima .resposta {
+  border-left: 2.5px solid var(--texto);
+}
+
+.recortes {
+  display: grid;
+  grid-template-columns: repeat(3, 232px);
+  gap: 17px 61px;
+  margin-top: 36px;
+  margin-left: 62px;
+  justify-content: start;
+}
+
+.recorte {
+  position: relative;
+  border: 2.5px dashed var(--texto);
+  border-radius: 10px;
+  padding: 14px 30px 14px 48px;
+  font-weight: 700;
+  font-size: 25px;
+  line-height: 1;
+  text-transform: uppercase;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+/* Tesoura na ponta da tira: duas laminas cruzadas, sem depender de arquivo de arte. */
+.recorte::before,
+.recorte::after {
+  content: "";
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  width: 17px;
+  height: 2.5px;
+  background: var(--texto);
+}
+.recorte::before {
+  transform: translateY(-50%) rotate(26deg);
+}
+.recorte::after {
+  transform: translateY(-50%) rotate(-26deg);
+}
+
+/* ---------- M02 biografia com foto ----------
+   Medido: bloco foto+onda de y=158 a y=551. Foto 290x392 centrada. Onda 205..499,
+   sangrando nas duas laterais. Texto em tres linhas de 39px a partir de y=563. */
+
+.faixa-autor {
+  position: relative;
+  height: 393px;
+  margin-top: 26px;
+}
+
+.faixa-autor .onda-h {
+  left: calc(var(--margem) * -1);
+  width: 1123px;
+  top: 47px;
+}
+
+.foto-autor {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  width: 290px;
+  height: 392px;
+  border: 15px solid #2b2b2b;
+  border-radius: 22px;
+  z-index: 1;
+  background: #f2f2f2;
+}
+
+/* ---------- M03 tabela de ilustracao ----------
+   Medido: tabela 210..389 (cabeca 42px, celula 132px), largura 750. Molduras de
+   191x171 a partir de y=507, com 305px entre as bordas esquerdas. Regua de 240px. */
+
+.tabela-ilustra {
+  display: grid;
+  border: 1.5px solid var(--regua);
+  border-right: 0;
+  border-bottom: 0;
+  margin-top: 22px;
+  width: 750px;
+}
+
+.tabela-ilustra > * {
+  border-right: 1.5px solid var(--regua);
+  border-bottom: 1.5px solid var(--regua);
+  box-sizing: border-box;
+}
+
+.tabela-ilustra .cabeca {
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 22px;
+  text-transform: uppercase;
+}
+
+.tabela-ilustra .celula {
+  height: 132px;
+}
+
+.molduras {
+  display: flex;
+  gap: 114px;
+  margin-top: 22px;
+}
+
+.moldura {
+  width: 191px;
+  height: 171px;
+  border: 1.5px solid var(--regua);
+}
+
+.legenda-moldura {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-top: 12px;
+  margin-left: 55px;
+  font-weight: 400;
+  font-size: 22px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.linha-escrita {
+  width: 240px;
+  border-bottom: 1.5px solid var(--texto);
+}
+
+/* ---------- M04 grade de contagem ----------
+   Medido: 6 linhas com passo de 76px, quadrinho 72,7x59, grade de x=238 a x=1038.
+   O rotulo da referencia comeca em x=52, fora da margem; aqui ele fica dentro dela. */
+
+.contagem {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-top: 40px;
+  position: relative;
+  z-index: 1;
+}
+
+.contagem-linha {
+  display: grid;
+  align-items: center;
+}
+
+.contagem-linha .rotulo {
+  font-weight: 700;
+  font-size: 25px;
+  text-transform: uppercase;
+}
+
+.contagem-linha .quadro {
+  height: 69px;
+  border: 1.5px solid var(--regua);
+  margin-left: -1.5px;
+  box-sizing: border-box;
+}
+
+/* ---------- M05 situacoes-problema ----------
+   Medido: caixa de resposta 158x996; faixa do rodape 93px de altura. */
+
+/* Medido: do comando ao primeiro problema, 67px de caixa a caixa; entre um problema e
+   o proximo, 47px depois da caixa de resposta. */
+.problema {
+  margin-top: 28px;
+}
+
+.problema .enunciado {
+  margin-top: 0;
+}
+
+.caixa-resposta {
+  border: 1.5px solid var(--regua);
+  height: 158px;
+  max-width: 996px;
+  margin-top: 16px;
+}
+
+.faixa-rodape {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 93px;
+  background: var(--amarelo-faixa);
+  border-top-left-radius: 60px 22px;
+  border-top-right-radius: 60px 22px;
+  overflow: hidden;
+}
+
+.faixa-rodape .icones {
+  position: absolute;
+  left: 110px;
+  bottom: 2px;
+}
+
+/* ---------- M06 obra em moldura ----------
+   Medido: 598x513 com a moldura branca, topo em y=187, centrada na pagina. */
+
+.obra {
+  position: absolute;
+  left: 50%;
+  top: 187px;
+  transform: translateX(-50%);
+  box-sizing: border-box;
+  width: 598px;
+  height: 513px;
+  border: 18px solid #fff;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.22);
+}
+
+/* ---------- M07 cartao de comparacao ----------
+   Medido: cartao 999x388 a partir de y=255. Palavra com caixa alta de 52px, ou seja
+   corpo 70px. Quadrinho 95x95. Personagem de x=583 ate a base. */
+
+.cartao {
+  position: relative;
+  background: #fff;
+  box-sizing: border-box;
+  padding: 30px 52px;
+  margin-top: 74px;
+  width: 999px;
+  height: 388px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 34px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.16);
+  transform: rotate(-0.7deg);
+  z-index: 1;
+}
+
+.cartao-linha {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cartao-palavra {
+  font-weight: 400;
+  font-size: 70px;
+  line-height: 1;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.cartao-quadro {
+  width: 95px;
+  height: 95px;
+  margin-right: 176px;
+  border: 2px solid var(--regua);
+  flex: none;
+}
+
+.personagem-rodape {
+  position: absolute;
+  left: 583px;
+  bottom: 0;
+  width: 200px;
+  height: 250px;
+  z-index: 2;
+}
+
+/* ---------- M08 fotos circulares ---------- */
+
+.fotos-redondas {
+  display: flex;
+  align-items: flex-end;
+  gap: 28px;
+  margin-top: 46px;
+  position: relative;
+  z-index: 1;
+}
+
+.foto-redonda {
+  width: 250px;
+  height: 250px;
+  flex: none;
+}
+
+.foto-redonda:nth-child(even) {
+  width: 285px;
+  height: 285px;
+  margin-bottom: -46px;
+}
+
+.personagem-moldura {
+  position: absolute;
+  right: 60px;
+  bottom: 22px;
+  width: 340px;
+  height: 440px;
+  z-index: 1;
+}
+
+/* ---------- M09 texto em duas colunas ---------- */
+
+.subtitulo {
+  font-weight: 700;
+  font-size: var(--corpo);
+  text-transform: uppercase;
+  margin-top: 20px;
+}
+
+.colunas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  margin-top: 30px;
+}
+
+.colunas .coluna:first-child {
+  border-right: 1.5px solid var(--texto);
+  padding-right: 48px;
+}
+
+.colunas p {
+  font-weight: 400;
+  font-size: 21px;
+  line-height: 1.55;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+  margin: 0 0 18px;
+}
+
+/* ---------- M10 balao com personagem ---------- */
+
+.cenario {
+  position: absolute;
+  inset: 0;
+  border: 0;
+}
+
+.balao {
+  position: absolute;
+  left: -110px;
+  top: -150px;
+  width: 1060px;
+  height: 1060px;
+  background: #fff;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.balao-texto {
+  position: absolute;
+  left: var(--margem);
+  top: 50px;
+  max-width: 700px;
+  z-index: 2;
+}
+
+.balao-texto .enunciado {
+  font-size: 22px;
+  line-height: 1.9;
+  margin-top: 22px;
+  max-width: none;
+}
+
+.destaque {
+  font-weight: 400;
+  font-size: 36px;
+  line-height: 1.94;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+  margin-top: 22px;
+}
+
+.personagem-lateral {
+  position: absolute;
+  right: 40px;
+  bottom: 0;
+  width: 340px;
+  height: 580px;
+  z-index: 2;
+}
+
+/* ---------- folha de contato (so na visualizacao em tela) ---------- */
+
+@media screen {
+  .catalogo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 52px;
+    padding: 48px 24px;
+  }
+  .pagina {
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
+  }
+  .ficha {
+    width: 1123px;
+    margin-bottom: -38px;
+  }
+  .ficha h2 {
+    font-family: var(--fonte);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    color: #444;
+    margin: 0;
+  }
+  .ficha p {
+    font-family: var(--fonte);
+    font-size: 13px;
+    color: #666;
+    margin: 4px 0 0;
+    max-width: 900px;
+  }
+}
+
+@media print {
+  body {
+    background: #fff;
+  }
+  .catalogo {
+    display: block;
+  }
+  .ficha {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   Modelos vindos de questoes-infantil.pdf (40 paginas do setor pedagogico).
+   Os dez primeiros modelos cobriram 20 dessas paginas; os de baixo cobrem o
+   resto. Cada um nasceu de uma pagina real, nenhum foi inventado por via das
+   duvidas. A pagina de origem esta no comentario de cada bloco.
+   ========================================================================== */
+
+/* ---------- M11 poema / cantiga (pags 7, 12, 15, 18, 26, 35) ---------- */
+
+.poema-titulo {
+  font-weight: 700;
+  font-size: 28px;
+  text-transform: uppercase;
+  text-align: center;
+  margin-top: 22px;
+}
+
+.poema {
+  display: grid;
+  gap: 0 64px;
+  margin-top: 26px;
+  max-width: 700px;
+}
+
+.poema--2col {
+  grid-template-columns: 1fr 1fr;
+  max-width: 995px;
+}
+
+.estrofe {
+  margin-bottom: 26px;
+}
+
+.verso {
+  font-weight: 400;
+  font-size: 25px;
+  line-height: 1.5;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+}
+
+.credito {
+  position: absolute;
+  right: 42px;
+  bottom: 76px;
+  max-width: 340px;
+  font-size: 15px;
+  line-height: 1.4;
+  color: #5b5b5b;
+  text-align: right;
+}
+
+.personagem-poema {
+  position: absolute;
+  right: 56px;
+  bottom: 110px;
+  width: 330px;
+  height: 400px;
+  z-index: 1;
+}
+
+/* Quando ha personagem na lateral, o conteudo para antes dele. */
+.pagina:has(.personagem-poema) .espalhados,
+.pagina:has(.personagem-poema) .receita,
+.pagina:has(.personagem-poema) .lista-palavras,
+.pagina:has(.personagem-poema) .fecho,
+.pagina:has(.personagem-poema) .poema,
+.pagina:has(.personagem-poema) .enunciado {
+  max-width: 690px;
+}
+
+.pagina:has(.personagem-poema) .espalhados {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px 24px;
+}
+
+/* A coluna do modo de fazer tem de acabar antes do personagem, em x=737. */
+.pagina:has(.personagem-poema) .receita {
+  grid-template-columns: 220px 1fr;
+  gap: 40px;
+  max-width: 620px;
+}
+
+.pagina:has(.personagem-poema) .espalhados .bloco {
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+/* ---------- M12 caca-pares (pags 4, 17) ---------- */
+
+.pares {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 56px;
+  margin-top: 30px;
+}
+
+.mancha {
+  display: grid;
+  gap: 18px;
+  box-sizing: border-box;
+  padding: 26px;
+  border-radius: 90px 60px 100px 70px;
+}
+
+.mancha--caixa {
+  border: 2px solid var(--texto);
+  border-radius: 0;
+  padding: 22px;
+}
+
+.figura-solta {
+  width: 108px;
+  height: 108px;
+}
+
+/* ---------- M13 cartoes recortaveis com legenda (pag 11) ---------- */
+
+.fileira-cartoes {
+  position: relative;
+  display: flex;
+  gap: 22px;
+  margin-top: 26px;
+  padding-left: 42px;
+}
+
+/* tesoura no inicio da fileira: a linha de corte atravessa a pagina */
+.fileira-cartoes::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -14px;
+  border-top: 2px dashed #b5b5b5;
+}
+
+.cartao-figura {
+  box-sizing: border-box;
+  width: 196px;
+  padding: 12px;
+  border: 2px dashed var(--texto);
+  border-radius: 14px;
+  text-align: center;
+}
+
+.cartao-figura .slot {
+  height: 148px;
+  border: 0;
+}
+
+.cartao-figura .palavra {
+  margin-top: 10px;
+  font-weight: 700;
+  font-size: 21px;
+  text-transform: uppercase;
+}
+
+/* ---------- M14 blocos espalhados (pags 8, 13) ---------- */
+
+/* ponytail: posicao em grade escalonada, nao no espalhamento livre do Canva.
+   Se um dia precisar da bagunca exata, cada bloco ganha x/y proprios. */
+.espalhados {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px 30px;
+  margin-top: 34px;
+}
+
+.espalhados .bloco {
+  font-size: 22px;
+  line-height: 1.45;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+  text-align: center;
+  align-self: center;
+}
+
+.pagina:not(:has(.personagem-poema)) .espalhados .bloco:nth-child(3n + 2) {
+  margin-top: 46px;
+}
+.pagina:not(:has(.personagem-poema)) .espalhados .bloco:nth-child(3n) {
+  margin-top: 22px;
+}
+
+.espalhados--palavras .bloco {
+  font-weight: 400;
+  font-size: 28px;
+}
+
+/* ---------- M15 lista de palavras (pags 9, 28) ---------- */
+
+.lista-palavras {
+  margin-top: 24px;
+  text-align: center;
+}
+
+.lista-palavras li {
+  list-style: none;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 1.5;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+}
+
+.lista-palavras {
+  padding: 0;
+}
+
+.fecho {
+  margin-top: 22px;
+  font-size: 25px;
+  line-height: 1.4;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+/* ---------- M16 receita (pag 6) ---------- */
+
+.receita {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 56px;
+  margin-top: 28px;
+  max-width: 900px;
+}
+
+.receita h3 {
+  margin: 0 0 14px;
+  font-weight: 700;
+  font-size: 25px;
+  text-transform: uppercase;
+}
+
+.receita ul,
+.receita ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.receita li {
+  font-size: 22px;
+  line-height: 1.6;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+}
+
+/* ---------- M17 fileira de imagens com rotulo (pags 5, 16, 32) ---------- */
+
+.fileira-imagens {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 34px;
+  margin-top: 34px;
+}
+
+.imagem-rotulada {
+  text-align: center;
+}
+
+.imagem-rotulada .slot {
+  width: 260px;
+  height: 300px;
+}
+
+.rotulo-pilula {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 8px 30px;
+  border: 3px solid var(--laranja);
+  border-radius: 12px;
+  font-weight: 400;
+  font-size: 27px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+/* ---------- M18 orientacao ao professor (pags 27, 30) ---------- */
+
+.caixa-professor {
+  box-sizing: border-box;
+  margin-top: 28px;
+  padding: 30px 36px;
+  max-width: 995px;
+  background: #f5f5f3;
+  border-left: 8px solid var(--laranja);
+  border-radius: 6px;
+}
+
+.caixa-professor p {
+  margin: 0 0 16px;
+  font-size: 22px;
+  line-height: 1.55;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+}
+
+.caixa-professor p:last-child {
+  margin-bottom: 0;
+}
+
+/* ---------- M19 pictograma de contagem (pag 29) ---------- */
+
+.pictograma {
+  display: flex;
+  align-items: flex-start;
+  gap: 60px;
+  margin-top: 30px;
+}
+
+.cena-contagem {
+  width: 430px;
+  height: 470px;
+  border: 2px solid var(--texto);
+  flex: none;
+}
+
+.picto-corpo {
+  display: grid;
+  grid-template-columns: 56px auto;
+  align-items: stretch;
+}
+
+.picto-eixo {
+  display: grid;
+}
+
+.picto-eixo span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 78px;
+  font-size: 25px;
+}
+
+.grade-picto {
+  display: grid;
+  border-top: 2px solid var(--texto);
+  border-left: 2px solid var(--texto);
+}
+
+.grade-picto > * {
+  border-right: 2px solid var(--texto);
+  border-bottom: 2px solid var(--texto);
+  box-sizing: border-box;
+  height: 78px;
+}
+
+.picto-icones {
+  display: grid;
+  margin-left: 58px;
+}
+
+.picto-icones .slot {
+  height: 76px;
+  border: 0;
+  background: none;
+  padding: 2px;
+}
+
+/* ---------- M20 montar palavras (pag 33) ---------- */
+
+.equacoes {
+  margin-top: 34px;
+}
+
+.equacao {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 22px;
+  font-weight: 400;
+  font-size: 40px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.equacao .resposta-linha {
+  width: 300px;
+  border-bottom: 2px solid var(--texto);
+}
+
+/* ---------- M21 texto com ilustracao de meia pagina (pag 34) ---------- */
+
+.pagina--meia .ilustracao-meia {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 480px;
+  border: 0;
+}
+
+.pagina--meia .titulo,
+.pagina--meia .enunciado,
+.pagina--meia .subtitulo,
+.pagina--meia .corpo-meia {
+  max-width: 520px;
+}
+
+.pagina--meia .corpo-meia {
+  margin-top: 26px;
+}
+
+.corpo-meia p {
+  margin: 0 0 20px;
+  font-size: 23px;
+  line-height: 1.65;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+}
+
+/* ---------- M06 com duas obras (pags 37 a 40) ---------- */
+
+.obras-duplas {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 44px;
+  margin-top: 34px;
+}
+
+.obras-duplas .slot {
+  width: 440px;
+  height: 380px;
+  border: 12px solid #fff;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.22);
+}

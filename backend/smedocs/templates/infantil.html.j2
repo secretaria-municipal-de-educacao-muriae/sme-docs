@@ -1,0 +1,448 @@
+{# Modelos de pagina da apostila de educacao infantil, A4 deitado.
+   Cada macro recebe o dicionario de conteudo do modelo (ver modelos_infantil.json).
+   O mesmo template serve para o catalogo de mockups e para a apostila real: muda so
+   de onde vem o conteudo. #}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>{{ titulo_arquivo }}</title>
+<link rel="stylesheet" href="infantil.css">
+</head>
+<body>
+
+{% macro slot(descricao, classe='', estilo='', imagem=None) -%}
+<div class="slot {{ classe }}"{% if estilo %} style="{{ estilo }}"{% endif %}>
+{%- if imagem %}<img src="{{ imagem }}" alt="{{ descricao }}">{% else %}{{ descricao }}{% endif -%}
+</div>
+{%- endmacro %}
+
+{% macro cabecalho(d) -%}
+<div class="titulo">{{ d.titulo }}</div>
+{% for linha in d.enunciado | default([]) %}
+<div class="enunciado">{{ linha }}</div>
+{% endfor %}
+{%- endmacro %}
+
+{# ---------- M01 rima com recorte e colagem ---------- #}
+{% macro m01(d) %}
+<div class="pagina">
+  {{ cabecalho(d) }}
+  <div class="grades">
+    {% for grupo in d.grupos %}
+    <div class="grade-rima">
+      {% for item in grupo %}
+      {{ slot(item.figura, imagem=item.arquivo) }}
+      <div class="resposta"></div>
+      {% endfor %}
+    </div>
+    {% endfor %}
+  </div>
+  <div class="recortes">
+    {% for palavra in d.recortes %}
+    <div class="recorte">{{ palavra }}</div>
+    {% endfor %}
+  </div>
+  <div class="folio folio--dir">{{ d.folio }}</div>
+</div>
+{% endmacro %}
+
+{# ---------- M02 biografia com foto e faixa de onda ---------- #}
+{% macro m02(d) %}
+<div class="pagina">
+  {{ cabecalho(d) }}
+  <div class="faixa-autor">
+    <img class="onda-h" src="infantil/onda-h.png" alt="">
+    {{ slot(d.foto, classe='foto-autor', imagem=d.foto_arquivo) }}
+  </div>
+  <div class="enunciado enunciado--justo">{{ d.texto }}</div>
+  <div class="folio folio--esq">{{ d.folio }}</div>
+</div>
+{% endmacro %}
+
+{# ---------- M03 tabela de ilustracao ---------- #}
+{% macro m03(d) %}
+<div class="pagina">
+  <img class="onda-diag" src="infantil/onda-diag.png" alt=""
+       style="top:-90px;left:660px;width:760px;">
+  {{ cabecalho(d) }}
+  <div class="tabela-ilustra"
+       style="grid-template-columns:repeat({{ d.tabela | length }}, 1fr);">
+    {% for palavra in d.tabela %}
+    <div class="cabeca">{{ palavra }}</div>
+    {% endfor %}
+    {% for palavra in d.tabela %}
+    <div class="celula"></div>
+    {% endfor %}
+  </div>
+  <div class="enunciado">{{ d.pergunta2 }}</div>
+  <div class="molduras">
+    {% for rotulo in d.molduras %}
+    <div>
+      <div class="moldura"></div>
+      <div class="legenda-moldura">{{ rotulo }}<span class="linha-escrita"></span></div>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="folio folio--esq">{{ d.folio }}</div>
+</div>
+{% endmacro %}
+
+{# ---------- M04 grade de contagem ---------- #}
+{% macro m04(d) %}
+{% set n = d.quadros | default(11) %}
+<div class="pagina">
+  {{ cabecalho(d) }}
+  <div class="contagem">
+    {% for rotulo in d.linhas %}
+    <div class="contagem-linha" style="grid-template-columns:152px repeat({{ n }}, 72.7px);">
+      <div class="rotulo">{{ rotulo }}</div>
+      {% for _ in range(n) %}<div class="quadro"></div>{% endfor %}
+    </div>
+    {% endfor %}
+  </div>
+  <img class="onda-diag" src="infantil/onda-diag.png" alt=""
+       style="left:0;bottom:-110px;width:612px;">
+  <div class="folio folio--dir">{{ d.folio }}</div>
+</div>
+{% endmacro %}
+
+{# ---------- M05 situacoes-problema ---------- #}
+{% macro m05(d) %}
+<div class="pagina">
+  {{ cabecalho(d) }}
+  {% for problema in d.problemas %}
+  <div class="problema">
+    <div class="enunciado">{{ problema }}</div>
+    <div class="caixa-resposta"></div>
+  </div>
+  {% endfor %}
+  <div class="faixa-rodape">
+    <div class="icones">
+      <svg width="960" height="96" viewBox="0 0 960 96" aria-hidden="true">
+        <defs>
+          <g id="banana">
+            <path d="M6 8 C2 40 20 74 56 78 C72 80 82 72 82 64 C64 66 46 58 34 42 C25 30 21 18 21 6 Z"
+                  fill="#F7C948" stroke="#2E2E2E" stroke-width="3.5" stroke-linejoin="round"/>
+            <path d="M16 18 C19 40 33 58 54 64" fill="none" stroke="#2E2E2E"
+                  stroke-width="3.5" stroke-linecap="round"/>
+          </g>
+        </defs>
+        {% for i in range(11) %}
+        <use href="#banana" x="{{ i * 88 }}" y="6"/>
+        {% endfor %}
+      </svg>
+    </div>
+  </div>
+  <div class="folio folio--esq">{{ d.folio }}</div>
+</div>
+{% endmacro %}
+
+{# ---------- M06 obra em moldura ---------- #}
+{% macro m06(d) %}
+{% set obras = d.imagens | default([{'descricao': d.imagem, 'arquivo': d.imagem_arquivo}]) %}
+<div class="pagina {{ 'pagina--azul' if d.fundo | default('azul') == 'azul' else '' }}">
+  {{ cabecalho(d) }}
+  {% if obras | length == 1 %}
+  {{ slot(obras[0].descricao, classe='obra', imagem=obras[0].arquivo) }}
+  {% else %}
+  <div class="obras-duplas">
+    {% for o in obras %}{{ slot(o.descricao, imagem=o.arquivo) }}{% endfor %}
+  </div>
+  {% endif %}
+  <div class="folio folio--dir">{{ d.folio }}</div>
+</div>
+{% endmacro %}
+
+{# ---------- M07 cartao de comparacao ---------- #}
+{% macro m07(d) %}
+<div class="pagina pagina--degrade">
+  {{ cabecalho(d) }}
+  <div class="cartao">
+    {% for palavra in d.palavras %}
+    <div class="cartao-linha">
+      <div class="cartao-palavra">{{ palavra }}</div>
+      <div class="cartao-quadro"></div>
+    </div>
+    {% endfor %}
+  </div>
+  {% if d.personagem %}
+  {{ slot(d.personagem, classe='personagem-rodape', imagem=d.personagem_arquivo) }}
+  {% endif %}
+  <div class="folio folio--dir">{{ d.folio }}</div>
+</div>
+{% endmacro %}
+
+{# ---------- M08 fotos circulares com personagem ---------- #}
+{% macro m08(d) %}
+<div class="pagina pagina--amarela">
+  {{ cabecalho(d) }}
+  <div class="fotos-redondas">
+    {% for foto in d.fotos %}
+    {{ slot(foto, classe='foto-redonda slot--redondo') }}
+    {% endfor %}
+  </div>
+  {% if d.personagem %}
+  {{ slot(d.personagem, classe='personagem-moldura', imagem=d.personagem_arquivo) }}
+  {% endif %}
+  <div class="folio folio--dir">{{ d.folio }}</div>
+</div>
+{% endmacro %}
+
+{# ---------- M09 texto em duas colunas ---------- #}
+{% macro m09(d) %}
+{% set meio = (d.paragrafos | length + 1) // 2 %}
+<div class="pagina pagina--azul">
+  <div class="titulo">{{ d.titulo }}</div>
+  <div class="subtitulo">{{ d.subtitulo }}</div>
+  <div class="colunas">
+    <div class="coluna">
+      {% for p in d.paragrafos[:meio] %}<p>{{ p }}</p>{% endfor %}
+    </div>
+    <div class="coluna">
+      {% for p in d.paragrafos[meio:] %}<p>{{ p }}</p>{% endfor %}
+    </div>
+  </div>
+  <div class="folio folio--dir">{{ d.folio }}</div>
+</div>
+{% endmacro %}
+
+{# ---------- M10 abertura com balao ---------- #}
+{% macro m10(d) %}
+<div class="pagina pagina--sangria">
+  {{ slot(d.cenario, classe='cenario', imagem=d.cenario_arquivo) }}
+  <div class="balao"></div>
+  <div class="balao-texto">
+    <div class="titulo">{{ d.titulo }}</div>
+    {% for linha in d.enunciado | default([]) %}
+    <div class="enunciado">{{ linha }}</div>
+    {% endfor %}
+    <div class="destaque">
+      {% for linha in d.destaque if d.destaque is not string %}{{ linha }}<br>{% endfor %}
+      {% if d.destaque is string %}{{ d.destaque }}{% endif %}
+    </div>
+  </div>
+  {% if d.personagem %}
+  {{ slot(d.personagem, classe='personagem-lateral', imagem=d.personagem_arquivo) }}
+  {% endif %}
+  <div class="folio folio--dir">{{ d.folio }}</div>
+</div>
+{% endmacro %}
+
+{# ---------- M11 poema / cantiga ---------- #}
+{% macro m11(d) %}
+<div class="pagina {{ 'pagina--amarela' if d.fundo == 'amarelo' else ('pagina--azul' if d.fundo == 'azul' else '') }}">
+  {{ cabecalho(d) }}
+  {% if d.poema_titulo %}<div class="poema-titulo">{{ d.poema_titulo }}</div>{% endif %}
+  <div class="poema {{ 'poema--2col' if (d.colunas | default(1)) == 2 else '' }}">
+    {% for estrofe in d.estrofes %}
+    <div class="estrofe">
+      {% for verso in estrofe %}<div class="verso">{{ verso }}</div>{% endfor %}
+    </div>
+    {% endfor %}
+  </div>
+  {% if d.personagem %}
+  {{ slot(d.personagem, classe='personagem-poema', imagem=d.personagem_arquivo) }}
+  {% endif %}
+  {% if d.credito %}<div class="credito">{{ d.credito }}</div>{% endif %}
+  <div class="folio folio--esq">{{ d.folio }}</div>
+</div>
+{% endmacro %}
+
+{# ---------- M12 caca-pares ---------- #}
+{% macro m12(d) %}
+<div class="pagina">
+  {{ cabecalho(d) }}
+  <div class="pares">
+    {% for grupo in d.grupos %}
+    <div class="mancha {{ 'mancha--caixa' if not grupo.cor else '' }}"
+         style="grid-template-columns:repeat({{ grupo.colunas | default(4) }}, 108px);{% if grupo.cor %}background:{{ grupo.cor }};{% endif %}">
+      {% for f in grupo.figuras %}{{ slot(f, classe='figura-solta') }}{% endfor %}
+    </div>
+    {% endfor %}
+  </div>
+  <div class="folio folio--dir">{{ d.folio }}</div>
+</div>
+{% endmacro %}
+
+{# ---------- M13 cartoes recortaveis com legenda ---------- #}
+{% macro m13(d) %}
+<div class="pagina">
+  {{ cabecalho(d) }}
+  {% for fileira in d.fileiras %}
+  <div class="fileira-cartoes">
+    {% for c in fileira %}
+    <div class="cartao-figura">
+      {{ slot(c.figura, imagem=c.arquivo) }}
+      <div class="palavra">{{ c.palavra }}</div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endfor %}
+  <div class="folio folio--dir">{{ d.folio }}</div>
+</div>
+{% endmacro %}
+
+{# ---------- M14 blocos espalhados ---------- #}
+{% macro m14(d) %}
+<div class="pagina {{ 'pagina--amarela' if d.fundo == 'amarelo' else '' }}">
+  {{ cabecalho(d) }}
+  <div class="espalhados {{ 'espalhados--palavras' if d.tipo == 'palavras' else '' }}">
+    {% for bloco in d.blocos %}
+    <div class="bloco">
+      {% if bloco is string %}{{ bloco }}{% else %}
+      {% for linha in bloco %}{{ linha }}<br>{% endfor %}
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  {% if d.personagem %}
+  {{ slot(d.personagem, classe='personagem-poema', imagem=d.personagem_arquivo) }}
+  {% endif %}
+  {% if d.credito %}<div class="credito">{{ d.credito }}</div>{% endif %}
+  <div class="folio folio--dir">{{ d.folio }}</div>
+</div>
+{% endmacro %}
+
+{# ---------- M15 lista de palavras ---------- #}
+{% macro m15(d) %}
+<div class="pagina">
+  {{ cabecalho(d) }}
+  <ul class="lista-palavras">
+    {% for palavra in d.palavras %}<li>{{ palavra }}</li>{% endfor %}
+  </ul>
+  {% if d.fecho %}<div class="fecho">{{ d.fecho }}</div>{% endif %}
+  {% if d.personagem %}
+  {{ slot(d.personagem, classe='personagem-poema', imagem=d.personagem_arquivo) }}
+  {% endif %}
+  {% if d.credito %}<div class="credito">{{ d.credito }}</div>{% endif %}
+  <div class="folio folio--esq">{{ d.folio }}</div>
+</div>
+{% endmacro %}
+
+{# ---------- M16 receita ---------- #}
+{% macro m16(d) %}
+<div class="pagina">
+  {{ cabecalho(d) }}
+  {% if d.receita_titulo %}<div class="poema-titulo">{{ d.receita_titulo }}</div>{% endif %}
+  <div class="receita">
+    <div>
+      <h3>Ingredientes</h3>
+      <ul>{% for i in d.ingredientes %}<li>{{ i }}</li>{% endfor %}</ul>
+    </div>
+    <div>
+      <h3>Modo de fazer</h3>
+      <ol>{% for p in d.modo %}<li>{{ p }}</li>{% endfor %}</ol>
+    </div>
+  </div>
+  {% if d.personagem %}
+  {{ slot(d.personagem, classe='personagem-poema', imagem=d.personagem_arquivo) }}
+  {% endif %}
+  <div class="folio folio--esq">{{ d.folio }}</div>
+</div>
+{% endmacro %}
+
+{# ---------- M17 fileira de imagens com rotulo ---------- #}
+{% macro m17(d) %}
+<div class="pagina {{ 'pagina--amarela' if d.fundo == 'amarelo' else '' }}">
+  {{ cabecalho(d) }}
+  <div class="fileira-imagens">
+    {% for im in d.imagens %}
+    <div class="imagem-rotulada">
+      {{ slot(im.descricao, imagem=im.arquivo) }}
+      {% if im.rotulo %}
+      <div class="rotulo-pilula" {% if im.cor %}style="border-color:{{ im.cor }}"{% endif %}>{{ im.rotulo }}</div>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  <div class="folio folio--dir">{{ d.folio }}</div>
+</div>
+{% endmacro %}
+
+{# ---------- M18 orientacao ao professor ---------- #}
+{% macro m18(d) %}
+<div class="pagina">
+  <div class="titulo">{{ d.titulo | default('Orientação ao professor') }}</div>
+  <div class="caixa-professor">
+    {% for p in d.paragrafos %}<p>{{ p }}</p>{% endfor %}
+  </div>
+  <div class="folio folio--dir">{{ d.folio }}</div>
+</div>
+{% endmacro %}
+
+{# ---------- M19 pictograma de contagem ---------- #}
+{% macro m19(d) %}
+{% set alturas = d.linhas | default(5) %}
+<div class="pagina">
+  {{ cabecalho(d) }}
+  <div class="pictograma">
+    {{ slot(d.cena, classe='cena-contagem', imagem=d.cena_arquivo) }}
+    <div>
+      <div class="picto-corpo">
+        <div class="picto-eixo">
+          {% for n in range(alturas, 0, -1) %}<span>{{ n }}</span>{% endfor %}
+        </div>
+        <div class="grade-picto"
+             style="grid-template-columns:repeat({{ d.icones | length }}, 78px);">
+          {% for n in range(alturas) %}
+          {% for _ in d.icones %}<div></div>{% endfor %}
+          {% endfor %}
+        </div>
+      </div>
+      <div class="picto-icones"
+           style="grid-template-columns:repeat({{ d.icones | length }}, 78px);">
+        {% for ic in d.icones %}{{ slot(ic) }}{% endfor %}
+      </div>
+    </div>
+  </div>
+  <div class="folio folio--dir">{{ d.folio }}</div>
+</div>
+{% endmacro %}
+
+{# ---------- M20 montar palavras ---------- #}
+{% macro m20(d) %}
+<div class="pagina">
+  {{ cabecalho(d) }}
+  <div class="equacoes">
+    {% for eq in d.equacoes %}
+    <div class="equacao"><span>{{ eq }}</span><span class="resposta-linha"></span></div>
+    {% endfor %}
+  </div>
+  <div class="folio folio--dir">{{ d.folio }}</div>
+</div>
+{% endmacro %}
+
+{# ---------- M21 texto com ilustracao de meia pagina ---------- #}
+{% macro m21(d) %}
+<div class="pagina pagina--meia">
+  {{ slot(d.ilustracao, classe='ilustracao-meia', imagem=d.ilustracao_arquivo) }}
+  <div class="titulo">{{ d.titulo }}</div>
+  {% if d.subtitulo %}<div class="subtitulo">{{ d.subtitulo }}</div>{% endif %}
+  <div class="corpo-meia">
+    {% for p in d.paragrafos %}<p>{{ p }}</p>{% endfor %}
+  </div>
+  <div class="folio folio--esq">{{ d.folio }}</div>
+</div>
+{% endmacro %}
+
+{% set desenho = {'M01': m01, 'M02': m02, 'M03': m03, 'M04': m04, 'M05': m05,
+                  'M06': m06, 'M07': m07, 'M08': m08, 'M09': m09, 'M10': m10,
+                  'M11': m11, 'M12': m12, 'M13': m13, 'M14': m14, 'M15': m15,
+                  'M16': m16, 'M17': m17, 'M18': m18, 'M19': m19, 'M20': m20,
+                  'M21': m21} %}
+
+<div class="catalogo">
+{% for p in paginas %}
+  {% if ficha %}
+  <div class="ficha">
+    <h2>{{ p.modelo }} — {{ p.nome }}</h2>
+    <p>{{ p.quando_usar }}</p>
+  </div>
+  {% endif %}
+  {{ desenho[p.modelo](p.dados) }}
+{% endfor %}
+</div>
+
+</body>
+</html>

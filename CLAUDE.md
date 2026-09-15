@@ -283,6 +283,108 @@ Ao resolver um lote, olhe a figura antes de responder. Duas armadilhas já vista
   **chão**, e o enunciado pede o ângulo com o **muro**. A alternativa que repete o
   número do desenho é a pegadinha.
 
+## Apostila de educação infantil
+
+Formato paralelo ao banco de questões, não uma variação dele: **A4 deitado**, 297×210mm
+= 1123×794px, uma página por atividade, sem numeração de questão. Fonte Neo Sans Std.
+
+Entrada e saída ficam em `backend/smedocs/reference-apostila-infantil/` — fora do
+versionamento, junto com as fontes, porque o repositório é público e o material traz o
+PDF do setor, foto de pessoa real e reproduções de obras.
+
+| Arquivo | Papel |
+|---|---|
+| `Modelos de Apostila A4.dc.html` | Rascunho do Claude Design, 10 modelos. Incompleto: caixas vazias, asset faltando |
+| `desenho.png` e mais 7 PNG | Páginas reais da apostila do fundamental. São a régua |
+| `questoes-infantil.pdf` | 40 páginas do setor pedagógico, feitas no Canva. A demanda real |
+
+### Geometria — medida, não estimada
+
+O método vale para qualquer PNG novo que apareça: **a página ocupa 860×613px dentro do
+arquivo, com 8px de sombra em volta.** Converta tudo para a escala de 1123px de largura
+(fator 1,3058) antes de comparar. Confirmado em `pasted-1788999312360-0.png`, onde o
+fundo azul chapado dá o retângulo exato.
+
+O que vale para todos os modelos:
+
+```
+margem esquerda do texto   86px
+coluna de texto            até x=1081, ou seja margem direita de 42px
+título e enunciado         25px
+entrelinha do enunciado    39px
+fólio                      54×46px, 38px da borda, 18px da base
+```
+
+O corpo de 25px não veio de chute: a altura de caixa alta mede 18,3px em três páginas
+diferentes, e o Neo Sans Std tem `capHeight/upem = 0,743`. 18,3 ÷ 0,743 = 24,6. A
+confirmação independente é a largura: `"OBSERVE A FOTO DO PINTOR GUSTAVO ROSA:"` mede
+515,8px na referência e o mesmo texto em Neo Sans Regular a 25px calcula 512,4px —
+sobram 0,09px por caractere de entreletra.
+
+**O título laranja não fecha.** Na mesma altura de caixa alta ele sai de 8% a 16% mais
+estreito que o Neo Sans Std Bold, em quatro páginas medidas. O original usou uma
+variante condensada que não está na pasta. Não tente compensar com `letter-spacing`
+negativo — a -2,3px os glifos colidem. Se a variante aparecer, troque o `@font-face` de
+peso 700 e nada mais muda.
+
+Depois de mexer no CSS, meça o próprio PDF pelo mesmo método antes de dar por pronto.
+Foi assim que apareceram os erros de 12px no eixo vertical e a coluna de texto que
+parava em x=1035 em vez de 1081.
+
+### Fonte: TTF, nunca OTF
+
+**O Chrome embute fonte OTF no PDF como Type3.** Type3 não carrega o nome da família: o
+texto sai marcado como `Type3 (5 0 R)`, o Illustrator abre sem reconhecer a fonte e o
+SVG exportado perde o `font-family`. Medido lado a lado na mesma página, a versão TTF
+sai como Type0/TrueType com o nome certo (`BAAAAA+NeoSansStdBold`).
+
+`fonts_otf2ttf.py` faz a conversão com `fontTools` mais `cu2qu`. Rode uma vez quando os
+`.otf` mudarem. Cuidado: `document.fonts.check()` devolve `true` mesmo com OTF, então
+esse teste não detecta o problema — olhe `page.get_fonts()` no PDF gerado.
+
+### Saída vetorial
+
+O PDF do Chromium já é vetor e o Illustrator abre direto. Para SVG, `pymupdf` —
+que o projeto já carrega para as fórmulas — resolve em uma chamada:
+`page.get_svg_image(text_as_path=False)`. Não instale Satori, Takumi, dom-to-svg nem
+vector.express; foram avaliados e nenhum acrescenta nada sobre o que já existe.
+
+### Os 21 modelos e a etapa de escolha
+
+`modelos_infantil.json` é o catálogo; `templates/infantil.html.j2` tem uma macro por
+modelo. Dez vieram dos PNG do fundamental, onze das 40 páginas do setor.
+
+Cada modelo carrega `quando_usar`, `sinais` e `capacidade` **para a etapa de escolha,
+não para o runtime**. Dado um PDF novo, é lendo esses campos numa sessão do Claude Code
+que se casa cada atividade com um modelo; o resultado é um plano em JSON versionado em
+`planos/`. Mesma disciplina do gabarito: o app não adivinha nada.
+
+Ao mapear um PDF novo, registre em cada página `_origem` e `_porque`. Isso já evitou
+retrabalho: sem eles não dá para revisar a escolha sem reabrir os dois arquivos.
+
+Da leitura das 40 páginas do 1º semestre saíram dois achados que valem para a próxima:
+
+- **7 das 40 páginas são poema ou cantiga.** Era a maior lacuna dos modelos herdados do
+  fundamental, que não tinha nenhum. Antes de criar modelo novo, conte a frequência.
+- **Duas páginas são orientação ao professor, não atividade de aluno.** Elas não têm
+  numeração de atividade e pedem moldura própria (M18).
+
+M01, M04, M07 e M08 não foram usados nesse semestre. Continuam no catálogo — vieram de
+páginas reais do fundamental e voltam a servir.
+
+### Armadilhas já resolvidas
+
+- **O personagem lateral come o texto.** `.personagem-poema` ocupa de x=737 até a borda.
+  Sem reservar essa faixa, M14, M15 e M16 escreviam por baixo dele. Resolvido com
+  `:has()`, que também troca a grade de blocos de três para duas colunas.
+- **Onze `<svg>` em `flex` saíram empilhados** na faixa de bananas do M05. Um `<svg>` só
+  com `<use>` repetido funciona.
+- **`.dc.html` do Claude Design não é template.** Ele depende de `doc-page.js` e
+  `support.js`, e as caixas editadas no canvas chegam vazias. Serve de referência
+  visual, não de fonte.
+- Cuidado ao editar via heredoc no shell: aspas simples dentro do conteúdo (`'M01': m01`)
+  quebram o `cat <<'EOF'`. Escreva um script `.py` e execute.
+
 ## Convenções
 
 - Cada estágio do pipeline grava seu artefato em disco antes de passar adiante. Depurar

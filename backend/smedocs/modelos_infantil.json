@@ -1,0 +1,973 @@
+{
+  "_leia_me": "Catalogo de modelos de pagina da apostila de educacao infantil. Cada modelo foi lido de reference-apostila-infantil/ e portado para templates/infantil.html.j2. 'quando_usar' e 'sinais' existem para a etapa de escolha: dado o PDF da professora, casa-se cada atividade dela com o modelo. 'capacidade' diz quanto conteudo cabe antes de estourar a pagina; conteudo maior pede outro modelo ou uma segunda pagina. 'demo' e o conteudo do exemplo original, usado para gerar o catalogo de mockups.",
+  "modelos": [
+    {
+      "id": "M01",
+      "nome": "Rima com recorte e colagem",
+      "referencia": "desenho.png (Atividade 18, p.25)",
+      "quando_usar": "Pareamento entre figura e palavra em que o aluno recorta as tiras e cola no espaco vazio ao lado de cada figura. Serve para rima, som inicial, silaba, classificacao.",
+      "sinais": [
+        "recorte e cole",
+        "rima",
+        "que rima com",
+        "ligue",
+        "corresponde",
+        "pareamento",
+        "cole ao lado"
+      ],
+      "fundo": "branco",
+      "capacidade": {
+        "figuras": 6,
+        "recortes": 6,
+        "linhas_enunciado": 2
+      },
+      "slots": {
+        "titulo": "texto curto, ex 'ATIVIDADE 18'",
+        "enunciado": "lista de linhas do comando",
+        "grupos": "1 ou 2 grades; cada grade tem 3 figuras com espaco de resposta ao lado",
+        "recortes": "lista de palavras que viram tiras destacaveis"
+      },
+      "demo": {
+        "titulo": "ATIVIDADE 18",
+        "enunciado": [
+          "COM QUE PARTE DO CORPO RIMA O NOME DAS IMAGENS ABAIXO?",
+          "RECORTE E COLE A PALAVRA QUE RIMA COM CADA PERSONAGEM."
+        ],
+        "grupos": [
+          [
+            {
+              "figura": "coelho"
+            },
+            {
+              "figura": "leão"
+            },
+            {
+              "figura": "coelha com folha"
+            }
+          ],
+          [
+            {
+              "figura": "abelha"
+            },
+            {
+              "figura": "crocodilo"
+            },
+            {
+              "figura": "palhaça"
+            }
+          ]
+        ],
+        "recortes": [
+          "BRAÇO",
+          "BARRIGA",
+          "MÃO",
+          "PÉ",
+          "ORELHA",
+          "JOELHO"
+        ],
+        "folio": "25"
+      }
+    },
+    {
+      "id": "M02",
+      "nome": "Biografia com foto e faixa de onda",
+      "referencia": "exercicio-formas.png (Atividade 50, p.62)",
+      "quando_usar": "Apresentar uma pessoa: autor, pintor, compositor, personagem historico. Foto unica centralizada sobre a faixa de ondas, texto biografico curto justificado abaixo. Pagina de leitura, sem espaco de resposta.",
+      "sinais": [
+        "observe a foto",
+        "conheca o autor",
+        "quem foi",
+        "biografia",
+        "nasceu em",
+        "o pintor",
+        "o escritor"
+      ],
+      "fundo": "branco",
+      "capacidade": {
+        "fotos": 1,
+        "caracteres_texto": 380
+      },
+      "slots": {
+        "titulo": "texto curto",
+        "enunciado": "linha de comando",
+        "foto": "retrato da pessoa, formato retrato 232x288",
+        "texto": "paragrafo biografico"
+      },
+      "demo": {
+        "titulo": "ATIVIDADE 50",
+        "enunciado": [
+          "OBSERVE A FOTO DO PINTOR GUSTAVO ROSA:"
+        ],
+        "foto": "foto do pintor Gustavo Rosa",
+        "texto": "GUSTAVO MACHADO ROSA NASCEU EM SÃO PAULO. FOI UM ARTISTA PLÁSTICO BRASILEIRO, CONHECIDO POR SUAS OBRAS COLORIDAS E ALEGRES. AOS TRÊS ANOS DE IDADE, JÁ DESENHAVA MUITO.",
+        "folio": "62"
+      }
+    },
+    {
+      "id": "M03",
+      "nome": "Tabela de ilustracao com desenho e escrita",
+      "referencia": "obra.png (Atividade 33, p.44)",
+      "quando_usar": "Duas tarefas na mesma pagina: ilustrar palavras dentro de uma tabela e, embaixo, desenhar e escrever a resposta pessoal. Onda diagonal no canto superior direito.",
+      "sinais": [
+        "ilustre as palavras",
+        "desenhe e escreva",
+        "do seu jeitinho",
+        "trabalhando com o poema",
+        "complete a tabela"
+      ],
+      "fundo": "branco",
+      "capacidade": {
+        "colunas_tabela": 3,
+        "molduras": 2,
+        "questoes": 2
+      },
+      "slots": {
+        "titulo": "texto curto",
+        "enunciado": "lista de linhas",
+        "tabela": "lista de palavras, uma por coluna, cada uma com celula vazia para desenhar",
+        "pergunta2": "texto da segunda questao",
+        "molduras": "lista de rotulos, cada um com quadro de desenho e linha de escrita"
+      },
+      "demo": {
+        "titulo": "ATIVIDADE 33",
+        "enunciado": [
+          "TRABALHANDO COM O POEMA",
+          "1. ILUSTRE AS PALAVRAS:"
+        ],
+        "tabela": [
+          "LARANJA",
+          "LARANJEIRA",
+          "FLOR"
+        ],
+        "pergunta2": "2. QUAL A FRUTA QUE VOCÊ MAIS GOSTA? E A ÁRVORE DELA, COMO SE CHAMA? DESENHE E ESCREVA DO SEU JEITINHO.",
+        "molduras": [
+          "FRUTA",
+          "ÁRVORE"
+        ],
+        "folio": "44"
+      }
+    },
+    {
+      "id": "M04",
+      "nome": "Grade de contagem para pintar",
+      "referencia": "ondameio@4x.png (Atividade 41, p.53)",
+      "quando_usar": "Contar letras, silabas ou objetos e pintar um quadrinho por unidade. E um grafico de barras infantil. Onda diagonal no canto inferior esquerdo.",
+      "sinais": [
+        "pinte os quadrinhos",
+        "quantidade de letras",
+        "conte as silabas",
+        "quantos",
+        "grafico",
+        "marque um quadrinho"
+      ],
+      "fundo": "branco",
+      "capacidade": {
+        "linhas": 6,
+        "quadros_por_linha": 11
+      },
+      "slots": {
+        "titulo": "texto curto",
+        "enunciado": "linha de comando",
+        "linhas": "lista de rotulos, uma linha de quadrinhos por rotulo",
+        "quadros": "quantos quadrinhos por linha, padrao 11"
+      },
+      "demo": {
+        "titulo": "ATIVIDADE 41",
+        "enunciado": [
+          "PINTE OS QUADRINHOS DE ACORDO COM A QUANTIDADE DE LETRAS:"
+        ],
+        "linhas": [
+          "CAVALO",
+          "CASA",
+          "CARROÇA",
+          "ÁRVORE",
+          "CACHORRO",
+          "BOI"
+        ],
+        "quadros": 11,
+        "folio": "53"
+      }
+    },
+    {
+      "id": "M05",
+      "nome": "Situacoes-problema com faixa decorativa",
+      "referencia": "exercicio2.png (Atividade 28, p.40)",
+      "quando_usar": "Matematica: enunciado curto seguido de caixa grande e vazia onde o aluno resolve como quiser (desenho, risco, conta). Faixa amarela recortada no rodape.",
+      "sinais": [
+        "situacao-problema",
+        "quantas",
+        "quantos",
+        "ao todo",
+        "comprei",
+        "ficou com",
+        "resolva",
+        "calcule"
+      ],
+      "fundo": "branco",
+      "capacidade": {
+        "problemas": 2,
+        "caracteres_por_problema": 110
+      },
+      "slots": {
+        "titulo": "texto curto",
+        "enunciado": "linha de comando geral",
+        "problemas": "lista de enunciados; cada um ganha uma caixa vazia de resposta"
+      },
+      "demo": {
+        "titulo": "ATIVIDADE 28",
+        "enunciado": [
+          "VOCÊ É MUITO ESPERTO! RESPONDA AS SITUAÇÕES-PROBLEMA A SEGUIR:"
+        ],
+        "problemas": [
+          "FUI À FEIRA E COMPREI 4 BANANAS E 3 MAÇÃS. QUANTAS FRUTAS EU COMPREI AO TODO?",
+          "MARIA COMPROU 6 LARANJAS NA FEIRA. CHUPOU DUAS. COM QUANTAS ELA FICOU?"
+        ],
+        "folio": "40"
+      }
+    },
+    {
+      "id": "M06",
+      "nome": "Obra em moldura sobre fundo solido",
+      "referencia": "pasted-1788999312360-0.png (Atividade 28, p.39)",
+      "quando_usar": "Apreciacao: uma ou duas imagens grandes e nada mais. Quadro, escultura, fotografia, cartaz. Fundo colorido chapado, moldura branca. Nao tem espaco de resposta.",
+      "sinais": [
+        "observe o quadro",
+        "observe a imagem",
+        "aprecie",
+        "olhe a obra",
+        "de tarsila",
+        "reproducao"
+      ],
+      "fundo": "azul",
+      "capacidade": {
+        "imagens": 2
+      },
+      "slots": {
+        "titulo": "texto curto",
+        "enunciado": "linha de comando",
+        "imagem": "reproducao, ate 470x400",
+        "imagens": "lista de 1 ou 2 obras; com duas elas ficam lado a lado"
+      },
+      "demo": {
+        "titulo": "ATIVIDADE 28",
+        "enunciado": [
+          "OBSERVE O QUADRO \"A FEIRA\" DE TARSILA DO AMARAL."
+        ],
+        "imagem": "reprodução: 'A Feira', Tarsila do Amaral",
+        "folio": "39"
+      }
+    },
+    {
+      "id": "M07",
+      "nome": "Cartao de comparacao de palavras",
+      "referencia": "atividade (2).png (Atividade 32, p.43)",
+      "quando_usar": "Comparar poucas palavras lado a lado, cada uma em corpo grande com um quadrinho vazio ao lado para marcar ou contar. Fundo em degrade, cartao branco levemente torto, personagem no rodape.",
+      "sinais": [
+        "comparando as palavras",
+        "qual a diferenca",
+        "qual e maior",
+        "conte as letras",
+        "marque",
+        "observe as palavras"
+      ],
+      "fundo": "degrade",
+      "capacidade": {
+        "palavras": 3,
+        "caracteres_por_palavra": 12
+      },
+      "slots": {
+        "titulo": "texto curto",
+        "enunciado": "lista de linhas",
+        "palavras": "lista de palavras em corpo grande, cada uma com quadrinho vazio",
+        "personagem": "ilustracao de rodape, opcional"
+      },
+      "demo": {
+        "titulo": "ATIVIDADE 32",
+        "enunciado": [
+          "COMPARANDO AS PALAVRAS",
+          "QUAL A DIFERENÇA ENTRE AS PALAVRAS? JUNTO COM A TURMA VOCÊ VAI DESCOBRIR."
+        ],
+        "palavras": [
+          "LARANJA",
+          "LARANJEIRA"
+        ],
+        "personagem": "mão segurando laranjas",
+        "folio": "43"
+      }
+    },
+    {
+      "id": "M08",
+      "nome": "Fotos circulares com personagem e moldura",
+      "referencia": "exercicio.png (Atividade C, p.37)",
+      "quando_usar": "Observar fotos reais recortadas em circulo e depois desenhar a propria versao na moldura que o personagem segura. Fundo amarelo.",
+      "sinais": [
+        "vamos observar",
+        "observe as fotos",
+        "veja as imagens",
+        "agora desenhe",
+        "como e a sua"
+      ],
+      "fundo": "amarelo",
+      "capacidade": {
+        "fotos": 3,
+        "molduras": 1,
+        "caracteres_texto": 200
+      },
+      "slots": {
+        "titulo": "texto curto",
+        "enunciado": "texto introdutorio",
+        "fotos": "2 ou 3 fotos, recortadas em circulo",
+        "personagem": "ilustracao segurando moldura em branco para o desenho do aluno"
+      },
+      "demo": {
+        "titulo": "ATIVIDADE C",
+        "enunciado": [
+          "HÁ MUITO TEMPO, OS PURIS VIVIAM NA REGIÃO ONDE HOJE FICA MURIAÉ. OS YANOMAMI VIVEM NA AMAZÔNIA, ATÉ OS DIAS DE HOJE. VAMOS OBSERVAR AS CASAS!"
+        ],
+        "fotos": [
+          "oca dos Puris",
+          "aldeia Yanomami"
+        ],
+        "personagem": "menina segurando moldura em branco",
+        "folio": "37"
+      }
+    },
+    {
+      "id": "M09",
+      "nome": "Texto informativo em duas colunas",
+      "referencia": "Modelos de Apostila A4.dc.html (Atividade B, p.27)",
+      "quando_usar": "Texto longo para a professora ler ou o aluno acompanhar. Duas colunas separadas por regua, fundo colorido chapado. E o unico modelo que aguenta texto corrido de verdade.",
+      "sinais": [
+        "leia o texto",
+        "conhecendo",
+        "texto informativo",
+        "sua professora vai ler",
+        "saiba mais"
+      ],
+      "fundo": "azul",
+      "capacidade": {
+        "caracteres_texto": 1300,
+        "paragrafos": 6
+      },
+      "slots": {
+        "titulo": "texto curto",
+        "subtitulo": "titulo do texto",
+        "paragrafos": "lista de paragrafos, divididos automaticamente entre as duas colunas"
+      },
+      "demo": {
+        "titulo": "ATIVIDADE B",
+        "subtitulo": "CONHECENDO OS POVOS ORIGINÁRIOS",
+        "paragrafos": [
+          "MUITO ANTES DA CHEGADA DOS PORTUGUESES, O BRASIL JÁ ERA HABITADO POR MUITOS POVOS ORIGINÁRIOS.",
+          "ESSES POVOS SÃO CHAMADOS DE POVOS INDÍGENAS E VIVEM EM NOSSO PAÍS HÁ MILHARES DE ANOS.",
+          "CADA POVO INDÍGENA TEM SUA PRÓPRIA LÍNGUA, SEUS COSTUMES, SUAS HISTÓRIAS, SUAS PINTURAS, SUAS MÚSICAS, SUAS BRINCADEIRAS E SEU JEITO DE VIVER.",
+          "E APRENDEM, DESDE PEQUENOS, A CUIDAR DAS FLORESTAS, DOS RIOS, DOS ANIMAIS E DA TERRA.",
+          "OS POVOS INDÍGENAS TAMBÉM PRODUZEM LINDOS ARTESANATOS, COMO CESTOS, COLARES, CERÂMICAS E PINTURAS, QUE FAZEM PARTE DE SUA CULTURA E DE SUA HISTÓRIA.",
+          "ATÉ HOJE, OS POVOS INDÍGENAS CONTINUAM PRESERVANDO SEUS CONHECIMENTOS E TRADIÇÕES, CONTRIBUINDO PARA A DIVERSIDADE E A RIQUEZA CULTURAL DO BRASIL."
+        ],
+        "folio": "27"
+      }
+    },
+    {
+      "id": "M10",
+      "nome": "Abertura com balao e personagem sobre cenario",
+      "referencia": "download / texto-grande.png (Atividade A, p.5)",
+      "quando_usar": "Abertura de unidade ou trecho de fala. Cenario ocupa a pagina inteira, um circulo branco abre espaco para pouco texto em corpo grande. Cabe pouca coisa: e uma pagina de impacto, nao de conteudo.",
+      "sinais": [
+        "ele comeca assim",
+        "sua professora vai ler",
+        "era uma vez",
+        "abertura",
+        "vamos comecar",
+        "disse"
+      ],
+      "fundo": "cenario",
+      "capacidade": {
+        "caracteres_destaque": 190,
+        "caracteres_enunciado": 90
+      },
+      "slots": {
+        "titulo": "texto curto",
+        "enunciado": "linha menor de comando",
+        "destaque": "lista de linhas em corpo grande dentro do balao; a quebra de linha e escolhida, nao automatica",
+        "cenario": "ilustracao de fundo, pagina inteira",
+        "personagem": "ilustracao a direita, opcional"
+      },
+      "demo": {
+        "titulo": "ATIVIDADE A",
+        "enunciado": [
+          "SUA PROFESSORA VAI LER PARA VOCÊ O TEXTO SOBRE OS POVOS ORIGINÁRIOS."
+        ],
+        "destaque": [
+          "ELE COMEÇA ASSIM:",
+          "MUITO ANTES DA CHEGADA DOS",
+          "PORTUGUESES, O BRASIL JÁ ERA",
+          "HABITADO POR MUITOS POVOS",
+          "ORIGINÁRIOS."
+        ],
+        "cenario": "cenário: sala de aula (aquário, quadro, janela)",
+        "personagem": "professor de jaleco",
+        "folio": "5"
+      }
+    },
+    {
+      "id": "M11",
+      "nome": "Poema, cantiga ou quadrinha",
+      "referencia": "questoes-infantil.pdf pags 7, 12, 15, 18, 26, 35",
+      "quando_usar": "Poema, cantiga de roda, quadrinha ou letra de musica. Versos em coluna, uma estrofe por bloco, personagem opcional na lateral e credito do autor no rodape. E o modelo mais pedido pelo material do setor.",
+      "sinais": [
+        "poema",
+        "poesia",
+        "cantiga",
+        "quadrinha",
+        "vamos cantar",
+        "versos",
+        "de roda",
+        "letra",
+        "estrofe"
+      ],
+      "fundo": "branco, amarelo ou azul",
+      "capacidade": {
+        "estrofes_1_coluna": 3,
+        "estrofes_2_colunas": 6,
+        "versos_por_estrofe": 8
+      },
+      "slots": {
+        "titulo": "texto curto",
+        "poema_titulo": "nome do poema, centralizado",
+        "estrofes": "lista de estrofes; cada estrofe e uma lista de versos",
+        "colunas": "1 ou 2; use 2 a partir de quatro estrofes",
+        "credito": "autor e fonte, canto inferior direito",
+        "personagem": "ilustracao lateral, opcional",
+        "fundo": "branco, amarelo ou azul"
+      },
+      "demo": {
+        "titulo": "ATIVIDADE 48",
+        "poema_titulo": "CIRANDA DA PASSARADA",
+        "colunas": 2,
+        "estrofes": [
+          [
+            "POMBINHA FOFA, MACIA,",
+            "LÁ ESTÁ A JURITI,",
+            "ESPERANDO O NAMORADO,",
+            "O ARISCO BEM-TE-VI!"
+          ],
+          [
+            "TICO-TICO SABE TUDO",
+            "TICO-TICO SABE NADA",
+            "O PARDAL É QUE É SABIDO",
+            "LEVA UMA VIDA FOLGADA!"
+          ],
+          [
+            "VOA LIVRE O CRICRIÓ,",
+            "BEM SATISFEITO DA VIDA,",
+            "CANTA LEVE O CURIÓ,",
+            "COM VOZINHA RECOLHIDA..."
+          ],
+          [
+            "CANARIM AMARELIM,",
+            "TRINA LINDO O DANADIM!",
+            "SABIÁ NA LARANJEIRA",
+            "SOLTA UM CANTO TÃO TRISTIM!.."
+          ]
+        ],
+        "credito": "LUIZ GONZAGA DA SILVA",
+        "folio": "15"
+      }
+    },
+    {
+      "id": "M12",
+      "nome": "Caça-pares com figuras soltas",
+      "referencia": "questoes-infantil.pdf pags 4 e 17",
+      "quando_usar": "Figuras espalhadas para o aluno circular, ligar ou marcar. Um bloco unico com muitas figuras, ou dois blocos coloridos para comparar. Nao tem palavra escrita: a tarefa e toda visual.",
+      "sinais": [
+        "circule",
+        "faça um x",
+        "encontre o igual",
+        "sem par",
+        "ache",
+        "objetos iguais",
+        "descubra a diferença"
+      ],
+      "fundo": "branco",
+      "capacidade": {
+        "grupos": 2,
+        "figuras_por_grupo": 20
+      },
+      "slots": {
+        "titulo": "texto curto",
+        "enunciado": "lista de linhas",
+        "grupos": "lista de blocos; cada um com cor de fundo (opcional), colunas e figuras"
+      },
+      "demo": {
+        "titulo": "ATIVIDADE 17",
+        "enunciado": [
+          "ENCONTRE O PASSARINHO IGUAL AO QUE ESTÁ EM DESTAQUE"
+        ],
+        "grupos": [
+          {
+            "cor": "#8CC63F",
+            "colunas": 3,
+            "figuras": [
+              "arara",
+              "cacatua",
+              "arara em destaque",
+              "periquito",
+              "papagaio",
+              "arara pequena"
+            ]
+          },
+          {
+            "cor": "#F6DE7A",
+            "colunas": 3,
+            "figuras": [
+              "arara vermelha",
+              "periquito verde em destaque",
+              "papagaio",
+              "periquito",
+              "arara azul",
+              "periquito verde"
+            ]
+          }
+        ],
+        "folio": "17"
+      }
+    },
+    {
+      "id": "M13",
+      "nome": "Cartões recortáveis com figura e palavra",
+      "referencia": "questoes-infantil.pdf pag 11",
+      "quando_usar": "Jogo de pares para recortar: uma fileira com os elementos e outra com o lugar ou a acao que combina. Cada cartao tem figura e palavra, com borda tracejada de corte.",
+      "sinais": [
+        "recorte as figuras",
+        "encontre os pares",
+        "coloque cada elemento",
+        "combina com",
+        "jogo da memória",
+        "recorte e monte"
+      ],
+      "fundo": "branco",
+      "capacidade": {
+        "fileiras": 2,
+        "cartoes_por_fileira": 4
+      },
+      "slots": {
+        "titulo": "texto curto",
+        "enunciado": "lista de linhas, normalmente numeradas",
+        "fileiras": "lista de fileiras; cada cartao tem figura e palavra"
+      },
+      "demo": {
+        "titulo": "ATIVIDADE 18",
+        "enunciado": [
+          "1. RECORTE AS FIGURAS ABAIXO.",
+          "2. ENCONTRE E COLOQUE CADA ELEMENTO DA QUADRINHA AO LUGAR OU À AÇÃO QUE COMBINA COM ELE."
+        ],
+        "fileiras": [
+          [
+            {
+              "figura": "tucano",
+              "palavra": "TUCANO"
+            },
+            {
+              "figura": "tatu",
+              "palavra": "TATU"
+            },
+            {
+              "figura": "sabiá",
+              "palavra": "SABIÁ"
+            },
+            {
+              "figura": "maracujá",
+              "palavra": "MARACUJÁ"
+            }
+          ],
+          [
+            {
+              "figura": "céu com sol",
+              "palavra": "ALTO"
+            },
+            {
+              "figura": "chão de terra",
+              "palavra": "CHÃO"
+            },
+            {
+              "figura": "floresta",
+              "palavra": "FLORESTA"
+            },
+            {
+              "figura": "campo ao longe",
+              "palavra": "DE LÁ"
+            }
+          ]
+        ],
+        "folio": "11"
+      }
+    },
+    {
+      "id": "M14",
+      "nome": "Blocos de texto espalhados",
+      "referencia": "questoes-infantil.pdf pags 8 e 13",
+      "quando_usar": "Varios textos curtos independentes na mesma pagina: adivinhas, palavras soltas para pintar ou parear, perguntas avulsas. Ficam numa grade escalonada, com ar entre eles. Use `tipo: palavras` quando cada bloco for uma palavra so.",
+      "sinais": [
+        "quem sou eu",
+        "adivinha",
+        "pinte da mesma cor",
+        "que rimam",
+        "descubra",
+        "ligue as palavras",
+        "você sabe quem"
+      ],
+      "fundo": "branco ou amarelo",
+      "capacidade": {
+        "blocos": 9,
+        "linhas_por_bloco": 5
+      },
+      "slots": {
+        "titulo": "texto curto",
+        "enunciado": "lista de linhas",
+        "blocos": "lista; cada item e uma palavra ou uma lista de linhas",
+        "tipo": "'palavras' deixa os blocos em corpo maior e sem quebra",
+        "personagem": "ilustracao lateral, opcional",
+        "fundo": "branco ou amarelo"
+      },
+      "demo": {
+        "titulo": "ATIVIDADE 45",
+        "enunciado": [
+          "PALAVRAS QUE VIERAM DOS POVOS INDÍGENAS",
+          "VAMOS DESCOBRIR?"
+        ],
+        "fundo": "amarelo",
+        "blocos": [
+          [
+            "TENHO PENAS E SEI CANTAR,",
+            "NA FLORESTA GOSTO DE MORAR.",
+            "MEU NOME VEM DO TUPI TAMBÉM,",
+            "QUEM SOU EU?"
+          ],
+          [
+            "EU PULO NA ÁGUA,",
+            "TENHO DENTES AFIADOS",
+            "E ADORO NADAR NOS RIOS.",
+            "QUEM SOU EU?"
+          ],
+          [
+            "SOU AMARELO POR DENTRO,",
+            "TENHO UMA COROA NA CABEÇA",
+            "E SOU MUITO CHEIROSO!",
+            "QUEM SOU EU?"
+          ],
+          [
+            "EU FAÇO “POP PLOC!”",
+            "QUANDO VOU AO FOGO.",
+            "QUEM SOU EU?"
+          ],
+          [
+            "TENHO CASCA E SOU DOCINHO,",
+            "VIRO SUCO BEM GELADINHO.",
+            "MEU NOME VEM DO TUPI TAMBÉM,",
+            "QUEM SOU EU?"
+          ]
+        ],
+        "personagem": "menino detetive com lupa",
+        "credito": "TEXTO MARIANA POLASTRI",
+        "folio": "8"
+      }
+    },
+    {
+      "id": "M15",
+      "nome": "Lista de palavras",
+      "referencia": "questoes-infantil.pdf pags 9 e 28",
+      "quando_usar": "Uma lista de palavras centralizada em corpo grande, com um comando antes e uma pergunta de fecho depois. Serve para vocabulario novo, palavras de origem, campo semantico.",
+      "sinais": [
+        "vieram da língua",
+        "muitas palavras",
+        "leia as palavras",
+        "qual você mais gostou",
+        "descubra as palavras",
+        "vocabulário"
+      ],
+      "fundo": "branco",
+      "capacidade": {
+        "palavras": 8,
+        "caracteres_por_palavra": 16
+      },
+      "slots": {
+        "titulo": "texto curto",
+        "enunciado": "lista de linhas",
+        "palavras": "lista de palavras, uma por linha",
+        "fecho": "pergunta final, opcional",
+        "personagem": "ilustracao lateral, opcional",
+        "credito": "fonte do texto, opcional"
+      },
+      "demo": {
+        "titulo": "ATIVIDADE 46",
+        "enunciado": [
+          "DETETIVES DAS PALAVRAS!",
+          "MUITAS PALAVRAS QUE USAMOS TODOS OS DIAS VIERAM DA LÍNGUA TUPI:"
+        ],
+        "palavras": [
+          "JABUTICABA",
+          "ABACAXI",
+          "PIPOCA",
+          "JACARÉ",
+          "PAÇOCA",
+          "CAATINGA",
+          "SABIÁ"
+        ],
+        "fecho": "QUAL DESSAS PALAVRAS VOCÊ MAIS GOSTOU DE DESCOBRIR? CONTE PARA A SUA TURMA.",
+        "personagem": "menina com pipoca",
+        "credito": "TEXTO MARIANA POLASTRI",
+        "folio": "9"
+      }
+    },
+    {
+      "id": "M16",
+      "nome": "Receita",
+      "referencia": "questoes-infantil.pdf pag 6",
+      "quando_usar": "Receita culinaria: ingredientes de um lado, modo de fazer numerado do outro. Serve tambem para instrucoes de experiencia ou de brincadeira passo a passo.",
+      "sinais": [
+        "receita",
+        "ingredientes",
+        "modo de fazer",
+        "modo de preparo",
+        "misture",
+        "leve para assar",
+        "como fazer"
+      ],
+      "fundo": "branco",
+      "capacidade": {
+        "ingredientes": 8,
+        "passos": 9
+      },
+      "slots": {
+        "titulo": "texto curto",
+        "receita_titulo": "nome da receita",
+        "ingredientes": "lista",
+        "modo": "lista de passos, numerados automaticamente",
+        "personagem": "ilustracao lateral, opcional"
+      },
+      "demo": {
+        "titulo": "ATIVIDADE 35",
+        "receita_titulo": "BOLINHO DE MANDIOCA COM QUEIJO",
+        "ingredientes": [
+          "MANDIOCA COZIDA",
+          "QUEIJO RALADO",
+          "1 OVO",
+          "FARINHA DE TRIGO",
+          "SAL"
+        ],
+        "modo": [
+          "COLOQUE A MANDIOCA PARA COZINHAR",
+          "DEIXE ESFRIAR UM POUCO E AMASSE A MANDIOCA",
+          "COLOQUE O QUEIJO RALADO",
+          "JUNTE 1 OVO",
+          "MISTURE TUDO",
+          "COLOQUE FARINHA ATÉ DAR O PONTO DE ENROLAR",
+          "FAÇA OS BOLINHOS",
+          "LEVE PARA ASSAR"
+        ],
+        "personagem": "gatinho de chapéu de cozinheiro",
+        "folio": "6"
+      }
+    },
+    {
+      "id": "M17",
+      "nome": "Fileira de imagens com rótulo",
+      "referencia": "questoes-infantil.pdf pags 5, 16 e 32",
+      "quando_usar": "Duas a quatro imagens lado a lado para observar e comparar, cada uma com um rotulo em pilula colorida. Sem rotulo, vira a pagina de 'olhe as imagens e descubra'. Diferente do M08: aqui as imagens sao retangulares e alinhadas.",
+      "sinais": [
+        "observe as imagens",
+        "olhe as imagens",
+        "compare",
+        "veja as fotos",
+        "circule o nome",
+        "qual tem mais letras",
+        "descubra quais"
+      ],
+      "fundo": "branco ou amarelo",
+      "capacidade": {
+        "imagens": 4
+      },
+      "slots": {
+        "titulo": "texto curto",
+        "enunciado": "lista de linhas",
+        "imagens": "lista de {descricao, rotulo, cor}; rotulo e cor sao opcionais",
+        "fundo": "branco ou amarelo"
+      },
+      "demo": {
+        "titulo": "ATIVIDADE 18",
+        "enunciado": [
+          "QUEM ESTÁ NA CIRANDA?",
+          "OBSERVE OS PÁSSAROS E SEUS NOMES E CIRCULE O NOME DO PÁSSARO QUE TEM MAIS LETRAS."
+        ],
+        "imagens": [
+          {
+            "descricao": "pardal no galho",
+            "rotulo": "PARDAL",
+            "cor": "#F4801E"
+          },
+          {
+            "descricao": "sabiá no galho",
+            "rotulo": "SABIÁ",
+            "cor": "#8CC63F"
+          },
+          {
+            "descricao": "curió no galho",
+            "rotulo": "CURIÓ",
+            "cor": "#4FB3D9"
+          }
+        ],
+        "folio": "16"
+      }
+    },
+    {
+      "id": "M18",
+      "nome": "Orientação ao professor",
+      "referencia": "questoes-infantil.pdf pags 27 e 30",
+      "quando_usar": "Pagina dirigida ao professor, nao ao aluno: como conduzir a roda de conversa, o que levar, que perguntas fazer. Caixa unica com tarja laranja, sem espaco de resposta e sem ilustracao.",
+      "sinais": [
+        "orientação ao professor",
+        "para o professor",
+        "roda de conversa",
+        "explique",
+        "conversar com as crianças",
+        "lançar as ideias",
+        "permita que as crianças"
+      ],
+      "fundo": "branco",
+      "capacidade": {
+        "paragrafos": 8,
+        "caracteres_texto": 1100
+      },
+      "slots": {
+        "titulo": "cabecalho; o padrao e 'Orientação ao professor'",
+        "paragrafos": "lista de paragrafos"
+      },
+      "demo": {
+        "titulo": "ORIENTAÇÃO AO PROFESSOR",
+        "paragrafos": [
+          "EM RODA DE CONVERSA COM AS CRIANÇAS SOBRE A DIVERSIDADE CULTURAL PRESENTE EM NOSSO PAÍS.",
+          "EXPLIQUE, DE FORMA SIMPLES E ACOLHEDORA, QUE OS POVOS AFRICANOS CONTRIBUÍRAM PARA A FORMAÇÃO DA CULTURA BRASILEIRA, TRAZENDO CONHECIMENTOS, COSTUMES, MÚSICAS, BRINCADEIRAS, DANÇAS, HISTÓRIAS E ALIMENTOS QUE FAZEM PARTE DO NOSSO COTIDIANO.",
+          "VALORIZE AS CONTRIBUIÇÕES DOS POVOS AFRICANOS, DESTACANDO ASPECTOS POSITIVOS DE SUA CULTURA E INCENTIVANDO O RESPEITO ÀS DIFERENÇAS.",
+          "DURANTE A ATIVIDADE, PERMITA QUE AS CRIANÇAS COMPARTILHEM SUAS EXPERIÊNCIAS, OBSERVEM IMAGENS, EXPLOREM OBJETOS, MÚSICAS OU ALIMENTOS RELACIONADOS AO TEMA E EXPRESSEM SUAS DESCOBERTAS POR MEIO DE DESENHOS, PINTURAS OU RODAS DE CONVERSA."
+        ],
+        "folio": "27"
+      }
+    },
+    {
+      "id": "M19",
+      "nome": "Pictograma de contagem",
+      "referencia": "questoes-infantil.pdf pag 29",
+      "quando_usar": "Contar quantos de cada tipo aparecem numa cena e pintar um quadrinho por unidade numa grade com eixo numerado e o icone de cada categoria embaixo. E o grafico de colunas da educacao infantil. Diferente do M04, que conta letras de palavras.",
+      "sinais": [
+        "colora um quadradinho",
+        "para cada",
+        "quantos você encontrar",
+        "conte quantos",
+        "gráfico",
+        "quantidade de cada"
+      ],
+      "fundo": "branco",
+      "capacidade": {
+        "categorias": 6,
+        "linhas": 6
+      },
+      "slots": {
+        "titulo": "texto curto",
+        "enunciado": "lista de linhas",
+        "cena": "imagem com os objetos a contar",
+        "icones": "lista de icones, um por coluna da grade",
+        "linhas": "altura da grade, padrao 5"
+      },
+      "demo": {
+        "titulo": "ATIVIDADE 30",
+        "enunciado": [
+          "COLORA 1 (UM) QUADRADINHO PARA CADA FRUTA QUE VOCÊ ENCONTRAR"
+        ],
+        "cena": "quadro com mamões, cocos, gravioIas, bananas e melancias",
+        "icones": [
+          "mamão",
+          "coco",
+          "graviola",
+          "banana",
+          "melancia"
+        ],
+        "linhas": 5,
+        "folio": "29"
+      }
+    },
+    {
+      "id": "M20",
+      "nome": "Montar palavras com sílabas",
+      "referencia": "questoes-infantil.pdf pag 33",
+      "quando_usar": "Somar silabas para descobrir a palavra, com uma linha de resposta ao lado de cada conta. Corpo bem grande, poucas linhas por pagina.",
+      "sinais": [
+        "montando as palavras",
+        "junte as sílabas",
+        "forme a palavra",
+        "vamos brincar",
+        "complete a palavra",
+        "sílabas"
+      ],
+      "fundo": "branco",
+      "capacidade": {
+        "equacoes": 6
+      },
+      "slots": {
+        "titulo": "texto curto",
+        "enunciado": "lista de linhas",
+        "equacoes": "lista de somas de silabas, ja com o sinal de igual no fim"
+      },
+      "demo": {
+        "titulo": "ATIVIDADE 29",
+        "enunciado": [
+          "VOCÊ SABIA?",
+          "MUITAS PALAVRAS QUE USAMOS TODOS OS DIAS VIERAM DA MANEIRA DE FALAR DOS POVOS AFRICANOS.",
+          "VAMOS BRINCAR, MONTANDO AS PALAVRAS!"
+        ],
+        "equacoes": [
+          "MA + RIM + BON + DO =",
+          "SAM + BA =",
+          "CA + FU + NÉ =",
+          "CO + CHI + CHO ="
+        ],
+        "folio": "33"
+      }
+    },
+    {
+      "id": "M21",
+      "nome": "Texto com ilustração de meia página",
+      "referencia": "questoes-infantil.pdf pag 34",
+      "quando_usar": "Texto informativo de tamanho medio com uma ilustracao grande sangrando na metade direita da pagina. Entre o M09 (so texto, duas colunas) e o M06 (so imagem).",
+      "sinais": [
+        "conhecendo",
+        "saiba mais",
+        "o que é",
+        "ela surgiu",
+        "é uma manifestação",
+        "vamos conhecer"
+      ],
+      "fundo": "branco",
+      "capacidade": {
+        "caracteres_texto": 600,
+        "paragrafos": 3
+      },
+      "slots": {
+        "titulo": "texto curto",
+        "subtitulo": "titulo do assunto, opcional",
+        "paragrafos": "lista de paragrafos",
+        "ilustracao": "arte que ocupa a metade direita, de topo a base"
+      },
+      "demo": {
+        "titulo": "ATIVIDADE 33",
+        "subtitulo": "CONHECENDO A CAPOEIRA",
+        "paragrafos": [
+          "A CAPOEIRA É UMA MANIFESTAÇÃO CULTURAL BRASILEIRA QUE UNE MÚSICA, MOVIMENTO, CANTO E BRINCADEIRA.",
+          "ELA SURGIU DA FORÇA E DA CRIATIVIDADE DOS POVOS AFRICANOS E, ATÉ HOJE, É PRATICADA EM RODAS, AO SOM DO BERIMBAU E DE OUTROS INSTRUMENTOS."
+        ],
+        "ilustracao": "roda de capoeira com crianças, berimbau e atabaque",
+        "folio": "34"
+      }
+    }
+  ]
+}

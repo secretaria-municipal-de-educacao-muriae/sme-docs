@@ -18,6 +18,10 @@ fases seguintes — ver [PLANO.md](PLANO.md).
 619 questões sem nenhuma pendência · 539 fórmulas de matemática renderizadas
 ```
 
+Existe também um segundo formato, a **apostila de educação infantil**: A4 deitado, uma
+página por atividade, 21 modelos de página. Ver
+[Apostila de educação infantil](#apostila-de-educação-infantil).
+
 ## Requisitos
 
 - Windows (o pipeline usa GDI e automação COM do Word)
@@ -31,6 +35,13 @@ pip install pydantic jinja2 pillow pywin32 pymupdf typer rich python-docx
 
 As fontes do template (Baloo 2 e Nunito, licença OFL) ficam em
 `backend/smedocs/fonts/`. Nada é baixado em tempo de execução — o programa roda offline.
+
+A apostila infantil usa **Neo Sans Std**, que é licenciada da Monotype e por isso **não
+está versionada**. Coloque os `.otf` em `backend/smedocs/fonts/` e rode uma vez:
+
+```bash
+python -m smedocs.fonts_otf2ttf     # gera os .ttf que o renderizador usa
+```
 
 ## Uso
 
@@ -108,6 +119,99 @@ em qualquer máquina, sem instalar nada.
 Na primeira execução o Word é chamado uma vez para renderizar as 547 fórmulas; leva
 cerca de 12 segundos e fica em cache. As execuções seguintes levam menos de 1 segundo.
 
+## Apostila de educação infantil
+
+Formato diferente do banco de questões: **A4 deitado** (1123×794px), fonte Neo Sans Std,
+uma página por atividade. O motor de impressão é o mesmo.
+
+```bash
+python smedocs.py modelos                              # catálogo dos 21 modelos
+python smedocs.py apostila planos/2periodo-1semestre.json
+python smedocs.py svg out/apostila-infantil.pdf        # um SVG por página
+python smedocs.py svg out/apostila-infantil.pdf --curvas   # texto vira contorno
+```
+
+`modelos` gera uma folha de contato com os 21 modelos preenchidos com conteúdo de
+exemplo — é o que se olha para escolher.
+
+### Os 21 modelos
+
+O catálogo fica em `backend/smedocs/modelos_infantil.json`. Dez modelos vieram dos PNG
+de referência da apostila do fundamental e onze das 40 páginas que o setor pedagógico
+enviou. Nenhum foi criado por precaução: cada um cobre pelo menos uma página real.
+
+| | |
+| --- | --- |
+| M01 · M13 | recorte e colagem — tiras de palavra, cartões com figura e legenda |
+| M02 | biografia com foto e faixa de onda |
+| M03 · M04 · M19 | tabela de ilustrar, grade de contagem de letras, pictograma |
+| M05 · M20 | situação-problema, montar palavras com sílabas |
+| M06 | obra em moldura — uma ou duas telas |
+| M07 · M15 | cartão de comparação de palavras, lista de palavras |
+| M08 · M17 | fotos circulares com personagem, fileira de imagens com rótulo |
+| M09 · M21 | texto em duas colunas, texto com ilustração de meia página |
+| M10 · M11 | abertura com balão, poema e cantiga |
+| M12 · M14 | caça-pares, blocos de texto espalhados |
+| M16 · M18 | receita, orientação ao professor |
+
+Cada modelo carrega, além dos slots, três campos que só existem para a etapa de escolha:
+
+- `quando_usar` — em que situação aquele modelo é o certo
+- `sinais` — expressões que costumam aparecer no enunciado ("recorte e cole", "quem sou
+  eu", "pinte os quadrinhos")
+- `capacidade` — quanto conteúdo cabe antes de estourar a página
+
+### Do PDF da professora à apostila
+
+Mesma lógica do gabarito: **nada é adivinhado em tempo de execução.** A escolha do
+modelo para cada atividade acontece numa sessão do Claude Code, lendo o PDF e casando
+cada página com um modelo pelo `quando_usar` e pelos `sinais`. O resultado é um plano em
+JSON, versionado; o programa só renderiza.
+
+```json
+[
+  { "modelo": "M11", "dados": { "titulo": "ATIVIDADE 42", "estrofes": [...] } },
+  { "modelo": "M05", "dados": { "titulo": "ATIVIDADE 28", "problemas": [...] } }
+]
+```
+
+`planos/2periodo-1semestre.json` traz as 40 páginas do 1º semestre já mapeadas. Cada
+página registra `_origem` (de que página do PDF veio) e `_porque` (por que aquele
+modelo), para conferir a leitura sem abrir os dois arquivos lado a lado.
+
+A distribuição diz bastante sobre o material: **7 das 40 páginas são poema** — foi a
+maior lacuna dos modelos herdados do fundamental.
+
+### Saída vetorial
+
+O PDF já é vetor e abre direto no Illustrator. `svg` existe para quem prefere editar no
+Figma, no Inkscape ou no navegador; ele usa o `pymupdf`, que o projeto já carrega para
+as fórmulas.
+
+Toda a arte — ilustrações, fotos, cenários — entra como **slot de borda tracejada**. Ela
+some sozinha quando o arquivo chega: basta passar o caminho no campo correspondente.
+
+### As medidas não foram estimadas
+
+A página ocupa 860×613px dentro dos PNG de referência, com 8px de sombra em volta. Tudo
+foi convertido para a escala de 1123px de largura. Daí saíram os números que valem para
+todos os modelos:
+
+```
+margem esquerda do texto  86px      coluna de texto até x=1081
+título e enunciado        25px      (caixa alta medida 18,3px ÷ 0,743)
+entrelinha do enunciado   39px
+fólio                     54×46px, 38px da borda, 18px da base
+```
+
+Depois o PDF gerado foi medido pelo mesmo método e corrigido até bater. Os números de
+cada modelo estão nos comentários de `static/infantil.css`.
+
+Uma ressalva medida e não resolvida: o título laranja da referência sai de 8% a 16% mais
+estreito que o Neo Sans Std Bold na mesma altura de caixa alta. O original usou uma
+variante condensada que não está na pasta. Se ela aparecer, é trocar um `@font-face` — o
+resto do layout não muda.
+
 ## Como funciona
 
 ```
@@ -134,8 +238,11 @@ cerca de 12 segundos e fica em cache. As execuções seguintes levam menos de 1 
 | `backend/smedocs/cli.py`         | Interface de linha de comando                          |
 | `backend/smedocs/answers.py`     | Gabarito preenchido à mão, por fora do documento       |
 | `backend/smedocs/review.py`      | Pacote de revisão: exporta pendências, importa respostas |
+| `backend/smedocs/modelos_infantil.json` | Catálogo dos 21 modelos da apostila infantil     |
+| `backend/smedocs/templates/infantil.html.j2` | Uma macro Jinja2 por modelo de página       |
+| `backend/smedocs/fonts_otf2ttf.py` | Converte o Neo Sans de OTF para TTF                  |
 
-## Duas decisões que não são óbvias
+## Três decisões que não são óbvias
 
 **A docling não é usada para `.docx`.** Ela converte o arquivo em 15 segundos, mas o
 backend DOCX dela não percorre `w:object` nem `v:imagedata` e descarta em silêncio as
@@ -146,4 +253,10 @@ isso o extrator é próprio.
 prévia em WMF de cada fórmula, e rasterizar essa prévia com o GDI empilha os glifos de
 toda fórmula que tenha parênteses. O Word desenha a partir do objeto OLE e acerta.
 
-Os detalhes de ambas, com as medições, estão em [CLAUDE.md](CLAUDE.md).
+**As fontes da apostila infantil são TTF, não OTF.** O Chrome embute fonte OTF no PDF
+como fonte **Type3**, que não carrega o nome da família: o texto sai marcado como
+`Type3 (5 0 R)`, o Illustrator abre sem reconhecer a fonte e o SVG exportado perde o
+nome. A mesma página com TTF sai como Type0/TrueType com o nome certo
+(`BAAAAA+NeoSansStdBold`). Daí `fonts_otf2ttf.py`.
+
+Os detalhes das três, com as medições, estão em [CLAUDE.md](CLAUDE.md).
