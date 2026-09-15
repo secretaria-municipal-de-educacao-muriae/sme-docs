@@ -48,6 +48,1176 @@
    "origem": "claude-code",
    "nota": "lote 1 - figuras conferidas",
    "quando": "2026-09-09"
+  },
+  "D03-Q013": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D03-Q014": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D04-Q004": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D04-Q007": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D05-Q003": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D05-Q004": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D05-Q005": {
+   "letra": "D",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D05-Q016": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D05-Q017": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D06-Q003": {
+   "letra": "D",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D06-Q004": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D06-Q005": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D06-Q006": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D06-Q011": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D07-Q001": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D07-Q002": {
+   "letra": "D",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D07-Q003": {
+   "letra": "D",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D07-Q004": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D07-Q005": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D07-Q007": {
+   "letra": "D",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D07-Q009": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D07-Q010": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D08-Q002": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D08-Q003": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D08-Q006": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D08-Q009": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D09-Q003": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D09-Q004": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D09-Q008": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D09-Q009": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D10-Q004": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D10-Q005": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D10-Q013": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D10-Q015": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D10-Q016": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D10-Q017": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D10-Q018": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D10-Q019": {
+   "letra": "D",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D11-Q002": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D11-Q004": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D11-Q005": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D11-Q006": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D11-Q012": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D11-Q013": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D11-Q014": {
+   "letra": "D",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D11-Q015": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D12-Q003": {
+   "letra": "D",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D12-Q004": {
+   "letra": "D",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D12-Q008": {
+   "letra": "D",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D12-Q012": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D12-Q014": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D12-Q016": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D12-Q020": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D12-Q028": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D12-Q037": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D13-Q006": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D14-Q003": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D14-Q007": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D14-Q008": {
+   "letra": "D",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D14-Q014": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D14-Q015": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D14-Q016": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D14-Q026": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D15-Q003": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D15-Q005": {
+   "letra": "D",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D15-Q012": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D15-Q014": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D15-Q016": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D16-Q003": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D16-Q008": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D16-Q010": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D16-Q017": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D16-Q018": {
+   "letra": "D",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D16-Q020": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D16-Q021": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D16-Q022": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D17-Q003": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D17-Q005": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D17-Q007": {
+   "letra": "D",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D17-Q009": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D17-Q010": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D17-Q011": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D17-Q017": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D17-Q019": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D17-Q020": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D17-Q031": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D17-Q038": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D18-Q001": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D18-Q003": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D18-Q004": {
+   "letra": "D",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D18-Q005": {
+   "letra": "D",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D18-Q006": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D18-Q010": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D18-Q021": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D18-Q022": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D19-Q002": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D19-Q004": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D19-Q005": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D19-Q007": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D19-Q008": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D19-Q009": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D19-Q011": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D19-Q013": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D19-Q019": {
+   "letra": "D",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D19-Q020": {
+   "letra": "D",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D19-Q027": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D19-Q029": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D21-Q005": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D21-Q006": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D21-Q007": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D21-Q011": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D23-Q002": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D23-Q022": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D23-Q024": {
+   "letra": "D",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D23-Q025": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D23-Q026": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D24-Q002": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D24-Q004": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D24-Q005": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D24-Q011": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D24-Q012": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D24-Q018": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D25-Q003": {
+   "letra": "D",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D25-Q004": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D25-Q007": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D25-Q008": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D25-Q024": {
+   "letra": "D",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D25-Q033": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D25-Q040": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D26-Q003": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D26-Q006": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D26-Q008": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D26-Q019": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D26-Q020": {
+   "letra": "D",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D26-Q021": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D26-Q022": {
+   "letra": "D",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D26-Q023": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D26-Q035": {
+   "letra": "D",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D27-Q002": {
+   "letra": "D",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D27-Q003": {
+   "letra": "D",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D27-Q005": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D27-Q006": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D27-Q007": {
+   "letra": "D",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D27-Q008": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D27-Q009": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D27-Q012": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D27-Q017": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D27-Q019": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D27-Q021": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D27-Q024": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D27-Q025": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D27-Q026": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D27-Q038": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D27-Q039": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D28-Q003": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D28-Q004": {
+   "letra": "D",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D28-Q011": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D28-Q013": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D28-Q014": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D28-Q015": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D28-Q016": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D28-Q039": {
+   "letra": "E",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D28-Q045": {
+   "letra": "D",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D28-Q066": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D28-Q081": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D29-Q010": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D29-Q016": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D29-Q017": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D30-Q001": {
+   "letra": "D",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D30-Q003": {
+   "letra": "D",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D30-Q004": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D30-Q005": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D30-Q006": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D30-Q011": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D30-Q012": {
+   "letra": "D",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D30-Q013": {
+   "letra": "D",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D30-Q014": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D30-Q015": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D30-Q016": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D30-Q017": {
+   "letra": "D",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D30-Q018": {
+   "letra": "D",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D30-Q019": {
+   "letra": "B",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D30-Q020": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D30-Q021": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D30-Q022": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D30-Q023": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D30-Q024": {
+   "letra": "D",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D30-Q036": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D30-Q037": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D30-Q038": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D30-Q039": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D30-Q040": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D30-Q042": {
+   "letra": "A",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D30-Q043": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
+  },
+  "D30-Q044": {
+   "letra": "C",
+   "origem": "claude-code",
+   "nota": "",
+   "quando": "2026-09-15"
   }
  }
 }
