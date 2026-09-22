@@ -45,11 +45,20 @@ python -m smedocs.fonts_otf2ttf     # gera os .ttf que o renderizador usa
 
 ## Uso
 
-Os documentos de origem não estão versionados. Coloque-os em `reference/`:
+Os documentos de origem não estão versionados. Coloque-os em `reference/`. O acervo
+hoje vem dividido por faixa de descritor — sem `--docx`, o programa mescla sozinho
+todo `d*.docx` que encontrar ali:
 
 ```
 reference/
-  APOSTILA BANCO DE QUESTÕES POR DESCRITOR ATE 31.docx
+  d1-d5.docx
+  d6-d10.docx
+  d11-d12.docx
+  d13-d19.docx
+  d20-d23.docx
+  d24-d26.docx
+  d27-d31.docx
+  d32.docx
 ```
 
 Depois:
@@ -62,7 +71,8 @@ python smedocs.py gerar 10              # descritor 10 em PDF
 python smedocs.py gerar 10 -f docx      # em DOCX
 python smedocs.py gerar 10 -f pdf -f docx
 python smedocs.py gerar --tudo
-python smedocs.py gerar 31 --docx reference\banco.docx --docx reference\descritor-31-cliente.docx
+python smedocs.py gerar --tudo --separado    # um PDF por descritor, para corrigir em lotes
+python smedocs.py gerar 1 2 3 4 5 --docx reference\d1-d5.docx --separado
 python smedocs.py gerar 10 --sem-gabarito   # versão do aluno
 python smedocs.py conferir 10           # só o relatório, sem gerar arquivo
 python smedocs.py analisar outro.docx   # inspeciona um .docx qualquer

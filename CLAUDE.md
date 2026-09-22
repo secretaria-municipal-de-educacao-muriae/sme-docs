@@ -31,7 +31,8 @@ Ficam em `reference/`. São a fonte da verdade sobre o formato de entrada e de s
 
 | Arquivo | Papel |
 |---|---|
-| `APOSTILA BANCO DE QUESTÕES POR DESCRITOR ATE 31.docx` | Entrada real, pior caso. 21,5 MB. Trocado em 2026-09-15 pelo arquivo que o cliente mandou renomeado `32.docx`: mesmos descritores 1–30 (idênticos, mesma contagem de parágrafo), descritor 32 ampliado de 199 para 264 blocos de conteúdo. A versão anterior fica como `.docx.bak` |
+| `APOSTILA BANCO DE QUESTÕES POR DESCRITOR ATE 31.docx.bak` | Versão anterior do acervo único (21,5 MB). Substituída em 2026-09-22 pelos 8 arquivos abaixo, que a setor pedagógico passou a mandar já divididos por faixa de descritor para revisão em lotes menores |
+| `d1-d5.docx` `d6-d10.docx` `d11-d12.docx` `d13-d19.docx` `d20-d23.docx` `d24-d26.docx` `d27-d31.docx` `d32.docx` | Acervo atual, um arquivo por faixa de descritor. Juntos somam os mesmos 886 questões do acervo único — conferido por `smedocs analisar` em cada um. `smedocs gerar --docx <arquivo>` funciona em cada um isoladamente; `--docx a --docx b` mescla mais de um quando precisar |
 | `Apostila de recomposição de aprendizagem (1).pdf` | Saída desejada, 46 páginas |
 | `modelo-claude-apostila.zip` | Fonte do template acima, gerado pelo Claude Design |
 
@@ -229,6 +230,18 @@ Todas medidas sobre o documento inteiro. Não reintroduzir.
   é o bloco seguinte começar com a letra seguinte.
 - **O enunciado precisa manter as quebras de parágrafo do Word.** Sem isso um título de
   seção encosta na pergunta: `"...TRIÂNGULO RETANGULOPara se deslocar de sua casa..."`.
+- **O texto pedagógico do "Com este descritor..." foi digitado com quebra de linha
+  manual a cada ~60 caracteres** — cada "linha" é um `w:p` próprio no docx, não um
+  parágrafo de verdade. Tratar toda fronteira de bloco como fim de parágrafo picava a
+  prosa em até 23 fragmentos soltos por descritor (medido no D2), alguns terminando no
+  meio da frase (`"...combinação de"` | `": esquerda, direita..."`) — a professora que
+  revisa reportou isso como "mudou a ortografia", porque o corte no meio da frase lia
+  como pontuação quebrada. O sinal real de fim de parágrafo é a pontuação: só quebra
+  quando o bloco termina em `. ? ! : " )`; senão é continuação da mesma frase e entra
+  um espaço (não a quebra) — cuidado para não duplicar o espaço se a linha já terminava
+  com um. **Restrito à introdução (`intro`) dos descritores, não aos enunciados de
+  questão** — pedido explícito, embora ~20% dos parágrafos de enunciado no D2/D3 também
+  mostrem o mesmo padrão (a maioria por continuar em fórmula, não em texto solto).
 
 ### Outros achados de F0
 

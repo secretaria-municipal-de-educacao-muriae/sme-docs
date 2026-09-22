@@ -516,9 +516,23 @@ def segment(
 
         intro: list[Fragment] = []
         for b in intro_blocks:
-            if b.text.strip() or b.images:
-                intro.extend(_fragments(b, z, ctx))
+            if not (b.text.strip() or b.images):
+                continue
+            intro.extend(_fragments(b, z, ctx))
+            # O texto pedagogico foi digitado com quebra de linha manual a cada ~60
+            # caracteres — cada "linha" e um w:p proprio no docx, nao um paragrafo de
+            # verdade. Tratar toda quebra de bloco como fim de paragrafo picava a prosa
+            # em dezenas de fragmentos soltos, alguns terminando no meio da frase. O
+            # sinal real de fim de paragrafo e a pontuacao: some o bloco termina em
+            # . ? ! : " ) , e a proxima linha e so a continuacao da mesma frase.
+            if b.text.strip().endswith((".", "?", "!", ":", '"', ")")) or b.images:
                 intro.append(Fragment(kind="text", text="\n"))
+            else:
+                # A quebra manual comeu o espaco entre palavras; devolve exatamente um,
+                # mesmo se a linha original ja tinha terminado em espaco.
+                if intro and intro[-1].kind == "text":
+                    intro[-1].text = intro[-1].text.rstrip(" ")
+                intro.append(Fragment(kind="text", text=" "))
 
         all_groups: list[list[Block]] = []
         for group in _split_questions(_detach_glued_alternatives(question_blocks)):

@@ -32,8 +32,21 @@ from . import answers, pipeline, render, review
 from .models import Descriptor
 
 ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_DOCX = ROOT / "reference" / "APOSTILA BANCO DE QUESTÕES POR DESCRITOR ATE 31.docx"
+REFERENCE_DIR = ROOT / "reference"
 DEFAULT_OUT = ROOT / "out"
+
+
+def _default_sources() -> list[Path]:
+    """O acervo hoje vem dividido por faixa de descritor (d1-d5.docx, d6-d10.docx...).
+
+    Sem `--docx`, mescla todos os `d*.docx` de reference/ — cada descritor aparece em
+    um unico arquivo, entao a ordem da mesclagem nao importa. Se nenhum existir, cai no
+    nome antigo do acervo unico, para quem ainda nao migrou.
+    """
+    found = sorted(REFERENCE_DIR.glob("d*.docx"))
+    if found:
+        return found
+    return [REFERENCE_DIR / "APOSTILA BANCO DE QUESTÕES POR DESCRITOR ATE 31.docx"]
 
 console = Console()
 app = typer.Typer(
@@ -48,20 +61,21 @@ VERDE = "#3fa34d"
 VERMELHO = "#e63946"
 
 
-def _resolve(docx: Path | None) -> Path:
-    path = docx or DEFAULT_DOCX
-    if not path.exists():
-        console.print(
-            f"[{VERMELHO}]Documento não encontrado:[/] {path}\n"
-            f"Coloque o .docx em [bold]reference/[/] ou passe [bold]--docx[/]."
-        )
-        raise typer.Exit(1)
-    return path
+def _resolve(docx: Path | None) -> Path | list[Path]:
+    if docx is not None:
+        if not docx.exists():
+            console.print(
+                f"[{VERMELHO}]Documento não encontrado:[/] {docx}\n"
+                f"Coloque o .docx em [bold]reference/[/] ou passe [bold]--docx[/]."
+            )
+            raise typer.Exit(1)
+        return docx
+    return _resolve_many([])
 
 
 def _resolve_many(docx: list[Path]) -> list[Path]:
     """Como `_resolve`, mas aceita `--docx` repetido para mesclar mais de um arquivo."""
-    paths = docx or [DEFAULT_DOCX]
+    paths = docx or _default_sources()
     missing = [p for p in paths if not p.exists()]
     if missing:
         console.print(
@@ -241,6 +255,9 @@ def gerar(
     sem_word: bool = typer.Option(
         False, "--sem-word", help="Não usar o Word para as fórmulas."
     ),
+    separado: bool = typer.Option(
+        False, "--separado", help="Um arquivo por descritor, em vez de um só combinado."
+    ),
     quiet: bool = typer.Option(False, "-q", "--quiet", help="Sem barra de progresso."),
 ) -> None:
     """Gera a apostila de um ou mais descritores.
@@ -248,6 +265,9 @@ def gerar(
     Mesclando arquivos (--docx a.docx --docx b.docx): descritores com o mesmo numero
     nos dois arquivos ficam com as questoes combinadas; um numero que so existe no
     segundo vira descritor novo. Nao precisa colar o conteudo dentro do .docx grande.
+
+    --separado gera um arquivo por descritor em vez de um so combinado — mais facil
+    de distribuir para correção em lotes menores.
     """
     source = _resolve_many(docx)
     if not descritores and not tudo:
@@ -264,6 +284,23 @@ def gerar(
 
     if not quiet:
         _banner()
+
+    if separado:
+        numbers = sorted(descritores) if descritores else [
+            d.number for d in _catalog(source, out)
+        ]
+        results = [
+            _run(source, {n}, tuple(formato), not sem_gabarito, out, quiet, not sem_word)
+            for n in numbers
+        ]
+        if quiet:
+            for result in results:
+                for path in result.outputs:
+                    print(path)
+            return
+        for result in results:
+            _report(result)
+        return
 
     result = _run(
         source,
@@ -359,10 +396,6 @@ def _interactive() -> None:
 
     console.print()
     _report(_run(source, chosen, formats, True, DEFAULT_OUT, False, True))
-
-
-
-REFERENCE_DIR = ROOT / "reference"
 
 
 @app.command("analisar")

@@ -121,6 +121,8 @@ def _build_styles(document: Document) -> None:
                 align=WD_ALIGN_PARAGRAPH.JUSTIFY)
     intro.paragraph_format.left_indent = Mm(4)
     intro.paragraph_format.right_indent = Mm(4)
+    # Recuo de primeira linha, padrao de texto corrido academico (ABNT): 1,25cm.
+    intro.paragraph_format.first_line_indent = Mm(12.5)
 
     enunciado = add("SME Enunciado", 11, space_after=4,
                     align=WD_ALIGN_PARAGRAPH.JUSTIFY)

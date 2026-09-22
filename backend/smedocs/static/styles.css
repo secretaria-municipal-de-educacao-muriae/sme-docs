@@ -164,6 +164,8 @@ body {
 .intro p {
   margin: 0 0 8px;
   text-align: justify;
+  /* Recuo de primeira linha, padrao de texto corrido academico (ABNT): 1,25cm. */
+  text-indent: 1.25cm;
 }
 .intro p:last-child {
   margin-bottom: 0;
